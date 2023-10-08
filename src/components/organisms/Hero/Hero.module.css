@@ -1,0 +1,42 @@
+.main{
+  display:flex;
+  width: 100%;
+  padding: 128px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+}
+
+.heroContent{
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+  gap: 12px;
+
+}
+
+.heading{
+  color: rgb(160, 141, 255);
+  font-size: 72px;
+  font-weight: 500;
+  min-width: max-content;
+
+}
+
+.text{
+  color: black;
+}
+
+.buttons{
+  font-family: Poppins;
+  color: white;
+  text-transform: none;
+  font-weight: 200;
+  font-size: 36px;
+  padding:6px 12px;
+}
+
+.heroImages{
+  width: 720px;
+  user-select: none;
+}

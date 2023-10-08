@@ -1,0 +1,22 @@
+.main{
+  background-color: white;
+  position: sticky;
+  top:0;
+  z-index: 100;
+}
+
+.navbarContainer{
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  padding:12px 36px;  
+}
+
+.navitemcontainer{
+  display: flex;
+  gap:8px;
+}
+
+.scrolled{
+  background-color: bisque;
+}

@@ -1,0 +1,27 @@
+.maincontainer{
+  display: flex;
+  gap: 16px;
+  -webkit-user-select:none;
+  user-select: none;
+}
+
+.logoPicCtn{
+  display: flex;
+  align-items: center;
+}
+
+.logopic{
+  height: 64px;
+}
+
+.logoText{
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  color:black;
+  font-weight: 500;
+  font-size: 16px;
+  
+  
+  
+}
