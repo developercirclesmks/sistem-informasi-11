@@ -1,7 +1,7 @@
 .main{
   display:flex;
   width: 100%;
-  padding: 128px;
+  padding:64px 128px;
   justify-content: space-between;
   align-items: center;
   background-color: #ffffff;
@@ -38,5 +38,4 @@
 
 .heroImages{
   width: 720px;
-  user-select: none;
 }
