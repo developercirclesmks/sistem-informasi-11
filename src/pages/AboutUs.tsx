@@ -1,6 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import React from 'react';
-import AboutUsCard from '../components/aboutuscard/AboutUsCard';
+import AboutUsCard from '../components/molecules/aboutuscard/AboutUsCard';
 
 const AboutUs: React.FC = () => {
 

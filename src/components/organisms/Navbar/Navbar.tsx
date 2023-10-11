@@ -40,7 +40,7 @@ const navitemlist = [
 	},
 	{
 		navname: "About Us",
-		navto: "/",
+		navto: "/about-us",
 	},
 	{
 		navname: "Contact us",

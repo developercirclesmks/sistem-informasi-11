@@ -9,6 +9,7 @@ import {
 } from "@ionic/react";
 import React from "react";
 import style from "./Hero.module.css";
+import RoundButton from "../../atoms/button/roundButton";
 
 const Hero: React.FC = () => {
 	return (
@@ -23,9 +24,7 @@ const Hero: React.FC = () => {
 					provident dolore illo quo doloremque
 				</span>
 				<div>
-					<IonButton color="" size="large" shape="round">
-						<span className={style.buttons}>Get Started !!!</span>
-					</IonButton>
+				<RoundButton>Get Started !!!</RoundButton>
 				</div>
 			</section>
       <section className={style.heroImages} draggable={false} >
