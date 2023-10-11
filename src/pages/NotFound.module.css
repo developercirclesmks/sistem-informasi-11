@@ -1,0 +1,35 @@
+.main{
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color:rgb(160, 141, 255);
+}
+.imagesCtn{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+
+.container{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding:64px 128px;
+  gap:24px;
+}
+
+.textCtn{
+  display: flex;
+  flex-direction: column;
+}
+
+.text{
+  font-family: 'Roboto Slab',serif;
+  font-size: 64px;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.27) 3px 3px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
