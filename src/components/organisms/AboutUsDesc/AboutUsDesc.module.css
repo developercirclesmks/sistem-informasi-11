@@ -1,0 +1,25 @@
+.main {
+    display: flex;
+    padding: 64px 128px;
+    justify-content: space-between;
+    background-color: white;
+    color: rgb(125, 100, 255);
+
+}
+.desc {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 50%;
+}
+
+.desctitle {
+    font-size: 64px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    text-align: justify;
+}
+
+.images {
+    width: 40%;
+}
