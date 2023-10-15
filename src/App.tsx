@@ -30,8 +30,11 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
+<<<<<<< HEAD
 import ExamDetail from "./pages/ExamDetail";
 import Help from "./pages/Help";
+=======
+>>>>>>> a07ee62 (feat : Dashboard)
 setupIonicReact();
 
 const App: React.FC = () => (
@@ -44,8 +47,11 @@ const App: React.FC = () => (
 					<Route exact path="/signup" component={SignUp} />
 					<Route exact path="/about-us" component={AboutUs} />
 					<Route exact path="/dashboard" component={Dashboard} />
+<<<<<<< HEAD
           <Route exact path="/help" component={Help} />
 					<Route exact path="/join/:examId" component={ExamDetail}></Route>
+=======
+>>>>>>> a07ee62 (feat : Dashboard)
 					<Route exact path="/">
 						<Redirect to="/home"/>
 					</Route>
