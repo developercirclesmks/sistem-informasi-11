@@ -27,6 +27,7 @@ import "./theme/fonts.css";
 import Home from "./pages/Home";
 import AboutUs from "./pages/AboutUs";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
 setupIonicReact();
 
 const App: React.FC = () => (
@@ -36,6 +37,7 @@ const App: React.FC = () => (
 				<Switch>
 					<Route exact path="/home" component={Home} />
 					<Route exact path="/about-us" component={AboutUs} />
+					<Route exact path="/dashboard" component={Dashboard} />
 					<Route exact path="/">
 						<Redirect to="/home"/>
 					</Route>
