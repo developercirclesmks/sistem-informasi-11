@@ -10,6 +10,7 @@ import AboutUsDesc from "../components/organisms/AboutUsDesc/AboutUsDesc";
 import Navbar from "../components/organisms/Navbar/Navbar";
 import style from "./AboutUs.module.css";
 import AboutUsCard from "../components/molecules/aboutuscard/AboutUsCard";
+import AboutUsMission from "../components/organisms/AboutUsMission/AboutUsMission";
 
 const AboutUs: React.FC = () => {
   return (
@@ -18,7 +19,8 @@ const AboutUs: React.FC = () => {
         <Navbar />
       </IonHeader>
       <IonContent className={style.main}>
-        <AboutUsDesc />
+        <AboutUsDesc/>
+        <AboutUsMission/>
         <main className={style.ctn}>
           <span className={style.teamTitle}>Meet The Team</span>
           <section className={style.card}>
