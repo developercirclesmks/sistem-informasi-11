@@ -1,22 +1,36 @@
-.main{
-  background-color: white;
-  position: sticky;
-  top:0;
-  z-index: 100;
+.mainNavbar {
+	display: grid;
+	align-items: center;
+	padding: 6px 12px;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.navitemcontainer {
+	display: none;
+}
+.profileBtn {
+	display: none;
 }
 
-.navbarContainer{
-  display:flex;
-  align-items: center;
-  justify-content: space-between;
-  padding:12px 36px;  
+.right {
+	display: flex;
+	justify-content: flex-end;
 }
 
-.navitemcontainer{
-  display: flex;
-  gap:8px;
-}
 
-.scrolled{
-  background-color: bisque;
+@media (min-width: 640px) {
+	.navitemcontainer {
+		display: flex;
+		gap: 16px;
+		justify-content: flex-end;
+		align-items: center;
+		justify-content: center;
+	}
+	.profileBtn {
+		display: flex;
+		justify-content: flex-end;
+	}
+	.mainNavbar {
+		display: flex;
+		justify-content: space-between;
+	}
 }

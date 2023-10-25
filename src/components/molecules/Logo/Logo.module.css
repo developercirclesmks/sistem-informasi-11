@@ -1,27 +1,28 @@
 .maincontainer{
   display: flex;
-  gap: 16px;
-  -webkit-user-select:none;
-  user-select: none;
+  /* -webkit-user-select:none;
+  user-select: none; */
+  gap:8px;
+  align-items: flex-end;
+  /* background-color: bisque; */
 }
 
 .logoPicCtn{
   display: flex;
-  align-items: center;
+  align-items: flex;
+  min-width: 30px;
+  justify-content: center;
+  /* background-color: blue; */
 }
 
 .logopic{
-  height: 64px;
+  height: 30px;
 }
 
 .logoText{
   justify-content: center;
   display: flex;
-  flex-direction: column;
-  color:black;
   font-weight: 500;
-  font-size: 16px;
-  
-  
-  
+  font-size: 24px;
+  font-family: 'Roboto',sans-serif;
 }

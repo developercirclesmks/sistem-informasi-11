@@ -1,0 +1,20 @@
+.menuItemCtn{
+  text-decoration: none;
+
+}
+.sideIcon{
+  margin-right: 12px;
+}
+.hide{
+  transform: scaleY(0);
+  transform-origin: top;
+  transition:200ms;
+
+}
+
+.show{
+  transform: scaleY(1);
+  transform-origin: top;
+  transition: 200ms;
+
+}

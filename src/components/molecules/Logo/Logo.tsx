@@ -1,5 +1,6 @@
 import React from "react";
 import style from "./Logo.module.css";
+import { IonText } from "@ionic/react";
 
 const Logo: React.FC = () => {
 	return (
@@ -7,10 +8,7 @@ const Logo: React.FC = () => {
 			<section className={style.logoPicCtn}>
 				<img draggable={false} src="/icon/Logo.svg" alt="Logo" className={style.logopic}/>
 			</section>
-      <section className={`${style.logoText}`}>
-        <span>ON Exam</span>
-        <span>Online Exam Platform</span>
-      </section>
+        <IonText color='primary' className={style.logoText}>OnExam</IonText>
 		</main>
 	);
 };
