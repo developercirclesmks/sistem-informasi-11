@@ -1,6 +1,5 @@
-import { IonContent, IonImg, IonPage } from '@ionic/react';
+import { IonButton, IonContent, IonImg, IonPage } from '@ionic/react';
 import React from 'react';
-import RoundButton from '../../atoms/button/roundButton';
 import style from './Input.module.css'
 import { useHistory, useRouteMatch } from 'react-router';
 const Login: React.FC = () => {
@@ -39,9 +38,9 @@ const Login: React.FC = () => {
                                             </a>
                                         </div>
                                     </div>
-                                    <RoundButton onclick={handleClick}>
+                                    <IonButton shape="round" onClick={handleClick}>
                                         Login
-                                    </RoundButton>
+                                    </IonButton>
                                 </div>
                                 <div className={style.SignUp}>
                                     <span>
