@@ -1,10 +1,10 @@
+
 .main{
   display:flex;
   width: 100%;
   padding:64px 128px;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff;
 }
 
 .heroContent{
@@ -20,11 +20,8 @@
   font-size: 72px;
   font-weight: 500;
   min-width: max-content;
+  line-height:82px;
 
-}
-
-.text{
-  color: black;
 }
 
 .buttons{
