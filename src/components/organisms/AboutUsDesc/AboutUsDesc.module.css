@@ -14,10 +14,15 @@
 }
 
 .desctitle {
-    font-size: 64px;
+    font-size: 68px;
     font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    text-align: justify;
+    font-weight: 600;
+    text-align: start;
+    /* word-spacing: 11px; */
+    /* text-shadow: 0 3px 4px rgba(0, 0, 0, 0.8); */
+}
+.textcontent {
+    font-size: 17px;
 }
 
 .images {
