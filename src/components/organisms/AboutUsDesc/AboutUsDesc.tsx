@@ -7,11 +7,11 @@ const AboutUsDesc: React.FC = () => {
     <main className={style.main}>
       <section className={style.desc}>
         <IonText className={style.desctitle}>Why ON Exam?</IonText>
-        <IonText>We're the architects of educational transformation. Our platform is built on innovation, inclusivity, and the belief that learning has no limits. We're here to make your journey of creating and accessing exam rooms as seamless and rewarding as possible.</IonText>
+        <IonText className={style.textcontent}>We're the architects of educational transformation. Our platform is built on innovation, inclusivity, and the belief that learning has no limits. We're here to make your journey of creating and accessing exam rooms as seamless and rewarding as possible.</IonText>
       </section>
       
       <section className={style.images}>
-        <img src="./images/aboutus1.jpg" alt="aboutus1" />
+        <img src="./images/aboutus1.png" alt="aboutus1" />
       </section>
     </main>
   );
