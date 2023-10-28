@@ -29,6 +29,7 @@ import AboutUs from "./pages/AboutUs";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Help from "./pages/Help";
 setupIonicReact();
 
 const App: React.FC = () => (
@@ -40,6 +41,7 @@ const App: React.FC = () => (
 					<Route exact path="/login" component={Login} />
 					<Route exact path="/about-us" component={AboutUs} />
 					<Route exact path="/dashboard" component={Dashboard} />
+					<Route exact path="/help" component={Help} />
 					<Route exact path="/">
 						<Redirect to="/home"/>
 					</Route>
