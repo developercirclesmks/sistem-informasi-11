@@ -1,0 +1,67 @@
+/* .ctn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} */
+
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 100px; 
+    padding-top: 100px;
+    /* justify-content: center; */
+    align-items: center;
+
+
+}
+
+.help {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.helpText {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+/* --------------------------- */
+
+.ask {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.img {
+    width: 75%;
+    padding-left: 25px;
+}
+
+.askCtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 100px;
+}
+
+.askText {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 400;
+}
+
