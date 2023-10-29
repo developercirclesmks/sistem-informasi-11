@@ -1,0 +1,44 @@
+.cardCtn {
+	box-shadow: rgba(0, 0, 0, 0.204) 1px 1px 3px 1px;
+}
+.label {
+  padding: 6px;
+	font-size: 14px;
+  transition: 100ms;
+}
+
+.value {
+	display: flex;
+	align-items: center;
+	font-size: 32px;
+  padding-left:6px;
+  transition: 100ms;
+
+}
+
+@media (min-width: 640px) {
+	.label {
+    padding: 12px;
+		font-size: 16px;
+	}
+	.value {
+		display: flex;
+    padding-left: 12px;
+		align-items: center;
+		font-size: 48px;
+	}
+}
+
+/* lg */
+@media (min-width: 1024px) {
+	.label {
+    padding: 18px;
+		font-size: 18px;
+	}
+	.value {
+		display: flex;
+    padding-left: 18px;
+		align-items: center;
+		font-size: 64px;
+	}
+}

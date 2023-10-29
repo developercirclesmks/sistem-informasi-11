@@ -4,46 +4,59 @@ import {
 	IonToolbar,
 	IonContent,
 	IonPage,
+	IonIcon,
+	IonButtons,
+	IonMenuButton,
+	IonSearchbar,
+	IonButton,
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import Logo from "../../molecules/Logo/Logo";
 import Navitem from "../../atoms/Navitem/Navitem";
 import style from "./Navbar.module.css";
+import { Link } from "react-router-dom";
+import ProfileNav from "../../molecules/ProfileNav/ProfileNav";
 
 const Navbar: React.FC = () => {
-
 	return (
-		<nav className={style.main}>
-			<section className={style.navbarContainer}>
+		<IonToolbar color="">
+			<section className={style.mainNavbar}>
 				<Logo />
-				<section className={style.navitemcontainer}>
-					{navitemlist.map((nav, index) => (
-						<Navitem key={index} navname={nav.navname} navto={nav.navto} />
-					))}
+				<div className={style.mid}>
+					<nav className={style.navitemcontainer}>
+						{navitemlist.map((nav, index) => (
+							<Navitem key={index} navname={nav.navname} navto={nav.navto} />
+						))}
+					</nav>
+				</div>
+				<section className={style.right}>
+					<div className={style.profileBtn}>
+						<ProfileNav />
+					</div>
+					<IonMenuButton></IonMenuButton>
 				</section>
 			</section>
-		</nav>
+		</IonToolbar>
 	);
 };
-
 
 export default Navbar;
 
 const navitemlist = [
 	{
 		navname: "Home",
-		navto: "/",
+		navto: "/home",
 	},
 	{
-		navname: "Exams",
+		navname: "Dashboard",
+		navto: "/dashboard",
+	},
+	{
+		navname: "Help",
 		navto: "/",
 	},
 	{
 		navname: "About Us",
 		navto: "/about-us",
-	},
-	{
-		navname: "Contact us",
-		navto: "/",
 	},
 ];

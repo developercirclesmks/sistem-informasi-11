@@ -1,0 +1,26 @@
+.main {
+    display: flex;
+    padding: 73px 128px 160px;
+    justify-content: center;
+    background-color: white;
+    color: rgb(125, 100, 255);
+}
+
+.images {
+    width: 50%;
+    padding-right: 60px;
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 40%;
+}
+
+.textTitle {
+    font-size: 64px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    text-align: justify;
+}
