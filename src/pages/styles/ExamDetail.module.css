@@ -1,0 +1,60 @@
+.main {
+	display: flex;
+	justify-content: center;
+}
+
+.aside {
+	width: auto;
+	min-width: auto;
+}
+.cantfindcard{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 24px 120px;
+	gap: 24px;
+	border: 1px	solid rgba(0, 0, 0, 0.068);
+}
+.errorMsg{
+	font-size: 24px;
+	text-align: center;
+	font-weight: 300;
+	max-width: 360px;
+	filter: drop-shadow(1px 1px 0px rgb(0 0 0 / 0.1));
+}
+.backButton{
+	display: flex;
+	width: 100%;
+}
+.cardsmain {
+	display: grid;
+	max-width: 800px;
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+	min-width: 400px;
+}
+.date {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	font-size: 16px;
+	font-weight: 300;
+}
+
+/* md */
+@media (min-width: 768px) {
+}
+/* lg */
+@media (min-width: 1024px) {
+	.cardsmain {
+		grid-template-columns: auto max-content;
+	}
+	.aside {
+		width: 240px;
+    height: max-content;
+    margin: 16px;
+	}
+	.cantfindcard{
+		display: flex;
+		flex-direction: column;
+	}
+}

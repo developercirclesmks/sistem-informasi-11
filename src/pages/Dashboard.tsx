@@ -24,7 +24,7 @@ const Dashboard: React.FC = () => {
 				<Navbar />
 				<IonContent color="primary">
 					<div>
-						<ProfileCard />
+						{/* something cool here */}
 					</div>
 					<div className={style.cardsRow3}>
 						{statlist.map((maps, index) => (
