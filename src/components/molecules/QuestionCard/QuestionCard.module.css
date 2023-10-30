@@ -1,0 +1,10 @@
+.cardmain{
+  width: 100%;
+  max-width: 720px;
+}
+
+.column{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
