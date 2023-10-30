@@ -12,7 +12,7 @@ import style from "./ProfileNav.module.css";
 
 const ProfileNav: React.FC = () => {
 	return (
-		<>
+		<main className={style.main}>
 			<Link to="/login">
 				<IonButton color="" size="default" fill="outline">
 					Login
@@ -23,7 +23,7 @@ const ProfileNav: React.FC = () => {
 					Signup
 				</IonButton>
 			</Link>
-		</>
+		</main>
 	);
 };
 
