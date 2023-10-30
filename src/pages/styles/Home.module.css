@@ -1,0 +1,44 @@
+.mainExam {
+	display: grid;
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.newCards {
+	width: auto;
+}
+.newCardsContent {
+  display: block;
+}
+.codeCard{
+  height: max-content;
+}
+
+/* md */
+@media (min-width: 640px) {
+	.mainExam {
+		grid-template-columns: repeat(1);
+	}
+	.newCards {
+		width: auto;
+
+    
+	}.newCardsContent {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+/* lg */
+@media (min-width: 1024px) {
+	.mainExam {
+		grid-template-columns: auto max-content;
+	}
+	.newCards {
+		width: auto;
+	}
+  .newCardsContent {
+    display: flex;
+    flex-direction: row;
+  }
+  .codeCard{
+    height: auto;
+  }
+}
