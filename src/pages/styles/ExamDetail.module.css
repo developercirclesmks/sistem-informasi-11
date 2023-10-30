@@ -30,7 +30,7 @@
 	display: grid;
 	max-width: 800px;
 	grid-template-columns: repeat(1, minmax(0, 1fr));
-	min-width: 400px;
+	min-width: 300px;
 }
 .date {
 	display: flex;
