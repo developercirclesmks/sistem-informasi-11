@@ -84,6 +84,12 @@ const ExamDetail: React.FC = () => {
 
 	const currentDate = new Date();
 	const isExamPassed = currentDate > schedule ? true : false;
+	const scheduleDetail = schedule;
+	const day = scheduleDetail.getDate();
+	const month = scheduleDetail.getMonth() + 1;
+	const year = scheduleDetail.getFullYear();
+	const hour = scheduleDetail.getHours();
+	const minute = scheduleDetail.getMinutes();
 
 	return (
 		<>
@@ -110,7 +116,7 @@ const ExamDetail: React.FC = () => {
 											src="/icon/date.svg"
 										></IonIcon>
 										<IonText color={isExamPassed ? "danger" : "primary"}>
-											{schedule.toUTCString()}
+											{day}/{month}/{year}, {hour}:{minute}
 										</IonText>
 									</div>
 									{isExamPassed ? (
