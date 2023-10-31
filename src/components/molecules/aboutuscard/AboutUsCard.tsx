@@ -8,7 +8,14 @@ import {
 import React from "react";
 import style from "./AboutUsCard.module.css"
 
-const AboutUsCard: React.FC = () => {
+interface AboutUsCardInterface{
+  name:string;
+  occupations:string;
+  desc:string;
+}
+
+const AboutUsCard: React.FC<AboutUsCardInterface> = (props) => {
+  const {name, occupations, desc} = props
 return (
     <main>
       <IonCard className={style.ionCard}>
@@ -21,13 +28,11 @@ return (
         
         <section className={style.contentCtn}>
           <IonCardHeader className={style.sectionHeader}>
-            <IonCardTitle className={style.name}>Tasya Nabila Hasanuddin</IonCardTitle>
-            <IonCardSubtitle className={style.subtitle}>3rd Year Undergraduate Student at Unhas</IonCardSubtitle>
+            <IonCardTitle className={style.name}>{name}</IonCardTitle>
+            <IonCardSubtitle className={style.subtitle}>{occupations}</IonCardSubtitle>
           </IonCardHeader>
 
-          <IonCardContent className={style.sectionContent}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, voluptatem esse!
-          </IonCardContent>
+          <IonCardContent className={style.sectionContent}>{desc}</IonCardContent>
         </section>
 
       </IonCard>

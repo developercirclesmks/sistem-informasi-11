@@ -1,0 +1,11 @@
+.item {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 8px;
+    background-color: rgb(125, 100, 255);
+    width: fit-content;
+}
+
+.sideIcon {
+    font-size: 20px;
+}

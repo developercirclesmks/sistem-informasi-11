@@ -1,12 +1,12 @@
 .ionCard {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 200px;
     border-radius: 30px;
     background-color: rgb(125, 100, 255);
 }
 .contentCtn {
-    padding: 16px;
+    padding: 6px;
 }
 
 .sectionHeader {
@@ -15,6 +15,7 @@
 
 .name {
     color: white;
+    font-size: 19px;
 }
 
 .subtitle {

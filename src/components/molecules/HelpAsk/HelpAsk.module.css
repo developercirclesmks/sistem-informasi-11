@@ -1,0 +1,9 @@
+.ask .askCtn {
+    width: fit-content;
+}
+
+.askCtn {
+    background-color: rgb(125, 100, 255);
+    padding: 1cap 2cap;
+    /* width: auto; */
+}

@@ -1,7 +1,7 @@
 import { IonButton, IonContent, IonImg, IonPage } from '@ionic/react';
 import React from 'react';
 import style from './Input.module.css'
-import { useHistory, useRouteMatch } from 'react-router';
+import { useHistory } from 'react-router';
 const Login: React.FC = () => {
     let history = useHistory();
 
@@ -46,7 +46,7 @@ const Login: React.FC = () => {
                                     <span>
                                         {`Don't have an account? `}
                                     </span>
-                                    <a href="/" className={style.SignUpText}>
+                                    <a href="/signup" className={style.SignUpText}>
                                         Sign Up
                                     </a>
                                 </div>
