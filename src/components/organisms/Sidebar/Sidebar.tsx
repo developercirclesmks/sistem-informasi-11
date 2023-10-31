@@ -39,7 +39,7 @@ const Sidebar: React.FC = () => {
 	const handleArrowClick = () => {
 		setRotate(rotate === 90 ? 0 : 90);
 		setShowAuthSide(!showAuthSide);
-		setIsOpen(!isOpen)
+		setIsOpen(!isOpen);
 	};
 
 	return (
@@ -75,7 +75,7 @@ const Sidebar: React.FC = () => {
 					</IonItem>
 				))}
 				<IonItem
-					color={isOpen ? '':'light' }
+					color={isOpen ? "" : "light"}
 					className={style.menuItemCtn}
 					aria-hidden="true"
 					button={true}
@@ -94,9 +94,9 @@ const Sidebar: React.FC = () => {
 						}}
 					></IonIcon>
 				</IonItem>
-				<div className={`${showAuthSide?  style.show : style.hide }`}>
-					<AuthSide/>
-        </div>
+				<div className={`${showAuthSide ? style.show : style.hide}`}>
+					<AuthSide />
+				</div>
 			</IonContent>
 		</IonMenu>
 	);
