@@ -1,0 +1,13 @@
+.followus {
+    display: flex;
+    flex-direction: column;
+    text-align: end;
+    gap: 3px;
+}
+
+.icon {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+    font-size: 24px;
+  }

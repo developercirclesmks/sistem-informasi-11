@@ -1,0 +1,85 @@
+.main {
+    background-color: #2a2d43;
+    padding: 50px;
+    display: flex;
+    /* grid-template-columns: repeat(3, minmax(0, 1fr)); */
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+
+/* --------------------------------- */
+
+
+.start {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+
+.contact {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 75px;
+}
+
+.location {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.loclogo {
+    font-size: 22px;
+}
+
+.loctext {
+    color: white;
+    font-size: 12px;
+}
+
+
+
+.email {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.emaillogo {
+    font-size: 22px;
+}
+
+.emailtext {
+    color: white;
+    font-size: 12px;
+}
+
+/* ---------------------------------- */
+
+
+.end {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: end;
+    gap: 26px;
+}
+
+.navitemcontainer{
+    display: flex;
+    flex-direction: column;
+    text-align: end;
+    /* justify-content: flex-end; */
+    gap: 2px;
+  }
+
+.endbottom {
+    display: flex;
+    justify-content: flex-end;
+}
