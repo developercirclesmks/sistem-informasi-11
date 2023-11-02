@@ -91,6 +91,8 @@ const ExamDetail: React.FC = () => {
 	const hour = scheduleDetail.getHours();
 	const minute = scheduleDetail.getMinutes();
 
+
+
 	return (
 		<>
 			<Sidebar />
@@ -116,7 +118,7 @@ const ExamDetail: React.FC = () => {
 											src="/icon/date.svg"
 										></IonIcon>
 										<IonText color={isExamPassed ? "danger" : "primary"}>
-											{day}/{month}/{year}, {hour}:{minute}
+											{day}/{month}/{year}, {hour <10 ? "0"+hour:hour}:{minute <10 ? "0"+minute:minute}
 										</IonText>
 									</div>
 									{isExamPassed ? (
