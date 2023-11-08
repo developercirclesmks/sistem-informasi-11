@@ -53,7 +53,7 @@ const navitemlist = [
 	},
 	{
 		navname: "Help",
-		navto: "/",
+		navto: "/help",
 	},
 	{
 		navname: "About Us",
