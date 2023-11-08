@@ -50,8 +50,8 @@
   border: 0.1rem solid white;
   border-radius: 10px;
   background-color: #121212;
-  color: rgb(160, 141, 255);
-}
+  --highlight-color-focused: none;
+} 
 
 .email{
   margin: 5px 0;
@@ -59,7 +59,7 @@
   border: 0.1rem solid white;
   border-radius: 10px;
   background-color: #121212;
-  color: rgb(160, 141, 255);
+  --highlight-color-focused: none;
 }
 
 .message{
@@ -69,7 +69,7 @@
   border: 0.1rem solid white;
   border-radius: 10px;
   background-color: #121212;
-  color: rgb(160, 141, 255);
+  --highlight-color-focused: none;
 }
 
 .button{
