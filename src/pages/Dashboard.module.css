@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .pagecolor {
 	background-color: aqua;
 }
@@ -45,9 +44,4 @@
 	.cardsRow3 {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
-=======
-.toolbar{
-    display: flex;
-    justify-content: space-between;
->>>>>>> a07ee62 (feat : Dashboard)
 }
