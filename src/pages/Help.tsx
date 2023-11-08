@@ -12,6 +12,7 @@ import Navbar from "../components/organisms/Navbar/Navbar";
 import style from "./Help.module.css";
 import HelpCard from "../components/molecules/HelpCard/HelpCard";
 import HelpAsk from "../components/molecules/HelpAsk/HelpAsk";
+import ContactUs from "../components/organisms/ContactUs/ContactUs";
 
 const Help: React.FC = () => {
   return (
@@ -43,6 +44,8 @@ const Help: React.FC = () => {
               <HelpAsk />
             </div>
           </section>
+          
+          <ContactUs></ContactUs>
         </section>
       </IonContent>
     </IonPage>
