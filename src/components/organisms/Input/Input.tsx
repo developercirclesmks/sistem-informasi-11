@@ -1,4 +1,4 @@
-import { IonButton, IonContent, IonImg, IonPage } from '@ionic/react';
+import { IonButton, IonCheckbox, IonContent, IonImg, IonPage, IonText, IonTitle } from '@ionic/react';
 import React from 'react';
 import style from './Input.module.css'
 import { useHistory } from 'react-router';
@@ -19,18 +19,20 @@ const Login: React.FC = () => {
                                 <IonImg draggable={false} src="./images/Hero Image.png" alt="Login"/>
                             </div>
                             <div className={style.LoginBox}>
-                                <div className={style.LoginHeader}>
-                                    Login
+                                <div >
+                                    <IonTitle className={style.LoginHeader}>
+                                        Login
+                                    </IonTitle>
                                 </div>
                                 <div className={style.inputs}>
                                     <input className={style.email} placeholder="Enter Your Email"/>
                                     <input type="password" className={style.password} placeholder='Enter Your Password'/>
                                     <div className={style.InputDeco}>
                                         <div className={style.CheckboxRemember}>
-                                            <input type="checkbox" className={style.checkbox} />
-                                            <span className={style.remember}>
+                                            <IonCheckbox className={style.checkbox} />
+                                            <IonText className={style.remember}>
                                                 Remember Me
-                                            </span>
+                                            </IonText>
                                         </div>
                                         <div>
                                             <a href="/" className={style.forget}>
@@ -43,9 +45,9 @@ const Login: React.FC = () => {
                                     </IonButton>
                                 </div>
                                 <div className={style.SignUp}>
-                                    <span>
+                                    <IonText>
                                         {`Don't have an account? `}
-                                    </span>
+                                    </IonText>
                                     <a href="/signup" className={style.SignUpText}>
                                         Sign Up
                                     </a>
