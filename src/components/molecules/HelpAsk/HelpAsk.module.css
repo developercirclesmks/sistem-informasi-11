@@ -3,10 +3,17 @@
     border-style: solid;
     border-width: 0 0 0.01px 0;
     /* border-color: rgb(160, 141, 255); */
+.ask {
+    width: 450px;
+    border-style: solid;
+    border-width: 0 0 0.01px 0;
+    /* border-color: rgb(160, 141, 255); */
 }
 
 .askCtn {
     background-color: rgb(160, 141, 255);
+    background-color: rgb(160, 141, 255);
     padding: 1cap 2cap;
+    width: auto;
     width: auto;
 }
