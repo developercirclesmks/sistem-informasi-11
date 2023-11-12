@@ -10,26 +10,33 @@ import {
 } from "@ionic/react";
 import React from "react";
 import style from "./HelpCard.module.css";
+import Help from "../../../pages/Help";
 
-interface HelpCardInterface{
-  // Icon:string
-  content:string
+interface HelpCardInterface {
+  Icons: any;
+  content: string;
+  scrollId?: string;
 }
 
 const HelpCard: React.FC<HelpCardInterface> = (props) => {
-  const {content} = props
-  return (
+  const { content, Icons, scrollId='' } = props;
+  const handleClickScroll = () => {
+    const scrollTo = document.getElementById(scrollId);
+    if (scrollTo) {
+      scrollTo.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+    return (
     <main>
       <IonItem
-        color='light'
+        color="light"
         className={style.item}
         aria-hidden="true"
-        // key={index}
         button={true}
         lines="none"
-        // onClick={handleArrowClick}
+        onClick={handleClickScroll}
       >
-        <IonIcon icon="people-outline" className={style.sideIcon}></IonIcon>
+        <IonIcon icon={Icons} className={style.sideIcon}></IonIcon>
         <IonLabel className={style.ItemContent}>{content}</IonLabel>
       </IonItem>
     </main>

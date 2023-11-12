@@ -45,22 +45,22 @@ export default AboutUs;
 const AboutUsList =[
   {
     name: "A. Fadhilul Asyam H.",
-    occupations: "Infor",
+    occupations: "Informatic Engineering Student",
     desc: "lalalala"
   },
   {
     name: "Tasya Nabila Hasanuddin",
-    occupations: "Infor",
+    occupations: "Informatic Engineering Student",
     desc: "lalalala"
   },
   {
     name: "Richal Akbar",
-    occupations: "Infor",
+    occupations: "Informatic Engineering Student",
     desc: "lalalala"
   },
   {
     name: "Salzabila Suryawan",
-    occupations: "Infor",
+    occupations: "Informatic Engineering Student",
     desc: "lalalala"
   },
 ]
