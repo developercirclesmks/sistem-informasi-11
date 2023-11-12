@@ -2,7 +2,7 @@
     display: flex;
     padding: 64px 128px;
     justify-content: space-between;
-    background-color: white;
+    /* background-color: white; */
     color: rgb(125, 100, 255);
 
 }

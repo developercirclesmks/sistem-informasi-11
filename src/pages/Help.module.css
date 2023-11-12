@@ -8,12 +8,8 @@
 .main {
     display: flex;
     flex-direction: column;
-    gap: 100px; 
-    padding-top: 100px;
-    /* justify-content: center; */
-    align-items: center;
-
-
+    gap: 70px; 
+    padding-top: 90px;
 }
 
 .help {
@@ -26,7 +22,6 @@
 .helpText {
     display: flex;
     align-items: center;
-    color: white;
     font-size: 25px;
     font-weight: 600;
 }
@@ -40,16 +35,17 @@
 /* --------------------------- */
 
 .ask {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: flex;
+    justify-content: center;
+    /* grid-template-columns: repeat(3, minmax(0, 1fr)); */
 }
 
 .img {
-    width: 75%;
-    padding-left: 25px;
+    width: 30%;
+    /* padding: 15px; */
 }
 
-.askCtn {
+/* .askCtn {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -60,8 +56,54 @@
 .askText {
     display: flex;
     align-items: center;
-    color: white;
     font-size: 20px;
+    font-weight: 400;
+} */
+
+
+/* --------------------------- */
+
+.HelpCard_answer {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 0 70px;
+    gap: 50px;
+}
+
+.ans {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 100%;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(160, 141, 255);
+    border-radius: 7px;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.title_2 {
+    text-indent: 20px;
+    font-size: 23px;
+    padding-top: 10px;
     font-weight: 400;
 }
 
+.answer {
+    text-indent: 20px;
+    font-size: 17px;
+    font-weight: 300;
+}
+
+.account_list {
+    text-indent: 20px;
+}
+
+li {
+    font-size: 17px;
+}

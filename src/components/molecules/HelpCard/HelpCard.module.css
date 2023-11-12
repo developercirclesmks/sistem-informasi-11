@@ -1,11 +1,11 @@
 .item {
-    display: flex;
-    flex-direction: row-reverse;
-    gap: 8px;
-    background-color: rgb(125, 100, 255);
-    width: fit-content;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(160, 141, 255);
+    border-radius: 5px;
+    box-shadow: 0 0.05rem 0.2rem;
 }
 
-.sideIcon {
-    font-size: 20px;
+.ItemContent {
+    margin-left: 16px;
 }
