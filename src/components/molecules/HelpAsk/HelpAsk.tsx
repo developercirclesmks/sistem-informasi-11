@@ -18,7 +18,7 @@ const HelpAsk: React.FC = () => {
       <IonAccordionGroup>
 
         <IonAccordion value="first">
-          <IonItem className={style.ask} slot="header" color="primary">
+          <IonItem className={style.ask} slot="header" color="light">
             <IonLabel>Saya Tidak Dapat Mengakses Akun On Exam</IonLabel>
           </IonItem>
           <div className={style.askCtn} slot="content">
@@ -27,7 +27,7 @@ const HelpAsk: React.FC = () => {
         </IonAccordion>
 
         <IonAccordion className={style.ask} value="second">
-          <IonItem slot="header" color="primary">
+          <IonItem slot="header" color="light">
             <IonLabel>Saya Tidak Bisa Login Akun OnExam</IonLabel>
           </IonItem>
           <div className={style.askCtn} slot="content">
@@ -36,7 +36,7 @@ const HelpAsk: React.FC = () => {
         </IonAccordion>
 
         <IonAccordion className={style.ask} value="third">
-          <IonItem slot="header" color="primary">
+          <IonItem slot="header" color="light">
             <IonLabel>Cara Daftar Akun OnExam</IonLabel>
           </IonItem>
           <div className={style.askCtn} slot="content">
