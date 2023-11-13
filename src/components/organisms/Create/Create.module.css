@@ -1,0 +1,41 @@
+.main{
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.input{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+}
+.btnContainer{
+  background-color: aqua;
+  padding: 0;
+  margin: 0;
+}
+
+.labeledInput{
+  width: 100%;
+  display:flex;
+  flex-direction: column;
+}
+
+.appear{
+  animation: appears 200ms ease-in-out;
+}
+
+@keyframes appears {
+  from {
+    opacity: 0;
+    transform: translateY(-100%) scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+

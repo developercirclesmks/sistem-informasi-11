@@ -1,0 +1,72 @@
+.MainCard {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.input {
+	display: flex;
+	justify-content: center;
+  align-items: center;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.mainExam {
+	display: grid;
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.newCards {
+	width: auto;
+}
+.newCardsContent {
+	display: block;
+}
+.codeCard {
+	height: max-content;
+}
+.btnContainer {
+	width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* md */
+@media (min-width: 640px) {
+	.mainExam {
+		grid-template-columns: repeat(1);
+	}
+	.newCards {
+		width: auto;
+	}
+	.newCardsContent {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.input {
+		flex-direction: row;
+	}
+  .btnContainer{
+    width: max-content;
+  }
+}
+/* lg */
+@media (min-width: 1024px) {
+	.mainExam {
+		grid-template-columns: auto max-content;
+	}
+	.newCards {
+		width: auto;
+	}
+	.newCardsContent {
+		display: flex;
+		flex-direction: row;
+	}
+	.codeCard {
+		height: auto;
+	}
+	.input {
+		flex-direction: row;
+	}
+}

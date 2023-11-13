@@ -3,13 +3,22 @@ http://ionicframework.com/docs/theming/ */
 
 /** Ionic CSS Variables **/
 :root {
+	--ion-color-lighter: #f2f2f2;
+	--ion-color-lighter-rgb: 255, 255, 255;
+	--ion-color-lighter-contrast: #000000;
+	--ion-color-lighter-contrast-rgb: 0, 0, 0;
+	--ion-color-lighter-shade: #f0f0f0;
+	--ion-color-lighter-tint: #b6b6b6;
+
+
+
 	/** primary **/
 	--ion-color-primary: #a08dff;
 	--ion-color-primary-rgb: 56, 128, 255;
 	--ion-color-primary-contrast: #ffffff;
 	--ion-color-primary-contrast-rgb: 255, 255, 255;
-	--ion-color-primary-shade: #3171e0;
-	--ion-color-primary-tint: #4c8dff;
+	--ion-color-primary-shade: #856dff;
+	--ion-color-primary-tint: #856dff;
 
 	/** secondary **/
 	--ion-color-secondary: #3dc2ff;
@@ -83,12 +92,21 @@ http://ionicframework.com/docs/theming/ */
    */
 
 	body {
-		--ion-color-primary: #a08dff;
-		--ion-color-primary-rgb: 66, 140, 255;
-		--ion-color-primary-contrast: #ffffff;
-		--ion-color-primary-contrast-rgb: 255, 255, 255;
-		--ion-color-primary-shade: #3a7be0;
-		--ion-color-primary-tint: #5598ff;
+		--ion-color-lighter: #000000;
+		--ion-color-lighter-rgb: 0, 0, 0;
+		--ion-color-lighter-contrast: #ffffff;
+		--ion-color-lighter-contrast-rgb: 255, 255, 255;
+		--ion-color-lighter-shade: rgb(41, 41, 41);
+		--ion-color-lighter-tint: #b6b6b6;
+	
+
+	/** primary **/
+	--ion-color-primary: #a08dff;
+	--ion-color-primary-rgb: 56, 128, 255;
+	--ion-color-primary-contrast: #ffffff;
+	--ion-color-primary-contrast-rgb: 255, 255, 255;
+	--ion-color-primary-shade: #856dff;
+	--ion-color-primary-tint: #856dff;
 
 		--ion-color-secondary: #50c8ff;
 		--ion-color-secondary-rgb: 80, 200, 255;
@@ -270,6 +288,9 @@ input[type="number"]::-webkit-outer-spin-button {
 	appearance: none;
 	margin: 0;
 }
+ion-button{
+	margin: 0;
+}
 
 ion-button.custom {
 	max-width: max-content;
@@ -308,3 +329,84 @@ ion-icon.custom {
 	font-size: 64px;
 	filter: drop-shadow(1px 1px 0px rgb(0 0 0 / 0.4));
 }
+
+ion-segment.fullgrid{
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(2,minmax(0,1fr));
+
+}
+
+ion-input.custom{
+	--background:var(--ion-color-lighter);
+	transition: 200ms;
+}
+ion-input.custom:hover{
+	--background:var(--ion-color-lighter-shade);
+	transition: 200ms;
+}
+
+ion-segment-button.custom {
+  --indicator-color: var(--ion-color-primary);
+	--background-focused:var(--ion-color-dark)
+}
+
+ion-segment-button.custom {
+  --color-checked: var(--ion-color-primary);
+  --indicator-height: 4px;
+}
+
+ion-segment.custom{
+	--background:var(--ion-color-light);
+}
+
+ion-row.full{
+	width: 100%;
+	display: flex;
+	height: max-content;
+	margin: 0;
+	padding: 0;
+}
+
+ion-row.gap{
+	gap: 12px;
+}
+
+ion-col.full{
+	margin: 0;
+	padding: 0;
+}
+
+ion-segment-button{
+	text-transform: none;
+	letter-spacing: 0;
+	font-weight: 300;
+}
+
+.paddingDisabled{
+	padding: 0;
+	margin: 0;
+}
+
+.full{
+	width: 100%;
+	display: flex;
+	height: max-content;
+}
+
+
+ion-toast.main{
+	--height: max-content;
+	margin:0;
+	padding: 0;
+}
+
+ion-textarea.custom{
+	--background:var(--ion-color-lighter);
+	transition: 200ms;
+}
+ion-textarea.custom:hover{
+	--background:var(--ion-color-lighter-shade);
+	transition: 200ms;
+}
+
