@@ -50,8 +50,8 @@ const Home: React.FC = () => {
 					<Navbar />
 				</IonHeader>
 				<IonContent fullscreen className="ion-padding">
-					{/* <Hero /> */}
-					<main className={style.mainExam}>
+					<Hero />
+					{/* <main className={style.mainExam}>
 						<IonCard className={`ion-padding ${style.codeCard}`}>
 							<IonText color="dark">Join An Exams</IonText>
 							<IonCardContent>
@@ -93,7 +93,7 @@ const Home: React.FC = () => {
 								</section>
 							</IonCardContent>
 						</IonCard>
-					</main>
+					</main> */}
 					<article></article>
 				</IonContent>
 			</IonPage>
