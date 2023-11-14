@@ -19,7 +19,7 @@ import {
 } from "@ionic/react";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Exams } from "../components/dummydata";
+import { Exams } from "../components/_dummydata";
 import Sidebar from "../components/organisms/Sidebar/Sidebar";
 import Navbar from "../components/organisms/Navbar/Navbar";
 import style from "./styles/ExamDetail.module.css";
