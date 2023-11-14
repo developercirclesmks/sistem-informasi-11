@@ -24,7 +24,7 @@ const Dashboard: React.FC = () => {
 			<Sidebar />
 			<IonPage id="main-content">
 				<Navbar />
-				<IonContent className="ion-padding" color="">
+				<IonContent className="ion-padding" >
 					<main className={style.col}>
 						<div>
 							<IonCard className="ion-padding" color={"light"}>
@@ -48,7 +48,7 @@ const Dashboard: React.FC = () => {
 						</div>
 					</main>
 					<div id="contactBox">
-						contactbox
+						contactbox																																			
 					</div>
 				</IonContent>
 			</IonPage>

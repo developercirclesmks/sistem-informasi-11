@@ -27,7 +27,7 @@ const Login: React.FC = () => {
                                     <input type="password" className={style.password} placeholder='Enter Your Password'/>
                                     <div className={style.InputDeco}>
                                         <div className={style.CheckboxRemember}>
-                                            <input type="checkbox" className={style.checkbox} />
+                                            <input placeholder="d" type="checkbox" className={style.checkbox} />
                                             <span className={style.remember}>
                                                 Remember Me
                                             </span>

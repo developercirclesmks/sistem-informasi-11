@@ -1,50 +1,144 @@
+import React, { useState, ChangeEvent, useEffect } from "react";
 import {
 	IonButton,
 	IonCard,
 	IonCardContent,
-	IonCol,
+	IonCardHeader,
 	IonInput,
 	IonItem,
-	IonLabel,
-	IonText,
 	IonTextarea,
+	IonIcon,
+	IonSelect,
+	IonSelectOption,
+	IonText,
 } from "@ionic/react";
-import React, { useState, ChangeEvent, useEffect } from "react";
+import { close, trashOutline } from "ionicons/icons"; // Import IonIcon from ionicons
+
 import style from "./QuestionCard.module.css";
 
-const QuestionCard: React.FC = () => {
+interface QuestionCardProps {
+	questionNumber: number;
+	onDelete: () => void;
+	questionId: string;
+	id:string
+}
+
+const QuestionCard: React.FC<QuestionCardProps> = (props) => {
+	const { questionNumber, onDelete ,questionId, id} = props;
 	const [questionTitle, setQuestionTitle] = useState("");
+	const [options, setOptions] = useState(["", ""]);
+	const [selectedOption, setSelectedOption] = useState<number | null>(null);
 
 	const handleQuestionChange = (e: CustomEvent) => {
 		const newValue = e.detail.value as string;
 		setQuestionTitle(newValue);
-		console.log("Hai");
 	};
+
+	const handleOptionChange = (index: number, value: string) => {
+		const newOptions = [...options];
+		newOptions[index] = value;
+		setOptions(newOptions);
+	};
+
+	const addOption = () => {
+		if (options.length < 5) {
+			setOptions([...options, ""]);
+		}
+	};
+
+	const deleteOption = (index: number) => {
+		const newOptions = [...options];
+		newOptions.splice(index, 1);
+		setOptions(newOptions);
+	};
+
+	const handleSelectChange = (e: CustomEvent) => {
+		const selectedIndex = e.detail.value;
+		setSelectedOption(selectedIndex !== undefined ? +selectedIndex : null);
+	};
+
+	const isSaveButtonDisabled = selectedOption === null;
 
 	useEffect(() => {
 		console.log(questionTitle);
-	}, [questionTitle]);
+		console.log(options);
+	}, [questionTitle, options]);
 
 	return (
-		<IonCard className={`ion-padding ${style.cardmain}`} color="">
+		<IonCard id={id} className={`${style.cardmain}`}>
+			<IonCardHeader>Question : {questionId}</IonCardHeader>
 			<IonCardContent>
-				<IonCol className={style.column}>
-					<IonTextarea
-						autoGrow
-						fill="solid"
-						label="Enter Your Question :"
-						labelPlacement="floating"
-						onIonInput={(e) => setQuestionTitle(e.detail.value!)}
-					></IonTextarea>
-
+				<IonTextarea
+					autoGrow
+					fill="outline"
+					label="Enter Question Here"
+					labelPlacement="floating"
+					counter
+					placeholder="Enter Question"
+					onIonChange={handleQuestionChange}
+				></IonTextarea>
+				<section>
+					{options.map((option, index) => (
+						<IonItem key={index} lines="none" className={style.option}>
+							<div className={style.optionlabel}>
+								{String.fromCharCode(65 + index)}
+							</div>
+							<IonTextarea
+								autoGrow
+								placeholder={`Option ${index + 1}`}
+								value={option}
+								onIonChange={(e) => handleOptionChange(index, e.detail.value!)}
+							></IonTextarea>
+							{index > 1 && (
+								<div>
+									<IonButton
+										fill="clear"
+										color={"dark"}
+										onClick={() => deleteOption(index)}
+									>
+										<IonIcon icon={close} color="dark" />
+									</IonButton>
+								</div>
+							)}
+						</IonItem>
+					))}
 					<IonButton
-						expand="full"
-						disabled
-						onClick={() => console.log(questionTitle)}
+						fill="clear"
+						className={style.bold}
+						onClick={addOption}
+						color={options.length < 5 ? "primary" : "dark"}
+						disabled={options.length >= 5}
 					>
-						Submit
+						{options.length < 5 ? "Add Option +" : "Options Capped At 5"}
 					</IonButton>
-				</IonCol>
+				</section>
+				<section>
+					<IonItem>
+						<IonSelect
+							interface="popover"
+							aria-label="Correct"
+							placeholder="Select Correct Answer"
+							onIonChange={handleSelectChange}
+						>
+							{options.map((option, index) => (
+								<IonSelectOption key={index} value={index}>
+									Option {index + 1}
+								</IonSelectOption>
+							))}
+						</IonSelect>
+					</IonItem>
+				</section>
+				<section className={style.buttons}>
+					<IonButton disabled={isSaveButtonDisabled}>Save Question</IonButton>
+					<IonButton
+						fill="outline"
+						className={style.bold}
+						onClick={props.onDelete}
+					>
+						<IonText>Delete Question</IonText>
+						<IonIcon icon={trashOutline}></IonIcon>
+					</IonButton>
+				</section>
 			</IonCardContent>
 		</IonCard>
 	);
