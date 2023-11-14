@@ -8,6 +8,8 @@ import { nanoid } from "nanoid";
 
 const CreateExamPage: React.FC = () => {
   const [questions, setQuestions] = useState<ReactElement[]>([]);
+  const [questionCounter, setQuestionCounter] = useState(1);
+
 
   const addNewQuestion = () => {
     const questionId = nanoid();
@@ -15,20 +17,22 @@ const CreateExamPage: React.FC = () => {
       ...questions,
       <QuestionCard
         id={questionId}
-        questionNumber={questions.length + 1}
+        questionNumber={questionCounter}
         key={questionId}
         onDelete={() => handleDeleteQuestion(questionId)}
         questionId={questionId}
       />,
     ];
     setQuestions(newQuestions);
+    setQuestionCounter(questionCounter + 1);
   };
 
   const handleDeleteQuestion = (questionId: string) => {
-    const newQuestions = questions.filter(
-      (question) => (question.props).questionId !== questionId
-    );
-    setQuestions(newQuestions);
+    console.log(questionId);
+    // const newQuestions = questions.filter(
+    //   (question) => (question.props).questionId !== questionId
+    // );
+    setQuestions(prev => prev.filter(el => el.key !== questionId));
   };
 
   const handlescroll = (scrollId: string) => {
@@ -36,7 +40,7 @@ const CreateExamPage: React.FC = () => {
     if (scrollTo) {
       scrollTo.scrollIntoView({ behavior: "smooth" });
     }
-  };
+  };  
 
   return (
     <PageContainer nopadding>

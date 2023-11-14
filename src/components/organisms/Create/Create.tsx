@@ -208,28 +208,13 @@ const Create: React.FC = () => {
 									<IonInput
 										className="custom"
 										type="date"
-										label="From"
+										label="Start At"
 										labelPlacement="stacked"
 										clearInput={true}
 										color={"primary"}
 										fill="outline"
 										value={examDate}
 										onIonChange={(e) => setExamDate(e.detail.value!)}
-										onIonBlur={handleDateBlur}
-										min={today}
-									></IonInput>
-								</IonCol>
-								<IonCol className="full">
-									<IonInput
-										className="custom"
-										type="date"
-										label="To"
-										labelPlacement="stacked"
-										clearInput={true}
-										color={"primary"}
-										fill="outline"
-										value={examDate}
-										onIonInput={(e) => setExamDate(e.detail.value!)}
 										onIonBlur={handleDateBlur}
 										min={today}
 									></IonInput>
