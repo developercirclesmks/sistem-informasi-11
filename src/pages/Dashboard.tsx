@@ -15,7 +15,7 @@ import StatsCard from "../components/organisms/Dashboard/StatsCard/StatsCard";
 import { Link } from "react-router-dom";
 import AboutUsCard from "../components/molecules/aboutuscard/AboutUsCard";
 import ExamListCard from "../components/organisms/Dashboard/ExamList/ExamListsCard";
-import { passedLength, upcomingLength } from "../components/dummydata";
+import { passedLength, upcomingLength } from "../components/_dummydata";
 import DashboardHero from "../components/organisms/Dashboard/DashboardHero/DashboardHero";
 
 const Dashboard: React.FC = () => {
