@@ -66,7 +66,7 @@ const QuestionCard: React.FC<QuestionCardProps> = (props) => {
 
 	return (
 		<IonCard id={id} className={`${style.cardmain}`}>
-			<IonCardHeader>Question : {questionId}</IonCardHeader>
+			<IonCardHeader>Question : {questionNumber}</IonCardHeader>
 			<IonCardContent>
 				<IonTextarea
 					autoGrow
