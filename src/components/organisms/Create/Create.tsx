@@ -49,23 +49,29 @@ const Create: React.FC = () => {
 				return;
 			}
 		} else if (hour === 4) {
-			if (e !== 0) {
-				console.log("more than 4 hours is not allowed");
+			if (e >= 60) {
 				setMinute(0);
+			} else if (e < 0) {
+				setMinute(0);
+				return;
 			}
 		}
 	};
 
 	const handleHourInput = (e: number) => {
-		setHour(e);
+		if (e > 4) {
+			setHour(4);
+		} else if (e < 0) {
+			setHour(0);
+		} else {
+			setHour(e);
+		}
 	};
 
 	const handleCreateExam = () => {
-
-		if(toastOpen === true){
+		if (toastOpen === true) {
 			setToastOpen(false);
 		}
-		
 
 		console.log(hour, minute, examName, examDesc);
 		let error: string[] = [];
@@ -83,15 +89,21 @@ const Create: React.FC = () => {
 			error.push("Description");
 		}
 
+		const totalMinute = hour * 60 + minute;
+
 		if (error.length !== 0) {
 			const errorMsg = error.join(", ") + " Needs to Be Filled";
 			setToastMessages(errorMsg);
 			setToastOpen(true);
-		}else{
-			setToastMessages("Success")
-			setToastOpen(true)
+		} else {
+			if (totalMinute > 240) {
+				setToastMessages("Duration Cant Exceed More Than 4 Hour");
+				setToastOpen(true);
+			} else {
+				setToastMessages("Success");
+				setToastOpen(true);
+			}
 		}
-
 	};
 	return (
 		<>
@@ -120,7 +132,7 @@ const Create: React.FC = () => {
 						</main>
 
 						<main className={style.labeledInput}>
-							<p>Duration</p>
+							<p>Duration - Max 4 Hour</p>
 							<IonRow className="full gap">
 								<IonCol className="full">
 									<IonInput
@@ -128,7 +140,6 @@ const Create: React.FC = () => {
 										type="number"
 										label="Hour"
 										labelPlacement="stacked"
-										clearOnEdit
 										color={"primary"}
 										fill="outline"
 										value={hour}
@@ -146,10 +157,10 @@ const Create: React.FC = () => {
 										pattern="[0-9]*"
 										className="custom"
 										type="number"
-										clearOnEdit
 										label="Minutes"
 										labelPlacement="stacked"
 										color="primary"
+										clearOnEdit
 										fill="outline"
 										value={minute}
 										onIonInput={(e) =>
@@ -264,14 +275,14 @@ const Create: React.FC = () => {
 				message={toastMessages}
 				duration={5000}
 				buttons={[
-          {
-            text: 'X',
-            role: 'cancel',
-            handler: () => {
-              console.log('Dismiss clicked');
-            },
-          },
-        ]}
+					{
+						text: "X",
+						role: "cancel",
+						handler: () => {
+							console.log("Dismiss clicked");
+						},
+					},
+				]}
 				onDidDismiss={() => setToastOpen(false)}
 				className="custom"
 			></IonToast>
