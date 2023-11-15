@@ -1,4 +1,4 @@
-const quuestionList = [
+export const questionList = [
 	{
 		questionId: "q1",
 		questionTitle: "Question 1",
@@ -17,7 +17,7 @@ const quuestionList = [
 	{
 		questionId: "q4",
 		questionTitle: "Question 4",
-		optionId: ["ropt10", "ropt5", "copt2", "ropt10"],
+		optionId: ["ropt7", "ropt5", "copt2", "ropt10"],
 	},
 	{
 		questionId: "q5",
@@ -42,16 +42,16 @@ const quuestionList = [
 	{
 		questionId: "q9",
 		questionTitle: "Question 9",
-		optionId: ["copt8", "ropt5", "ropt3", "ropt1"],
+		optionId: ["copt3", "ropt5", "ropt3", "ropt1"],
 	},
 	{
 		questionId: "q10",
 		questionTitle: "Question 10",
-		optionId: ["ropt10", "ropt5", "copt1", "ropt10"],
+		optionId: ["ropt10", "ropt5", "copt1", "ropt8"],
 	},
 ];
 
-const randomOption = [
+export const randomOption = [
 	{
 		optionId: "copt1",
 		optionLabel: "correct-1",

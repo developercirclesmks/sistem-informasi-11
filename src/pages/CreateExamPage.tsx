@@ -2,7 +2,7 @@ import React, { useState, ReactElement } from "react";
 import { IonButton, IonCol, IonItem, IonLabel } from "@ionic/react";
 import PageContainer from "../components/PageContainer";
 import style from "./styles/CreateExamPage.module.css";
-import QuestionCard from "../components/molecules/QuestionCard/QuestionCard";
+import CreateQuestionCard from "../components/molecules/CreateQuestionCard/CreateQuestionCard";
 import { nanoid } from "nanoid";
 // ... (previous code)
 
@@ -15,7 +15,7 @@ const CreateExamPage: React.FC = () => {
     const questionId = nanoid();
     const newQuestions: ReactElement[] = [
       ...questions,
-      <QuestionCard
+      <CreateQuestionCard
         id={questionId}
         questionNumber={questionCounter}
         key={questionId}

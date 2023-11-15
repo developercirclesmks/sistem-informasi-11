@@ -18,8 +18,8 @@ import {
 	IonToolbar,
 } from "@ionic/react";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
 import { Exams } from "../components/_dummydata";
+import { useParams, useHistory } from "react-router-dom";
 import Sidebar from "../components/organisms/Sidebar/Sidebar";
 import Navbar from "../components/organisms/Navbar/Navbar";
 import style from "./styles/ExamDetail.module.css";
@@ -36,9 +36,15 @@ interface RouteParamsInterface {
 }
 
 const ExamDetail: React.FC = () => {
-	const { examId } = useParams<RouteParamsInterface>();
-	const exam = Exams.find((exam: Exam) => exam.id === examId);
-	const [added, setAdded] = useState(false);
+	const handleStartExam = () => {
+    // Navigate to the /join/:examId/start route
+    history.push(`/join/${examId}/start`);
+  };
+
+	const history = useHistory();
+  const { examId } = useParams<RouteParamsInterface>();
+  const exam = Exams.find((exam: Exam) => exam.id === examId);
+  const [added, setAdded] = useState(false);
 
 	const color = added ? "danger" : "primary";
 	const btnText = added ? "Remove From List" : "Add To List +";
@@ -143,13 +149,13 @@ const ExamDetail: React.FC = () => {
 							</main>
 							<aside className={` ${style.aside}`}>
 								<main className={style.asidectn}>
-									<IonCardContent color="light">
-										<div>
-											<IonButton disabled={isExamPassed} fill="solid">
+									<IonCardContent color="light" >
+										<div className="ion-padding">
+											<IonButton onClick={handleStartExam} disabled={isExamPassed} fill="solid">
 												Start Now
 											</IonButton>
 										</div>
-										<div>
+										<div className="ion-padding">
 											<IonButton
 												fill="outline"
 												disabled={isExamPassed}
