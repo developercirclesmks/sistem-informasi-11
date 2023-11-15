@@ -410,3 +410,6 @@ ion-textarea.custom:hover{
 	transition: 200ms;
 }
 
+.testctn{
+	background-color:red;
+}
