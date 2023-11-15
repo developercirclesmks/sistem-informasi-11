@@ -254,7 +254,6 @@ http://ionicframework.com/docs/theming/ */
 
 ion-button {
 	text-transform: none;
-	font-weight: 200;
 }
 
 ion-label strong {
@@ -383,10 +382,14 @@ ion-segment-button{
 	font-weight: 300;
 }
 
-.paddingDisabled{
-	padding: 0;
+.noMargin{
 	margin: 0;
 }
+
+.noPadding{
+	padding:0;
+}
+
 
 .full{
 	width: 100%;
@@ -412,4 +415,15 @@ ion-textarea.custom:hover{
 
 .testctn{
 	background-color:red;
+}
+
+.semibold{
+	font-weight:500;
+}
+.bold{
+	font-weight: 600;
+}
+
+.extra-light{
+	font-weight: 200;
 }

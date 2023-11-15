@@ -65,8 +65,8 @@ const CreateQuestionCard: React.FC<CreateQuestionCardProps> = (props) => {
 	}, [questionTitle, options]);
 
 	return (
-		<IonCard id={id} className={`${style.cardmain}`}>
-			<IonCardHeader>Question : {questionNumber}</IonCardHeader>
+		<IonCard id={id} className={`${style.cardmain} noMargin`}>
+			<IonCardHeader>Question : {questionNumber} , {questionId}</IonCardHeader>
 			<IonCardContent>
 				<IonTextarea
 					autoGrow
@@ -129,7 +129,7 @@ const CreateQuestionCard: React.FC<CreateQuestionCardProps> = (props) => {
 					</IonItem>
 				</section>
 				<section className={style.buttons}>
-					<IonButton disabled={isSaveButtonDisabled}>Save Question</IonButton>
+					<IonButton className="extra-light" disabled={isSaveButtonDisabled}>Save Question</IonButton>
 					<IonButton
 						fill="outline"
 						className={style.bold}
