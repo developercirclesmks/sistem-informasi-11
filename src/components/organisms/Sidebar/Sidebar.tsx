@@ -117,7 +117,7 @@ const menuItemList = [
 	},
 	{
 		navname: "Help",
-		navto: "/",
+		navto: "/help",
 		src: "help-circle.svg",
 	},
 	{

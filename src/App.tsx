@@ -32,6 +32,8 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import ExamDetail from "./pages/ExamDetail";
 import Help from "./pages/Help";
+import CreateExamPage from "./pages/CreateExamPage";
+import OnExam from "./pages/OnExam";
 setupIonicReact();
 
 const App: React.FC = () => (
@@ -45,7 +47,10 @@ const App: React.FC = () => (
 					<Route exact path="/about-us" component={AboutUs} />
 					<Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/help" component={Help} />
+          <Route exact path="/create/exam" component={CreateExamPage} />
 					<Route exact path="/join/:examId" component={ExamDetail}></Route>
+					<Route exact path="/join/:examId/start" component={OnExam}></Route>
+					
 					<Route exact path="/">
 						<Redirect to="/home"/>
 					</Route>

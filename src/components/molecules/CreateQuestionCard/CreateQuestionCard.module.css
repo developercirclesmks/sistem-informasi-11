@@ -1,25 +1,25 @@
 .option{
   display: flex;
   gap:16px;
-  align-items: center;
-  flex-grow: 1;
+  align-items: start;
+}
 
+.option::hover{
+  background-color: antiquewhite;
 }
 
 .optionlabel{
+  margin-right: 12px;
+  border: 1px solid var(--ion-color-dark);
   width: 32px;
-  min-width: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   height: 32px;
+  margin-top: 14px;
   border-radius: 4px;
 }
-.optionText{
-  width: 100%;
-}
-
 
 .numberButton{
   width: 36px;
