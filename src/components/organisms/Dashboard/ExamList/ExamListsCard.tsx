@@ -16,7 +16,7 @@ import {
 } from "@ionic/react";
 import React from "react";
 import style from "./ExamListsCard.module.css";
-import { Exams } from "../../../dummydata";
+import { Exams } from "../../../_dummydata";
 
 interface ExamListCardInterface {
 	passed?: boolean;

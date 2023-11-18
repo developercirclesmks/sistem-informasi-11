@@ -1,0 +1,34 @@
+.main{
+  display: flex;
+  height: 100%;
+}
+
+.aside{
+  max-width: 320px;
+  min-width:max-content;
+  box-shadow: rgba(0, 0, 0, 0.2) 1px 0px 0px 0px;
+}
+.numberGrid{
+  display: grid;
+  width: 240px;
+  gap: 6px;
+  grid-template-columns: repeat(5,minmax(0,1fr));
+}
+
+.numberButton{
+  width: 36px;
+  height: 36px;
+}
+
+.scrollContent{
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+

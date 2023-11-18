@@ -10,7 +10,6 @@ import {
 } from "@ionic/react";
 import React from "react";
 import style from "./Hero.module.css";
-import RoundButton from "../../atoms/button/roundButton";
 
 const Hero: React.FC = () => {
 	return (
