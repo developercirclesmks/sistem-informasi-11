@@ -10,8 +10,18 @@ import {
 } from "@ionic/react";
 import React from "react";
 import style from "./Hero.module.css";
+import { signOut, Auth } from "firebase/auth";
+import { auth } from "../../../config/firebase-config";
 
 const Hero: React.FC = () => {
+	const handleSignOut = () => {
+		signOut(auth)
+			.then(() => {
+				console.log("signout");
+			})
+			.catch((error) => console.log(error));
+	};
+
 	return (
 		<main className={style.main}>
 			<section className={style.heroContent}>
@@ -23,13 +33,11 @@ const Hero: React.FC = () => {
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, non
 					provident dolore illo quo doloremque
 				</IonText>
-				<IonButton shape="round" size="large">
+				<IonButton onClick={handleSignOut} shape="round" size="large">
 					Get Started !!!
 				</IonButton>
 			</section>
 
-
-			
 			<section className={style.heroImages} draggable={false}>
 				<IonImg draggable={false} src="./images/Hero Image.png" alt="Heroes" />
 			</section>

@@ -11,10 +11,15 @@ import {
 	IonTitle,
 } from "@ionic/react";
 import React, { useState } from "react";
+import {
+	createUserWithEmailAndPassword,
+} from "firebase/auth";
 import style from "./SignUp.module.css";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import Input from "../../components/organisms/Input/Input";
+import { auth, db } from "../../config/firebase-config";
+import { setDoc, doc } from "firebase/firestore";
 const SignUp: React.FC = () => {
 	let history = useHistory();
 	const [isTouched, setIsTouched] = useState(false);
@@ -44,6 +49,7 @@ const SignUp: React.FC = () => {
 		setConfirm(e);
 	};
 
+
 	const [emailError, setEmailError] = useState("");
 	const [emailClass, setEmailClass] = useState("");
 	const [passError, setPassError] = useState("");
@@ -53,7 +59,7 @@ const SignUp: React.FC = () => {
 	const [confirmClass, setConfirmClass] = useState("");
 	const [confirmError, setConfirmError] = useState("");
 
-	const handleSubmit = (e: any) => {
+	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 		if (!userName || !email || !password) {
 			if (!userName) {
@@ -72,6 +78,29 @@ const SignUp: React.FC = () => {
 			if (confirm !== password) {
 				setConfirmError("Your confirmation does not match the password");
 				setConfirmClass("ion-touched ion-invalid");
+			} else {
+        try {
+          const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+          if (userCredential) {
+            const user = userCredential.user;
+            await setDoc(doc(db, "users", user.uid), {
+              firstName: "",
+              lastName: "",
+              email: email,
+              password: password,
+              username: userName,
+            });
+
+            history.push("./");
+          }
+        } catch (error) {
+          console.log(error);
+        }
 			}
 		}
 	};
@@ -116,7 +145,7 @@ const SignUp: React.FC = () => {
 								type="password"
 								errorText={passError}
 								fill="outline"
-                                clearOnEdit
+								clearOnEdit
 								onIonInput={(e) => handlePassInput(e.detail.value!)}
 								placeholder="Enter Your Password"
 							></IonInput>
