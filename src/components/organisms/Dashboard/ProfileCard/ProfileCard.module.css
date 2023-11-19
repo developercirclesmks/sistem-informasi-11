@@ -1,122 +1,127 @@
 .cardContent {
-	justify-content: center;
-	display: grid;
-	grid-template-columns: repeat(1, minmax(0, 1fr));
+  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
 .heads {
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .button {
-	display: none;
+  display: block;
 }
 .smButton {
-	display: block;
+  display: none;
 }
 
 .handleGridDown {
-	justify-content: center;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 16px;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
 
 .LeftSide {
-	min-width: max-content;
-	width: 100%;
-	display: grid;
-	grid-template-columns: repeat(1, minmax(0, 1fr));
-	gap: 32px;
-	transition: 500ms;
+  min-width: max-content;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 32px;
+  transition: 500ms;
 }
 
 .avatar {
-	width: 160px;
-	height: 160px;
-	overflow: hidden;
-	border-radius: 25px;
+  width: 240px;
+  height: 240px;
+  overflow: hidden;
+  border-radius: 25px;
+  transition: 200ms;
 }
 
 .aside {
-	display: grid;
-	grid-template-columns: repeat(1, minmax(0, 1fr));
-	transition: 500ms;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  transition: 500ms;
 }
 
 /* md */
 @media (min-width: 640px) {
-	.cardContent {
-		justify-content: center;
-		display: grid;
-		grid-template-columns: repeat(1, minmax(0, 1fr));
-		gap: 32px;
-	}
-	.handleGridDown {
-		justify-content: center;
-		display: flex;
-	}
-	.smButton {
-		display: none;
-	}
-	.button {
-		display: block;
-	}
+  .cardContent {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 32px;
+  }
+  .handleGridDown {
+    justify-content: center;
+    display: flex;
+    align-items: flex-start;
+  }
+  .smButton {
+    display: none;
+  }
+  .button {
+    display: block;
+  }
 
-	.LeftSide {
-		min-width: max-content;
-		width: 100%;
-		display: grid;
-		gap: 0px;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
+  .LeftSide {
+    min-width: max-content;
+    width: 100%;
+    display: grid;
+    gap: 0px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
-	.avatar {
-		width: 160px;
-		height: 160px;
-		overflow: hidden;
-		border-radius: 25px;
-	}
+  .avatar {
+    width: 200px;
+    height: 200px;
 
-	.aside {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
+    overflow: hidden;
+    border-radius: 25px;
+  }
+
+  .aside {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* lg */
 @media (min-width: 1024px) {
-	.cardContent {
-		justify-content: center;
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 12px;
-	}
+  .cardContent {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
 
-	.handleGridDown {
-		justify-content: center;
-		display: flex;
-	}
+  .handleGridDown {
+    justify-content: flex-start;
+    display: flex;
+    align-items: flex-start;
+  }
 
-	.LeftSide {
-		min-width: max-content;
-		width: 100%;
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0px;
-	}
+  .LeftSide {
+    min-width: max-content;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0px;
+  }
 
-	.avatar {
-		width: 160px;
-		height: 160px;
-		overflow: hidden;
-		border-radius: 25px;
-	}
+  .avatar {
+    width: 240px;
+    height: 240px;
+    overflow: hidden;
+    border-radius: 25px;
+  }
 
-	.aside {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
+  .aside {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
 }

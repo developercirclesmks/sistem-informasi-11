@@ -59,4 +59,8 @@ const navitemlist = [
 		navname: "About Us",
 		navto: "/about-us",
 	},
+	{
+		navname: "Profile",
+		navto: "/profile",
+	},
 ];
