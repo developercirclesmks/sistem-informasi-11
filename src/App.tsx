@@ -34,6 +34,7 @@ import ExamDetail from "./pages/ExamDetail";
 import Help from "./pages/Help";
 import CreateExamPage from "./pages/CreateExamPage";
 import OnExam from "./pages/OnExam";
+import { ProtectedRoute } from "./pages/Auth/ProtectedRoute";
 setupIonicReact();
 
 const App: React.FC = () => (
@@ -44,12 +45,12 @@ const App: React.FC = () => (
 					<Route exact path="/home" component={Home} />
 					<Route exact path="/login" component={Login} />
 					<Route exact path="/signup" component={SignUp} />
-					<Route exact path="/about-us" component={AboutUs} />
-					<Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/help" component={Help} />
-          <Route exact path="/create/exam" component={CreateExamPage} />
-					<Route exact path="/join/:examId" component={ExamDetail}></Route>
-					<Route exact path="/join/:examId/start" component={OnExam}></Route>
+					<ProtectedRoute exact path="/about-us" component={AboutUs} />
+					<ProtectedRoute exact path="/dashboard" component={Dashboard} />
+          <ProtectedRoute exact path="/help" component={Help} />
+          <ProtectedRoute exact path="/create/exam" component={CreateExamPage} />
+					<ProtectedRoute exact path="/join/:examId" component={ExamDetail}/>
+					<ProtectedRoute exact path="/join/:examId/start" component={OnExam}/>
 					
 					<Route exact path="/">
 						<Redirect to="/home"/>

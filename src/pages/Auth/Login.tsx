@@ -136,9 +136,9 @@ const Login: React.FC = () => {
 							<IonText>Sign Up</IonText>
 						</Link>
 					</section>
-					<section>
+					{/* <section>
 						email:{email} || password:{password}
-					</section>
+					</section> */}
 				</Input>
 			</IonContent>
 		</IonPage>

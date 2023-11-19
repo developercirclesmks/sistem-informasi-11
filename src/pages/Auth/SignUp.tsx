@@ -94,6 +94,12 @@ const SignUp: React.FC = () => {
               email: email,
               password: password,
               username: userName,
+							dateOfBirth: null,
+							profilePicURL: null,
+							phoneNumber:"",
+							Gender:null,
+							Occupation:"",
+							Institution:""
             });
 
             history.push("./");
@@ -172,9 +178,9 @@ const SignUp: React.FC = () => {
 							<IonText>Sign In</IonText>
 						</Link>
 					</section>
-					<section>
+					{/* <section>
 						User: {userName}, Email:{email}, Pass: {password}
-					</section>
+					</section> */}
 				</Input>
 			</IonContent>
 		</IonPage>
