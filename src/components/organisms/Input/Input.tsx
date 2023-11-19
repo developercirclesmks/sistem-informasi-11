@@ -1,64 +1,52 @@
-import { IonButton, IonCheckbox, IonContent, IonImg, IonPage, IonText, IonTitle } from '@ionic/react';
-import React from 'react';
-import style from './Input.module.css'
-import { useHistory } from 'react-router';
-const Login: React.FC = () => {
-    let history = useHistory();
+import {
+	IonButton,
+	IonCard,
+	IonCardContent,
+	IonCheckbox,
+	IonCol,
+	IonContent,
+	IonIcon,
+	IonImg,
+	IonPage,
+	IonRow,
+	IonText,
+	IonTitle,
+} from "@ionic/react";
+import React, { ReactNode } from "react";
+import style from "./Input.module.css";
+import { useHistory } from "react-router";
 
-    const handleClick: any = () => {
-        history.push("/");
-    }
+interface InputProps {
+	children: ReactNode;
+}
 
-    return (
-        <IonPage>
-            <IonContent>
-                <main className={style.main}>
-                    <section className={style.section}>
-                        <div className={style.SectionBox}>
-                            <div className={style.ImageBox}>
-                                <IonImg draggable={false} src="./images/Hero Image.png" alt="Login"/>
-                            </div>
-                            <div className={style.LoginBox}>
-                                <div >
-                                    <IonTitle className={style.LoginHeader}>
-                                        Login
-                                    </IonTitle>
-                                </div>
-                                <div className={style.inputs}>
-                                    <input className={style.email} placeholder="Enter Your Email"/>
-                                    <input type="password" className={style.password} placeholder='Enter Your Password'/>
-                                    <div className={style.InputDeco}>
-                                        <div className={style.CheckboxRemember}>
-                                            <IonCheckbox className={style.checkbox} />
-                                            <IonText className={style.remember}>
-                                                Remember Me
-                                            </IonText>
-                                        </div>
-                                        <div>
-                                            <a href="/" className={style.forget}>
-                                                Forget Password?
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <IonButton shape="round" onClick={handleClick}>
-                                        Login
-                                    </IonButton>
-                                </div>
-                                <div className={style.SignUp}>
-                                    <IonText>
-                                        {`Don't have an account? `}
-                                    </IonText>
-                                    <a href="/signup" className={style.SignUpText}>
-                                        Sign Up
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </main>
-            </IonContent>
-        </IonPage>
-    );
+const Input: React.FC<InputProps> = ({ children }) => {
+	let history = useHistory();
+
+	const handleClick: any = () => {
+		history.push("/");
+	};
+
+	return (
+		<main className={`${style.main}`}>
+			<IonCard className={`noPadding noMargin ${style.Authwrapper}`}>
+				<IonCardContent className="noPadding noMargin">
+					<IonRow className={style.authBox}>
+						<IonCol
+							draggable={false}
+							className={`noPadding noMargin ${style.authImage}`}
+						>
+							<IonImg draggable={false} src="./images/Hero Image.png"></IonImg>
+						</IonCol>
+						<IonCol className={style.form}>
+							<IonIcon className={style.logo} src="./icon/Logo.svg"></IonIcon>
+							<section className={style.input}>{children}</section>
+						</IonCol>
+					</IonRow>
+				</IonCardContent>
+			</IonCard>
+		</main>
+	);
 };
 
-export default Login;
+export default Input;

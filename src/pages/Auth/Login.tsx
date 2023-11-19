@@ -27,8 +27,8 @@ const Login: React.FC = () => {
 
 	return (
 		<IonPage>
-			<IonContent>
-				<Input>
+			<IonContent className="hug-height" color={"primary"} fullscreen>
+			<Input>
 					<section className={style.welcomeText}>
 						<IonText color="dark">
 							<h1>Sign In To Your Account</h1>
@@ -60,8 +60,8 @@ const Login: React.FC = () => {
 								</Link>
 							</IonRow>
 						</section>
-						<section>
-							<IonButton onClick={handleSubmit}>
+						<section >
+							<IonButton className="full" onClick={handleSubmit}>
 								<p>Sign In</p>
 							</IonButton>
 						</section>

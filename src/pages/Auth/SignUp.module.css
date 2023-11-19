@@ -1,100 +1,33 @@
-.main {
-    background-color: rgb(160, 141, 255);
-    display: flex;
-    justify-content: center;
-    min-height: 100vh;
-  }
-  
-  .section{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 70vw;
-  }
-  
-  .SectionBox{
-    border-radius: 25px;
-    display: flex;
-    flex-direction: row;
-    box-shadow: 0.5rem 0.5rem 1.5rem black;
-  }
-  
-  .ImageBox{
-    width: 50%;
-    height: 80vh;
-    max-height: 800px;
-    background-color: rgb(160, 141, 255);
-    display: flex;
-    border-radius: 25px 0 0 25px;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .SignUpBox{
-    width: 50%;
-    height: 80vh;
-    max-height: 800px;
-    border-radius: 0 25px 25px 0;
-    background-color: rgb(255, 255, 255);
+.input{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .SignUpHeader{
-    display: flex;
-    font-size: xx-large;
-    font-weight: bolder;
-    margin-bottom: 20px;
-    text-align: center;
-    color: rgb(160, 141, 255);
-  }
-  
-  .inputs{
-    padding: 1rem 5rem;
-  }
-  
-  .email{
-    width: 100%;
-    height: 40px;
-    padding: 1rem;
-    border-radius: 1rem;
-    margin-bottom: 20px;
-    border: 0.1rem solid grey;
-    background-color: white;
-    color: rgb(160, 141, 255);
-  }
-  
-  .password{
-    width: 100%;
-    height: 40px;
-    padding: 1rem;
-    border-radius: 1rem;
-    margin-bottom: 20px;
-    border: 0.1rem solid grey;
-    background-color: white;
-    color: rgb(160, 141, 255);
-  }
-  
-  ion-button{
-    width: 100%;
-    height: 0.5rem;
-  }
-  
-  ion-button span{
-    font-size: 1.5rem!important;
-    padding: 0.5rem!important;
-    
-  }
-  
-  .SignUp{
-    color: grey;
-    padding: 1rem 0;
-  }
-  
-  .SignUpText{
-    color: rgb(160, 141, 255);
-    font-weight: bold;
-    text-decoration: none;
-  }
+    gap: 16px;
+    width:100%;
+}
+
+
+.welcomeText{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.after{
+  display: flex;
+  justify-content: space-between;
+}
+
+.options{
+  width: max-content;
+  align-self: center;
+  gap: 8px;
+  display: flex;
+}
+
+form{
+  gap:36px;
+  display:flex;
+  flex-direction:column;
+  width:100%;
+}

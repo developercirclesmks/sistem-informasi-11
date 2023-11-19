@@ -15,7 +15,7 @@ const CreateExamPage: React.FC = () => {
 			...questions,
 			<CreateQuestionCard
 				id={questionId}
-				questionNumber={questions.length + 1} // Calculate question number dynamically
+				questionNumber={questions.length + 1}
 				key={questionId}
 				onDelete={() => handleDeleteQuestion(questionId)}
 				questionId={questionId}

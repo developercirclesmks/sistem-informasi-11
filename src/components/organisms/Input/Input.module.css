@@ -1,130 +1,78 @@
 .main {
-    background-color: rgb(160, 141, 255);
-    display: flex;
-    justify-content: center;
-    min-height: 100vh;
+	padding: 16px;
+	display: flex;
+	justify-content: center;
+	background-color:var(--ion-color-light);
+	min-height: 100vh;
+	align-items: center;
 }
 
-.section{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 70vw;
+.authBox{
+	display: grid;
+	grid-template-columns: repeat(1,minmax(0,1fr));
+}
+.authImage {
+	display: none;
+	background-color: var(--ion-color-primary);
 }
 
-.SectionBox{
-    border-radius: 25px;
-    display: flex;
-    flex-direction: row;
-    box-shadow: 0.5rem 0.5rem 1.5rem black;
+.title {
+	font-size: 32px;
+	text-align: center;
+}
+.Authwrapper {
+	max-width: 1280px;
+	width: 100%;
+	max-height: max-content;
 }
 
-.ImageBox{
-    width: 50%;
-    height: 80vh;
-    max-height: 800px;
-    background-color: rgb(160, 141, 255);;
-    display: flex;
-    border-radius: 25px 0 0 25px;
-    align-items: center;
-    justify-content: center;
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+	padding: 18px;
 }
 
-.LoginBox{
-    width: 50%;
-    height: 80vh;
-    max-height: 800px;
-    border-radius: 0 25px 25px 0;
-    background-color: rgb(255, 255, 255);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.logo {
+	display: flex;
+	justify-content: center;
+	height: 80px;
+	width: 100%;
 }
 
-.LoginHeader{
-    display: flex;
-    font-size: xx-large;
-    font-weight: bolder;
-    margin-bottom: 20px;
-    text-align: center;
-    color: rgb(160, 141, 255);
+.input {
+	flex-direction: column;
+	display: flex;
+	gap: 36px;
 }
 
-.inputs{
-    padding: 1rem 5rem;
+/* md */
+@media (min-width: 768px) {
+	
+	.main {
+		padding: 32px;
+	}
+	.form {
+		padding: 36px;
+	}
+	.authImage {
+		display: none;
+	}
 }
+/* lg */
+@media (min-width: 1024px) {
+	.authBox{
+		display: grid;
+		grid-template-columns: repeat(2,minmax(0,1fr))
+	}
 
-.email{
-    width: 100%;
-    height: 40px;
-    padding: 1rem;
-    border-radius: 1rem;
-    margin-bottom: 20px;
-    border: 0.1rem solid grey;
-    background-color: white;
-    color: rgb(160, 141, 255);
-}
-
-.password{
-    width: 100%;
-    height: 40px;
-    padding: 1rem;
-    border-radius: 1rem;
-    margin-bottom: 10px;
-    border: 0.1rem solid grey;
-    background-color: white;
-    color: rgb(160, 141, 255);
-}
-
-.InputDeco{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.CheckboxRemember{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.checkbox{
-    accent-color: white;
-    cursor: pointer;
-}
-
-.remember{
-    color: grey;
-    font-size: small;
-    padding-left: 0.25rem;
-}
-
-.forget{
-    color: grey;
-    font-size: small;
-    text-decoration: none;
-}
-
-ion-button{
-    width: 100%;
-    height: 0.5rem;
-}
-
-ion-button span{
-    font-size: 1.5rem!important;
-    padding: 0.5rem!important;
-    
-}
-
-.SignUp{
-    color: grey;
-    padding: 1rem 0;
-}
-
-.SignUpText{
-    color: rgb(160, 141, 255);
-    font-weight: bold;
-    text-decoration: none;
+	.main {
+		padding: 64px;
+	}
+	.form {
+		padding: 72px;
+	}
+	.authImage {
+		display: block;
+	}
 }
