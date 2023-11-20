@@ -10,22 +10,8 @@ import {
 } from "@ionic/react";
 import React from "react";
 import style from "./Hero.module.css";
-import { signOut, Auth } from "firebase/auth";
-import { auth } from "../../../config/firebase-config";
-import { useHistory } from "react-router";
 
 const Hero: React.FC = () => {
-	const history = useHistory()
-	const handleSignOut = () => {
-		signOut(auth)
-			.then(() => {
-				console.log("Sign out successful");
-				history.push('/login');
-			})
-			.catch((error) => {
-				console.log("Sign out failed:", error);
-			});
-	};
 
 	return (
 		<main className={style.main}>
@@ -38,7 +24,7 @@ const Hero: React.FC = () => {
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, non
 					provident dolore illo quo doloremque
 				</IonText>
-				<IonButton onClick={handleSignOut} shape="round" size="large">
+				<IonButton shape="round" size="large">
 					Get Started !!!
 				</IonButton>
 			</section>

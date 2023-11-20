@@ -9,37 +9,62 @@ import {
 	IonItem,
 	IonIcon,
 	IonLabel,
+	IonAccordion,
+	IonAccordionGroup,
 } from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import Logo from "../../molecules/Logo/Logo";
 import style from "./Sidebar.module.css";
-import { Link } from "react-router-dom";
-import AuthSide from "../../molecules/AuthSide/AuthSide";
+import { Link, useHistory } from "react-router-dom";
+import {
+	ellipsisHorizontal,
+	logOutOutline,
+	personOutline,
+} from "ionicons/icons";
+
+import {
+	onAuthStateChanged,
+	signOut,
+	User as FirebaseAuthUser,
+} from "firebase/auth";
+import { auth } from "../../../config/firebase-config";
 
 const Sidebar: React.FC = () => {
 	const [show, setShow] = useState(false);
-	const [rotate, setRotate] = useState(90);
-	const [showAuthSide, setShowAuthSide] = useState(false);
-	const [isOpen, setIsOpen] = useState(false);
 
 	const handleWindowSizeChange = () => {
 		setShow(window.innerWidth >= 640);
 	};
 
 	useEffect(() => {
-		handleWindowSizeChange(); // Set initial value
+		handleWindowSizeChange();
 		window.addEventListener("resize", handleWindowSizeChange);
 
-		// Clean up the event listener on component unmount
 		return () => {
 			window.removeEventListener("resize", handleWindowSizeChange);
 		};
 	}, []);
 
-	const handleArrowClick = () => {
-		setRotate(rotate === 90 ? 0 : 90);
-		setShowAuthSide(!showAuthSide);
-		setIsOpen(!isOpen);
+	const history = useHistory();
+	const [user, setUser] = useState<FirebaseAuthUser | null>(null);
+
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			setUser(user);
+		});
+
+		return () => unsubscribe();
+	}, []);
+
+	const handleSignOut = () => {
+		signOut(auth)
+			.then(() => {
+				console.log("Sign out successful");
+				history.push("/login");
+			})
+			.catch((error) => {
+				console.log("Sign out failed:", error);
+			});
 	};
 
 	return (
@@ -74,29 +99,56 @@ const Sidebar: React.FC = () => {
 						<IonLabel>{menu.navname}</IonLabel>
 					</IonItem>
 				))}
-				<IonItem
-					color={isOpen ? "" : "light"}
-					className={style.menuItemCtn}
-					aria-hidden="true"
-					button={true}
-					lines="none"
-					onClick={handleArrowClick}
-				>
-					<IonIcon className={style.sideIcon} src="/icon/more.svg"></IonIcon>
-					<IonLabel>More</IonLabel>
-					<IonIcon
-						slot="end"
-						className={style.arrows}
-						src="/icon/right-arrow.svg"
-						style={{
-							transform: `rotate(${rotate}deg)`,
-							transition: "transform 0.3s ease",
-						}}
-					></IonIcon>
-				</IonItem>
-				<div className={`${showAuthSide ? style.show : style.hide}`}>
-					<AuthSide />
-				</div>
+				<IonAccordionGroup color="light">
+					<IonAccordion color="light" value="first">
+						<IonItem slot="header" color="light">
+							<IonIcon
+								className={style.sideIcon}
+								icon={ellipsisHorizontal}
+							></IonIcon>
+							<IonLabel>More</IonLabel>
+						</IonItem>
+						{/* the accordion content here v */}
+						{user ? (
+							<>
+								{" "}
+								<IonItem button href="/profile" color="" slot="content">
+									<IonIcon
+										className={`${style.accordion} ${style.sideIcon}`}
+										icon={personOutline}
+									></IonIcon>
+									<IonLabel>Profile</IonLabel>{" "}
+								</IonItem>
+								<IonItem button onClick={handleSignOut} color="" slot="content">
+									<IonIcon
+										className={`${style.accordion} ${style.sideIcon}`}
+										icon={logOutOutline}
+									></IonIcon>
+									<IonLabel>Sign Out</IonLabel>
+								</IonItem>
+							</>
+						) : (
+							<>
+								{" "}
+								<IonItem button href="/login" color="" slot="content">
+									<IonIcon
+										className={`${style.accordion} ${style.sideIcon}`}
+										src="/icon/login.svg"
+									></IonIcon>
+									<IonLabel>Sign In</IonLabel>{" "}
+								</IonItem>
+								<IonItem button href="/signup" color="" slot="content">
+									<IonIcon
+										className={`${style.accordion} ${style.sideIcon}`}
+										src="/icon/signup.svg"
+									></IonIcon>
+									<IonLabel>Sign Up</IonLabel>
+								</IonItem>
+							</>
+						)}
+						{/* until here */}
+					</IonAccordion>
+				</IonAccordionGroup>
 			</IonContent>
 		</IonMenu>
 	);
