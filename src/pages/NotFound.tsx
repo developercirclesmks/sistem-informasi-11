@@ -13,7 +13,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"; 
 import Navbar from "../components/organisms/Navbar/Navbar";
-import style from "./NotFound.module.css";
+import style from "./styles/NotFound.module.css";
 
 const NotFound: React.FC = () => {
   const history = useHistory(); 
