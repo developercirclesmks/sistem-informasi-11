@@ -1,5 +1,4 @@
 .cardContent {
-  justify-content: center;
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
@@ -50,7 +49,6 @@
 /* md */
 @media (min-width: 640px) {
   .cardContent {
-    justify-content: center;
     display: grid;
     grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 32px;
@@ -58,7 +56,7 @@
   .handleGridDown {
     justify-content: center;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
   }
   .smButton {
     display: none;
@@ -71,7 +69,7 @@
     min-width: max-content;
     width: 100%;
     display: grid;
-    gap: 0px;
+    gap: 8px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -85,6 +83,7 @@
 
   .aside {
     display: grid;
+    gap: 8px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -92,7 +91,6 @@
 /* lg */
 @media (min-width: 1024px) {
   .cardContent {
-    justify-content: center;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
@@ -102,6 +100,7 @@
     justify-content: flex-start;
     display: flex;
     align-items: flex-start;
+
   }
 
   .LeftSide {
@@ -109,7 +108,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0px;
+    gap: 8px;
   }
 
   .avatar {
