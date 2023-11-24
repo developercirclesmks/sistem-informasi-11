@@ -141,6 +141,7 @@ const Create: React.FC = () => {
 										label="Hour"
 										labelPlacement="stacked"
 										color={"primary"}
+										helperText="Max 4 Hour"
 										fill="outline"
 										value={hour}
 										onIonInput={(e) =>
@@ -207,10 +208,12 @@ const Create: React.FC = () => {
 								<IonCol className="full">
 									<IonInput
 										className="custom"
-										type="date"
+										type="datetime-local"
 										label="Start At"
 										labelPlacement="stacked"
 										clearInput={true}
+										helperText="Input Date And Time"
+										errorText="Invalid Date And Time"
 										color={"primary"}
 										fill="outline"
 										value={examDate}

@@ -27,13 +27,14 @@ import "./theme/fonts.css";
 import Home from "./pages/Home";
 import AboutUs from "./pages/AboutUs";
 import NotFound from "./pages/NotFound";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
+import Login from "./pages/Auth/Login";
+import SignUp from "./pages/Auth/SignUp";
 import Dashboard from "./pages/Dashboard";
 import ExamDetail from "./pages/ExamDetail";
 import Help from "./pages/Help";
 import CreateExamPage from "./pages/CreateExamPage";
 import OnExam from "./pages/OnExam";
+import { ProtectedRoute } from "./pages/Auth/ProtectedRoute";
 import Profile from "./pages/Profile";
 setupIonicReact();
 
@@ -45,13 +46,14 @@ const App: React.FC = () => (
 					<Route exact path="/home" component={Home} />
 					<Route exact path="/login" component={Login} />
 					<Route exact path="/signup" component={SignUp} />
-					<Route exact path="/about-us" component={AboutUs} />
-					<Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/help" component={Help} />
-          <Route exact path="/create/exam" component={CreateExamPage} />
-					<Route exact path="/join/:examId" component={ExamDetail}></Route>
-					<Route exact path="/join/:examId/start" component={OnExam}></Route>
-          <Route exact path="/profile" component={Profile} />
+					<ProtectedRoute exact path="/about-us" component={AboutUs} />
+					<ProtectedRoute exact path="/dashboard" component={Dashboard} />
+          <ProtectedRoute exact path="/help" component={Help} />
+          <ProtectedRoute exact path="/create/exam" component={CreateExamPage} />
+					<ProtectedRoute exact path="/join/:examId" component={ExamDetail}/>
+					<ProtectedRoute exact path="/join/:examId/start" component={OnExam}/>
+					<ProtectedRoute exact path="/profile" component={Profile}/>
+					
 					<Route exact path="/">
 						<Redirect to="/home"/>
 					</Route>

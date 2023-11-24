@@ -421,9 +421,18 @@ ion-textarea.custom:hover{
 	font-weight:500;
 }
 .bold{
-	font-weight: 600;
+	font-weight: 600;	
 }
 
 .extra-light{
 	font-weight: 200;
+}
+
+.clearText{
+	text-transform:none;
+	text-decoration:none;
+}
+
+.hug-height{
+	min-height:max-content;
 }

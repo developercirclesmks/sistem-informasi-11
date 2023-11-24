@@ -40,8 +40,6 @@ const Home: React.FC = () => {
 		setInputValue(event.target.value);
 	};
 
-	const setDisable = inputValue !== "" ? false : true;
-
 	return (
 		<>
 			<Sidebar />

@@ -12,6 +12,7 @@ import React from "react";
 import style from "./Hero.module.css";
 
 const Hero: React.FC = () => {
+
 	return (
 		<main className={style.main}>
 			<section className={style.heroContent}>
@@ -28,8 +29,6 @@ const Hero: React.FC = () => {
 				</IonButton>
 			</section>
 
-
-			
 			<section className={style.heroImages} draggable={false}>
 				<IonImg draggable={false} src="./images/Hero Image.png" alt="Heroes" />
 			</section>
