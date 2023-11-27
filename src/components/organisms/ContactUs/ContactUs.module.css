@@ -75,3 +75,19 @@
 .button{
   padding-right: 5px;
 }
+
+@media (max-width: 640px) {
+  .main{
+    flex-direction: column;
+    padding-top: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    align-items: center;
+  }
+  
+.contact{
+  flex-direction: column;
+  width: 100%;
+}
+}
