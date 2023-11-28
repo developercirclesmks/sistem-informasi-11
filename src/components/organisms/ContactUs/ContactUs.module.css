@@ -1,77 +1,65 @@
-.main{
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  padding-top: 0;
-  padding-left: 50px;
-  padding-right: 50px;
-  padding-bottom: 50px;
-  align-items: center;
+.main {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	padding-top: 0;
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-bottom: 50px;
+	align-items: center;
 }
 
-.contact{
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+.contact {
+	display: flex;
+	flex-direction: column;
+	width: 50%;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
 }
 
-.title{
-  font-weight: bold;
-  color: white;
-  font-size: 60px;
-  margin: 0;
+.title {
+	font-weight: bold;
+	color: white;
+	font-size: 60px;
+	margin: 0;
 }
 
-.subtitle{
-  font-size: 30px;
-  color: white;
-  margin-top: 0;
-  margin-bottom: 20px;
+.subtitle {
+	font-size: 30px;
+	color: white;
+	margin-top: 0;
+	margin-bottom: 20px;
 }
 
-.form{
-  width: 70%;
-  display: flex;
-  flex-direction: column;
+.form {
+	width: 70%;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
 }
 
-.name{
-  display: flex;
-  justify-content: space-between;
+.name {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
 }
 
-.input{
-  width: 49%;
-  margin: 5px 0;
-  padding: 5px 10px;
-  border: 0.1rem solid white;
-  border-radius: 10px;
-  background-color: #121212;
-  --highlight-color-focused: none;
-} 
-
-.email{
-  margin: 5px 0;
-  padding: 5px 10px;
-  border: 0.1rem solid white;
-  border-radius: 10px;
-  background-color: #121212;
-  --highlight-color-focused: none;
+.button {
+	padding-right: 5px;
 }
+@media (max-width: 640px) {
+	.main {
+		flex-direction: column;
+		padding-top: 0;
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-bottom: 20px;
+		align-items: center;
+	}
 
-.message{
-  margin-top: 5px;
-  margin-bottom: 15px;  
-  padding: 5px 10px;
-  border: 0.1rem solid white;
-  border-radius: 10px;
-  background-color: #121212;
-  --highlight-color-focused: none;
-}
-
-.button{
-  padding-right: 5px;
+	.contact {
+		flex-direction: column;
+		width: 100%;
+	}
 }

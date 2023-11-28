@@ -13,15 +13,18 @@ import style from "./AboutUs.module.css";
 import AboutUsCard from "../components/molecules/aboutuscard/AboutUsCard";
 import AboutUsMission from "../components/organisms/AboutUsMission/AboutUsMission";
 import Footer from "../components/organisms/Footer/Footer";
+import Sidebar from "../components/organisms/Sidebar/Sidebar";
 
 const AboutUs: React.FC = () => {
   return (
-    <IonPage>
+    <>
+    <Sidebar />
+    <IonPage id="main-content">
       <IonHeader>
         <Navbar />
       </IonHeader>
       
-      <IonContent className={style.main}>
+      <IonContent fullscreen className={style.main}>
         <AboutUsDesc/>
         <AboutUsMission/>
         <main className={style.ctn}>
@@ -37,6 +40,7 @@ const AboutUs: React.FC = () => {
         
       </IonContent>
     </IonPage>
+  </>
   );
 };
 
@@ -59,7 +63,7 @@ const AboutUsList =[
     desc: "lalalala"
   },
   {
-    name: "Salzabila Suryawan",
+    name: "Nur Salzabila Suryawan",
     occupations: "Informatic Engineering Student",
     desc: "lalalala"
   },

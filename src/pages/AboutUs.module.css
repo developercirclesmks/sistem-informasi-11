@@ -1,33 +1,45 @@
 .main {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    /* background-color: white; */
-    gap: 40px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* background-color: white; */
+  gap: 40px;
 }
 
 .ctn {
-    /* background-color: white; */
-    padding-top: 90px;
+  /* background-color: white; */
+  padding-top: 90px;
 }
 
 .teamTitle {
-    background-color: rgb(125, 100, 255);
-    border-radius: 70px;
-    padding: 5px;
-    margin: 0 360px 0 360px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 65px;
-    color: white;
-    font-weight: 500;
-    /* text-shadow: 0 3px 4px rgba(0, 0, 0, 0.8); */
+  background-color: rgb(125, 100, 255);
+  border-radius: 70px;
+  padding: 5px;
+  margin: 0 360px 0 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 65px;
+  color: white;
+  font-weight: 500;
+  /* text-shadow: 0 3px 4px rgba(0, 0, 0, 0.8); */
 }
 .card {
-    padding : 50px 0 100px 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  padding: 50px 0 100px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
+@media (max-width: 640px) {
+  .teamTitle {
+    margin: 0 10px;
+    font-size: 25px;
+  }
+  .card {
+    padding: 20px 0 50px 0;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+}
