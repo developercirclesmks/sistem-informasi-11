@@ -2,7 +2,6 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
-
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 
@@ -37,27 +36,52 @@ import OnExam from "./pages/OnExam";
 import ExamResult from "./pages/ExamResult";
 import { ProtectedRoute } from "./pages/Auth/ProtectedRoute";
 import Profile from "./pages/Profile";
+import Setting from "./pages/Setting";
+import ExamResultDetail from "./pages/ExamResultDetail";
+import AdminLogin from "./pages/Auth/AdminLogin";
+import ToastComponent from "./components/atoms/Toasts/Toasts";
 setupIonicReact();
 
 const App: React.FC = () => (
 	<IonApp>
+		<ToastComponent />
 		<IonReactRouter>
 			<IonRouterOutlet>
 				<Switch>
-					<Route exact path="/home" component={Home} />
-					<Route exact path="/login" component={Login} />
-					<Route exact path="/signup" component={SignUp} />
-					<ProtectedRoute exact path="/about-us" component={AboutUs} />
-					<ProtectedRoute exact path="/dashboard" component={Dashboard} />
-          <ProtectedRoute exact path="/help" component={Help} />
-          <ProtectedRoute exact path="/create/exam" component={CreateExamPage} />
-					<ProtectedRoute exact path="/join/:examId" component={ExamDetail}/>
-					<ProtectedRoute exact path="/join/:examId/start" component={OnExam}/>
-					<ProtectedRoute exact path="/join/:examId/result" component={ExamResult}/>
-					<ProtectedRoute exact path="/profile" component={Profile}/>
+					<ProtectedRoute isAuth exact path="/login" component={Login} />
+					<ProtectedRoute isAuth exact path="/signup" component={SignUp} />
+					<ProtectedRoute isAuth exact path="/admin/login" component={AdminLogin} />
 					
+					<Route exact path="/home" component={Home} />
+					<Route exact path="/about-us" component={AboutUs} />
+					<Route exact path="/help" component={Help} />
+
+					<ProtectedRoute exact path="/dashboard" component={Dashboard} />
+					<ProtectedRoute
+						exact
+						path="/create/exam"
+						component={CreateExamPage}
+					/>
+					<ProtectedRoute exact path="/join/:examId" component={ExamDetail} />
+					<ProtectedRoute exact path="/join/:examId/start" component={OnExam} />
+					<ProtectedRoute
+						exact
+						path="/join/:examId/result"
+						component={ExamResult}
+					/>
+					<ProtectedRoute exact path="/profile" component={Profile} />
+					<ProtectedRoute exact path="/profile/edit" component={Setting} />
+					<ProtectedRoute
+						exact
+						path="/:examId/result/detail"
+						component={ExamResultDetail}
+					/>
+
+					{/* foradmin */}
+					{/* below here */}
+
 					<Route exact path="/">
-						<Redirect to="/home"/>
+						<Redirect to="/home" />
 					</Route>
 					<Route component={NotFound} />
 				</Switch>
