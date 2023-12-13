@@ -31,62 +31,121 @@ import SignUp from "./pages/Auth/SignUp";
 import Dashboard from "./pages/Dashboard";
 import ExamDetail from "./pages/ExamDetail";
 import Help from "./pages/Help";
-import CreateExamPage from "./pages/CreateExamPage";
 import OnExam from "./pages/OnExam";
 import ExamResult from "./pages/ExamResult";
 import { ProtectedRoute } from "./pages/Auth/ProtectedRoute";
 import Profile from "./pages/Profile";
 import Setting from "./pages/Setting";
-import ExamResultDetail from "./pages/ExamResultDetail";
+import ExamOverview from "./pages/ExamOverview";
 import AdminLogin from "./pages/Auth/AdminLogin";
-import ToastComponent from "./components/atoms/Toasts/Toasts";
+import ToastComponent, { showToast } from "./components/atoms/Toasts/Toasts";
+import EditExamPage from "./pages/EditExamPage";
+import CreateQuestionPage from "./pages/CreateQuestionPage";
+import EditQuestionPage from "./pages/EditQuestionPage";
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { auth } from "../config/firebase-config";
+import { getUserData } from "./services/userService";
+import { IUser } from "./interfaces/user";
 setupIonicReact();
 
-const App: React.FC = () => (
-	<IonApp>
-		<ToastComponent />
-		<IonReactRouter>
-			<IonRouterOutlet>
-				<Switch>
-					<ProtectedRoute isAuth exact path="/login" component={Login} />
-					<ProtectedRoute isAuth exact path="/signup" component={SignUp} />
-					<ProtectedRoute isAuth exact path="/admin/login" component={AdminLogin} />
-					
-					<Route exact path="/home" component={Home} />
-					<Route exact path="/about-us" component={AboutUs} />
-					<Route exact path="/help" component={Help} />
+const App: React.FC = () => {
+	const [uid, setUid] = useState<string | null>(null);
+	const [userDoc, setUserDoc] = useState<IUser | null>(null);
 
-					<ProtectedRoute exact path="/dashboard" component={Dashboard} />
-					<ProtectedRoute
-						exact
-						path="/create/exam"
-						component={CreateExamPage}
-					/>
-					<ProtectedRoute exact path="/join/:examId" component={ExamDetail} />
-					<ProtectedRoute exact path="/join/:examId/start" component={OnExam} />
-					<ProtectedRoute
-						exact
-						path="/join/:examId/result"
-						component={ExamResult}
-					/>
-					<ProtectedRoute exact path="/profile" component={Profile} />
-					<ProtectedRoute exact path="/profile/edit" component={Setting} />
-					<ProtectedRoute
-						exact
-						path="/:examId/result/detail"
-						component={ExamResultDetail}
-					/>
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			if (user) {
+				setUid(user.uid);
+			}
+		});
 
-					{/* foradmin */}
-					{/* below here */}
+		return () => unsubscribe();
+	}, []);
 
-					<Route exact path="/">
-						<Redirect to="/home" />
-					</Route>
-					<Route component={NotFound} />
-				</Switch>
-			</IonRouterOutlet>
-		</IonReactRouter>
-	</IonApp>
-);
+	useEffect(() => {
+		const fetchUserData = async () => {
+			if (uid) {
+				try {
+					const userData = await getUserData(uid);
+					setUserDoc(userData);
+				} catch (error) {}
+			}
+		};
+
+		fetchUserData();
+	}, [uid]);
+	return (
+		<IonApp>
+			<ToastComponent />
+			<IonReactRouter>
+				<IonRouterOutlet>
+					<Switch>
+						<ProtectedRoute isAuth exact path="/login" component={Login} />
+						<ProtectedRoute isAuth exact path="/signup" component={SignUp} />
+						<ProtectedRoute
+							isAuth
+							exact
+							path="/admin/login"
+							component={AdminLogin}
+						/>
+
+						<Route exact path="/home" component={Home} />
+						<Route exact path="/about-us" component={AboutUs} />
+						<Route exact path="/help" component={Help} />
+
+						<ProtectedRoute exact path="/dashboard" component={Dashboard} />
+						<ProtectedRoute exact path="/exam/:examId" component={ExamDetail} />
+
+						<ProtectedRoute
+							exact
+							path="/exam/:examId/start/"
+							component={OnExam}
+						/>
+
+						<ProtectedRoute
+							exact
+							path="/exam/:examId/result"
+							component={ExamResult}
+						/>
+
+						<ProtectedRoute exact path="/profile" component={Profile} />
+						<ProtectedRoute exact path="/profile/edit" component={Setting} />
+
+						{/* admin edit */}
+						{userDoc?.role === "admin" ? (
+							<>
+								<ProtectedRoute
+									exact
+									path="/exam/:examId/edit/"
+									component={EditExamPage}
+								/>
+								<ProtectedRoute
+									exact
+									path="/exam/:examId/edit/:index(\d+)"
+									component={EditQuestionPage}
+								/>
+								<ProtectedRoute
+									exact
+									path="/exam/:examId/edit/new"
+									component={CreateQuestionPage}
+								/>
+							</>
+						) : null}
+						<ProtectedRoute
+							exact
+							path="/exam/:examId/overview"
+							component={ExamOverview}
+						/>
+						<Route exact path="/">
+							<Redirect to="/home" />
+						</Route>
+						<Route component={NotFound} />
+					</Switch>
+				</IonRouterOutlet>
+			</IonReactRouter>
+		</IonApp>
+	);
+};
+
 export default App;
