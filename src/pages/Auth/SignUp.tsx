@@ -1,40 +1,40 @@
 import {
 	IonButton,
-	IonCheckbox,
 	IonCol,
 	IonContent,
-	IonImg,
 	IonInput,
 	IonPage,
 	IonRow,
 	IonText,
-	IonTitle,
 } from "@ionic/react";
 import React, { useState } from "react";
-import {
-	createUserWithEmailAndPassword,
-} from "firebase/auth";
 import style from "./SignUp.module.css";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import Input from "../../components/organisms/Input/Input";
-import { auth, db } from "../../config/firebase-config";
-import { setDoc, doc } from "firebase/firestore";
+import { createUser } from "../../services/userService";
+import GlobalToasts, { showToast } from "../../components/atoms/Toasts/Toasts";
+
 const SignUp: React.FC = () => {
-	let history = useHistory();
+	const history = useHistory();
 	const [isTouched, setIsTouched] = useState(false);
 	const [isValid, setIsValid] = useState<boolean>();
 
 	//all user property
-	const [userName, setUserName] = useState("");
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirm, setConfirm] = useState("");
 
 	//Input Handler
-	const handleUsernameInput = (e: string) => {
-		setNameClass("");
-		setUserName(e);
+	const handleFirstNameInput = (e: string) => {
+		setFirstNameClass("");
+		setFirstName(e);
+	};
+	const handleLastNameInput = (e: string) => {
+		setLastNameClass("");
+		setLastName(e);
 	};
 	const handleEmailInput = (e: string) => {
 		setEmailClass("");
@@ -49,67 +49,55 @@ const SignUp: React.FC = () => {
 		setConfirm(e);
 	};
 
+	const [emailError, setEmailError] = useState<string>("");
+	const [emailClass, setEmailClass] = useState<string>("");
+	const [passError, setPassError] = useState<string>("");
+	const [passClass, setPassClass] = useState<string>("");
+	const [firstNameError, setFirstNameError] = useState("");
+	const [firstNameClass, setFirstNameClass] = useState("");
 
-	const [emailError, setEmailError] = useState("");
-	const [emailClass, setEmailClass] = useState("");
-	const [passError, setPassError] = useState("");
-	const [passClass, setPassClass] = useState("");
-	const [nameError, setNameError] = useState("");
-	const [nameClass, setNameClass] = useState("");
+	const [lastNameError, setLastNameError] = useState("");
+	const [lastNameClass, setLastNameClass] = useState("");
 	const [confirmClass, setConfirmClass] = useState("");
 	const [confirmError, setConfirmError] = useState("");
+	const [error, setError] = useState<string>("");
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
-		if (!userName || !email || !password) {
-			if (!userName) {
-				setNameError("Please enter your name");
-				setNameClass("ion-touched ion-invalid");
+		if (!firstName || !lastName || !email || !password) {
+			if (!firstName) {
+				setFirstNameError("First Name Required");
+				setFirstNameClass("ion-touched ion-invalid");
+			}
+			if (!lastName) {
+				setLastNameError("Last Name Required");
+				setLastNameClass("ion-touched ion-invalid");
 			}
 			if (!email) {
-				setEmailError("Please enter your email");
+				setEmailError("Email Required");
 				setEmailClass("ion-touched ion-invalid");
 			}
 			if (!password) {
-				setPassError("Please enter your password");
+				setPassError("Password Required");
 				setPassClass("ion-touched ion-invalid");
 			}
 		} else {
 			if (confirm !== password) {
-				setConfirmError("Your confirmation does not match the password");
+				setConfirmError("password doesn't match");
 				setConfirmClass("ion-touched ion-invalid");
 			} else {
-        try {
-          const userCredential = await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-
-          if (userCredential) {
-            const user = userCredential.user;
-            await setDoc(doc(db, "users", user.uid), {
-              firstName: "",
-              lastName: "",
-              email: email,
-              password: password,
-              username: userName,
-							dateOfBirth: null,
-							profilePicURL: null,
-							phoneNumber:"",
-							Gender:null,
-							Occupation:"",
-							Institution:""
-            });
-
-            history.push("./");
-          }
-        } catch (error) {
-          console.log(error);
-        }
+				try {
+					await createUser(email, password, firstName, lastName);
+					// Redirect to success page or login after successful signup
+					showToast("success","Sign Up Success");
+					history.push("/");
+				} catch (e) {
+					showToast("error", e);
+				}
 			}
 		}
 	};
+
 	return (
 		<IonPage>
 			<IonContent className="" fullscreen>
@@ -122,16 +110,32 @@ const SignUp: React.FC = () => {
 					</section>
 					<form onSubmit={(e) => handleSubmit(e)}>
 						<section className={style.input}>
-							<IonInput
-								className={nameClass}
-								placeholder="Enter Your Username"
-								label="Username"
-								labelPlacement="stacked"
-								errorText={nameError}
-								fill="outline"
-								type="text"
-								onIonInput={(e) => handleUsernameInput(e.detail.value!)}
-							></IonInput>
+							<IonRow className="gap">
+								<IonCol className="noMargin noPadding">
+									<IonInput
+										className={lastNameClass}
+										placeholder="Enter Your First Name"
+										label="Username"
+										labelPlacement="stacked"
+										errorText={lastNameError}
+										fill="outline"
+										type="text"
+										onIonInput={(e) => handleFirstNameInput(e.detail.value!)}
+									></IonInput>
+								</IonCol>
+								<IonCol className="noMargin noPadding">
+									<IonInput
+										className={firstNameClass}
+										placeholder="Enter Your Last Name"
+										label="Username"
+										labelPlacement="stacked"
+										errorText={firstNameError}
+										fill="outline"
+										type="text"
+										onIonInput={(e) => handleLastNameInput(e.detail.value!)}
+									></IonInput>
+								</IonCol>
+							</IonRow>
 							<IonInput
 								className={emailClass}
 								placeholder="Enter Your Email"
