@@ -2,10 +2,10 @@ import { Timestamp } from "firebase/firestore";
 import { IExam } from "./exam";
 import { IUser } from "./user";
 
-export interface IResult {
+export interface IExamResult {
 	id: string;
-	examId: IExam;
-	userId: IUser;
+	exam: IExam;
+	user: IUser;
 	score: number;
 	createdAt: Timestamp;
 }
