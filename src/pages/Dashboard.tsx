@@ -1,67 +1,189 @@
+import React, { useEffect, useState } from "react";
 import {
-	IonMenu,
-	IonContent,
-	IonHeader,
-	IonPage,
-	ItemReorderEventDetail,
 	IonCard,
+	IonCardContent,
+	IonCardHeader,
+	IonText,
+	IonRow,
+	IonCol,
+	IonSearchbar,
+	SearchbarChangeEventDetail,
 } from "@ionic/react";
-import React from "react";
-import style from "./Dashboard.module.css";
-import Sidebar from "../components/organisms/Sidebar/Sidebar";
-import Navbar from "../components/organisms/Navbar/Navbar";
-import ProfileCard from "../components/organisms/Dashboard/ProfileCard/ProfileCard";
-import StatsCard from "../components/organisms/Dashboard/StatsCard/StatsCard";
-import { Link } from "react-router-dom";
-import AboutUsCard from "../components/molecules/aboutuscard/AboutUsCard";
-import ExamListCard from "../components/organisms/Dashboard/ExamList/ExamListsCard";
-import { passedLength, upcomingLength } from "../components/_dummydata";
-import DashboardHero from "../components/organisms/Dashboard/DashboardHero/DashboardHero";
+import style from "./styles/Dashboard.module.css";
 import PageContainer from "../components/PageContainer";
+import { getAllExam } from "../services/examService";
+import { showToast } from "../components/atoms/Toasts/Toasts";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../config/firebase-config";
+import { getUserData } from "../services/userService";
+import { ExamCard } from "../components/molecules/examCard/ExamCard";
+import { IUser } from "../interfaces/user";
+import { IExam } from "../interfaces/exam";
+import { ExamTable } from "../components/tables/examTable";
+import DashboardHero from "../components/organisms/Dashboard/DashboardHero/DashboardHero";
+import LoadingBox from "../components/organisms/LoadingBox/LoadingBox";
 
 const Dashboard: React.FC = () => {
+	const [examData, setExamData] = useState<IExam[]>([]);
+	const [uid, setUid] = useState<string | null>(null);
+	const [userDoc, setUserDoc] = useState<IUser | null>(null);
+	const [query, setQuery] = useState<string>("");
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+
+	useEffect(() => {
+		const fetchExams = async () => {
+			setIsLoading(true);
+			try {
+				const exams = await getAllExam();
+				setExamData(exams);
+				setIsLoading(false);
+			} catch (error) {
+				showToast("error", "Error fetching exams");
+				setIsLoading(false);
+			}
+		};
+
+		fetchExams();
+	}, []);
+
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			if (user) {
+				setUid(user.uid);
+			}
+		});
+
+		return () => unsubscribe();
+	}, []);
+
+	useEffect(() => {
+		const fetchUserData = async () => {
+			if (uid) {
+				try {
+					const userData = await getUserData(uid);
+					setUserDoc(userData);
+				} catch (error) {}
+			}
+		};
+
+		fetchUserData();
+	}, [uid]);
+
+	const [filteredExams, setFilteredExams] = useState<IExam[]>([]);
+
+	const handleInput = (e: CustomEvent<SearchbarChangeEventDetail>) => {
+		const inputValue = e.detail.value?.toLowerCase() || "";
+		setQuery(inputValue);
+
+		if (inputValue === "") {
+			setFilteredExams(examData);
+		} else {
+			const filtered = examData.filter((exam) =>
+				exam.name.toLowerCase().includes(inputValue)
+			);
+			setFilteredExams(filtered);
+		}
+	};
+
+	if (isLoading) {
+		return <LoadingBox />;
+	}
+	else{
+
 	return (
 		<PageContainer>
-			<main className={style.col}>
-				<div>
-					<IonCard className="ion-padding" color={"light"}>
-						<main className={style.MainCard}>
-							<img alt="IMAGES" className="" src="/icon/OnEx Hi.svg" />
-						</main>
-					</IonCard>
-				</div>
-				<div>
-					<DashboardHero />
-				</div>
+			<IonCard>
+				<main className={style.col}>
+					{userDoc?.role === "admin" && (
+						<>
+							<DashboardHero />
 
-				<div className={style.cardsRow3}>
-					{statlist.map((maps, index) => (
-						<StatsCard key={index} label={maps.label} value={maps.value} />
-					))}
-				</div>
-				<div className={style.cardsRow2}>
-					<ExamListCard passed />
-					<ExamListCard />
-				</div>
-			</main>
-			<div id="contactBox">contactbox</div>
+							<div>
+								<IonCard className="" color={"light"}>
+									<IonCardHeader>
+										<IonText color={"primary"}>
+											<h4>Exam List:</h4>
+										</IonText>
+									</IonCardHeader>
+									<IonCardContent className="">
+										<ExamTable data={examData} />
+									</IonCardContent>
+								</IonCard>
+							</div>
+							<div></div>
+						</>
+					)}
+				</main>
+			</IonCard>
+			{userDoc?.role === "user" && (
+				<>
+					<IonRow>
+						<IonCol>
+							<IonCard className={`grow ${style.primCard}`}>
+								<IonCardContent className={`full ${style.ExamList}`}>
+									<div className={`full ${style.examListHead}`}>
+										<h2>Discover Our Exam:</h2>
+										<div className={style.search}>
+											<IonSearchbar
+												showCancelButton="focus"
+												onIonInput={handleInput}
+												debounce={200}
+											></IonSearchbar>
+										</div>
+									</div>
+									<main className={style.examListGrid}>
+										{query === "" ? ( // Check if the search query is empty
+											examData.map((exam) => (
+												<ExamCard
+													key={exam.id}
+													examName={exam.name}
+													examDescription={exam.desc}
+													examDuration={exam.totalDuration}
+													examDate={
+														exam.startedAt
+															? `${exam.startedAt
+																	.toDate()
+																	.toLocaleDateString()} at ${exam.startedAt
+																	.toDate()
+																	.toLocaleTimeString()}`
+															: "Started Manually"
+													}
+													examId={exam.id}
+												/>
+											))
+										) : // Display this when the search bar has a value
+										filteredExams.length > 0 ? (
+											filteredExams.map((exam) => (
+												<ExamCard
+													key={exam.id}
+													examName={exam.name}
+													examDescription={exam.desc}
+													examDuration={exam.totalDuration}
+													examDate={
+														exam.startedAt
+															? `${exam.startedAt
+																	.toDate()
+																	.toLocaleDateString()} at ${exam.startedAt
+																	.toDate()
+																	.toLocaleTimeString()}`
+															: "Started Manually"
+													}
+													examId={exam.id}
+												/>
+											))
+										) : (
+											<IonText>No matching exams found.</IonText>
+										)}
+									</main>
+								</IonCardContent>
+							</IonCard>
+						</IonCol>
+					</IonRow>
+				</>
+			)}
 		</PageContainer>
 	);
+	}
 };
 
 export default Dashboard;
-
-const statlist = [
-	{
-		label: "Exams Done",
-		value: passedLength,
-	},
-	{
-		label: "Class Attended",
-		value: "1",
-	},
-	{
-		label: "Upcoming Exams",
-		value: upcomingLength,
-	},
-];

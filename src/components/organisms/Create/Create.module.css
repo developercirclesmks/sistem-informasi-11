@@ -27,6 +27,17 @@
   animation: appears 200ms ease-in-out;
 }
 
+.submitBtn{
+  width:100%
+}
+
+/* md */
+@media (min-width: 600px) {
+  .submitBtn{
+    width: max-content;
+  }
+}
+
 @keyframes appears {
   from {
     opacity: 0;

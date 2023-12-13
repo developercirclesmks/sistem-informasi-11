@@ -1,110 +1,111 @@
 import {
-	InputChangeEventDetail,
 	IonButton,
 	IonCol,
 	IonInput,
-	IonItem,
-	IonLabel,
 	IonRadio,
 	IonRadioGroup,
 	IonRow,
-	IonText,
 	IonTextarea,
-	IonToast,
 } from "@ionic/react";
 import style from "./Create.module.css";
 import React, { useState } from "react";
+import { useHistory } from "react-router";
+import { showToast } from "../../atoms/Toasts/Toasts";
+import { createExam } from "../../../services/examService";
+import { Timestamp } from "firebase/firestore";
 
 const Create: React.FC = () => {
-	const today = new Date().toISOString().split("T")[0]; // Get today's date in the format "YYYY-MM-DD"
+	const currentTime = new Date().toISOString().slice(0, 16);
 
 	const [examName, setExamName] = useState("");
-	const [examDate, setExamDate] = useState(today);
+	const [examDate, setExamDate] = useState("");
 	const [examDesc, setExamDesc] = useState("");
-	const [toastMessages, setToastMessages] = useState("");
-	const [toastOpen, setToastOpen] = useState(false);
 
-	const [minute, setMinute] = useState(0);
-	const [hour, setHour] = useState(0);
-
-	const handleDateBlur = () => {
-		const enteredDate = new Date(examDate);
-		if (enteredDate < new Date(today)) {
-			setExamDate(today);
-		}
-	};
+	const [duration, setDuration] = useState(0);
 
 	const [radioValue, setRadioValue] = useState("Manual");
 	const handleChangeRadio = (prop: string) => {
 		setRadioValue(prop);
 	};
-
-	const handleMinuteInput = (e: number) => {
-		if (hour < 4) {
-			if (e >= 60) {
-				setHour(hour + 1);
-				setMinute(0);
-			} else if (e < 0) {
-				setMinute(0);
-				return;
-			}
-		} else if (hour === 4) {
-			if (e >= 60) {
-				setMinute(0);
-			} else if (e < 0) {
-				setMinute(0);
-				return;
-			}
-		}
-	};
-
-	const handleHourInput = (e: number) => {
-		if (e > 4) {
-			setHour(4);
-		} else if (e < 0) {
-			setHour(0);
+	const handleDurationInput = (e: number) => {
+		if (e < 0) {
+			showToast("error", "Invalid Duration");
+		} else if (e > 240) {
+			showToast("error", "Duration Can't Exceed More Than 4 Hours");
 		} else {
-			setHour(e);
+			setDuration(e);
 		}
 	};
 
-	const handleCreateExam = () => {
-		if (toastOpen === true) {
-			setToastOpen(false);
-		}
-
-		console.log(hour, minute, examName, examDesc);
-		let error: string[] = [];
-		//checking
-		const durationInMinute: number = hour * 60 + minute;
+	const handleCreateExam = async () => {
+		let newErrors: string[] = [];
 
 		if (!examName.trim()) {
-			// Check if examName is empty or contains only whitespace
-			error.push("Name");
+			newErrors.push("Name");
 		}
-		if (durationInMinute <= 0) {
-			error.push("Duration");
+		if (duration === 0) {
+			newErrors.push("Duration");
 		}
 		if (!examDesc.trim()) {
-			error.push("Description");
+			newErrors.push("Description");
 		}
 
-		const totalMinute = hour * 60 + minute;
-
-		if (error.length !== 0) {
-			const errorMsg = error.join(", ") + " Needs to Be Filled";
-			setToastMessages(errorMsg);
-			setToastOpen(true);
+		if (newErrors.length !== 0) {
+			const errorMsg =
+				newErrors.join(", ") +
+				` Need${newErrors.length > 1 ? "(s)" : ""} to Be Filled`;
+			showToast("error", errorMsg.trim());
 		} else {
-			if (totalMinute > 240) {
-				setToastMessages("Duration Cant Exceed More Than 4 Hour");
-				setToastOpen(true);
-			} else {
-				setToastMessages("Success");
-				setToastOpen(true);
+			try {
+				if (duration > 240 || duration < 0) {
+					showToast("error", "Invalid Duration!!");
+
+					return;
+				}
+				const examDateAsDate = new Date(examDate);
+				const examDateTimestamp = Timestamp.fromDate(examDateAsDate);
+
+				const currentTimestamp = Timestamp.now();
+
+				if (
+					radioValue === "Scheduled" &&
+					examDateTimestamp.toMillis() < currentTimestamp.toMillis()
+				) {
+					showToast("error", "Selected date and time have already passed.");
+					return;
+				}
+
+				let endedAtTimestamp: Timestamp | null = null;
+
+				if (radioValue === "Scheduled") {
+					const startedAtTimestamp = examDateTimestamp;
+
+					const durationInMilliseconds = duration * 60 * 1000;
+
+					endedAtTimestamp = Timestamp.fromMillis(
+						startedAtTimestamp.toMillis() + durationInMilliseconds
+					);
+				}
+
+				await createExam({
+					name: examName,
+					desc: examDesc,
+					questionList: [],
+					createdAt: Timestamp.now(),
+					startedAt: radioValue === "Scheduled" ? examDateTimestamp : null,
+					endedAt: radioValue === "Scheduled" ? endedAtTimestamp : null,
+					totalDuration: duration,
+				});
+
+				showToast("success", `Exam Created`);
+				window.location.reload();
+			} catch (error) {
+				showToast("error", "Failed to create exam.");
+				console.error("Error creating exam:", error);
 			}
 		}
 	};
+
 	return (
 		<>
 			<main className={style.main}>
@@ -132,49 +133,28 @@ const Create: React.FC = () => {
 						</main>
 
 						<main className={style.labeledInput}>
-							<p>Duration - Max 4 Hour</p>
+							<p>Duration - Max 240 Minutes (4 Hour)</p>
 							<IonRow className="full gap">
 								<IonCol className="full">
 									<IonInput
 										className="custom"
 										type="number"
-										label="Hour"
-										labelPlacement="stacked"
 										color={"primary"}
-										helperText="Max 4 Hour"
+										helperText="Max 240 Minutes (4 Hours)"
 										fill="outline"
-										value={hour}
+										value={duration}
 										onIonInput={(e) =>
-											handleHourInput(
+											handleDurationInput(
 												e.detail.value ? parseInt(e.detail.value) : 0
 											)
 										}
 										min={0}
-										max={4}
-									></IonInput>
-								</IonCol>
-								<IonCol className="full">
-									<IonInput
-										pattern="[0-9]*"
-										className="custom"
-										type="number"
-										label="Minutes"
-										labelPlacement="stacked"
-										color="primary"
-										clearOnEdit
-										fill="outline"
-										value={minute}
-										onIonInput={(e) =>
-											handleMinuteInput(
-												e.detail.value ? parseInt(e.detail.value) : 0
-											)
-										}
-										max={60}
-										min={0}
+										max={240}
 									></IonInput>
 								</IonCol>
 							</IonRow>
 						</main>
+
 						<main className={style.labeledInput}>
 							<p>How Do You Want To Start Your Exam?</p>
 							<IonRow className="full">
@@ -212,14 +192,14 @@ const Create: React.FC = () => {
 										label="Start At"
 										labelPlacement="stacked"
 										clearInput={true}
+										required
 										helperText="Input Date And Time"
 										errorText="Invalid Date And Time"
 										color={"primary"}
 										fill="outline"
 										value={examDate}
 										onIonChange={(e) => setExamDate(e.detail.value!)}
-										onIonBlur={handleDateBlur}
-										min={today}
+										min={currentTime}
 									></IonInput>
 								</IonCol>
 							</IonRow>
@@ -241,13 +221,14 @@ const Create: React.FC = () => {
 							</IonRow>
 						</main>
 
-						<IonRow className={`full`}>
-							<IonCol className="full">
+						<IonRow className={style.submitBtn}>
+							<IonCol className="noPadding">
 								<IonButton
 									onClick={handleCreateExam}
 									expand="block"
 									size="default"
 									color="primary"
+									fill="outline"
 								>
 									Submit
 								</IonButton>
@@ -256,24 +237,6 @@ const Create: React.FC = () => {
 					</main>
 				</form>
 			</main>
-
-			<IonToast
-				isOpen={toastOpen}
-				position="top"
-				message={toastMessages}
-				duration={5000}
-				buttons={[
-					{
-						text: "X",
-						role: "cancel",
-						handler: () => {
-							console.log("Dismiss clicked");
-						},
-					},
-				]}
-				onDidDismiss={() => setToastOpen(false)}
-				className="custom"
-			></IonToast>
 		</>
 	);
 };
