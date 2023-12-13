@@ -16,6 +16,7 @@ import Navitem from "../../atoms/Navitem/Navitem";
 import style from "./Navbar.module.css";
 import { Link } from "react-router-dom";
 import ProfileNav from "../../molecules/ProfileNav/ProfileNav";
+import { menuItemList } from "../../../constant/constant";
 
 const Navbar: React.FC = () => {
 	return (
@@ -24,7 +25,7 @@ const Navbar: React.FC = () => {
 				<Logo />
 				<div className={style.mid}>
 					<nav className={style.navitemcontainer}>
-						{navitemlist.map((nav, index) => (
+						{menuItemList.map((nav, index) => (
 							<Navitem key={index} navname={nav.navname} navto={nav.navto} />
 						))}
 					</nav>
@@ -42,21 +43,3 @@ const Navbar: React.FC = () => {
 
 export default Navbar;
 
-const navitemlist = [
-	{
-		navname: "Home",
-		navto: "/home",
-	},
-	{
-		navname: "Dashboard",
-		navto: "/dashboard",
-	},
-	{
-		navname: "Help",
-		navto: "/help",
-	},
-	{
-		navname: "About Us",
-		navto: "/about-us",
-	},
-];

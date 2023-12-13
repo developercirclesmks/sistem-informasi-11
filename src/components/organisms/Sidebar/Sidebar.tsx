@@ -27,7 +27,8 @@ import {
 	signOut,
 	User as FirebaseAuthUser,
 } from "firebase/auth";
-import { auth } from "../../../config/firebase-config";
+import { auth } from "../../../../config/firebase-config";
+import { menuItemList } from "../../../constant/constant";
 
 const Sidebar: React.FC = () => {
 	const [show, setShow] = useState(false);
@@ -111,7 +112,6 @@ const Sidebar: React.FC = () => {
 						{/* the accordion content here v */}
 						{user ? (
 							<>
-								{" "}
 								<IonItem button href="/profile" color="" slot="content">
 									<IonIcon
 										className={`${style.accordion} ${style.sideIcon}`}
@@ -129,7 +129,6 @@ const Sidebar: React.FC = () => {
 							</>
 						) : (
 							<>
-								{" "}
 								<IonItem button href="/login" color="" slot="content">
 									<IonIcon
 										className={`${style.accordion} ${style.sideIcon}`}
@@ -156,25 +155,4 @@ const Sidebar: React.FC = () => {
 
 export default Sidebar;
 
-const menuItemList = [
-	{
-		navname: "Home",
-		navto: "/",
-		src: "home.svg",
-	},
-	{
-		navname: "Dashboard",
-		navto: "/dashboard",
-		src: "dashboard.svg",
-	},
-	{
-		navname: "Help",
-		navto: "/help",
-		src: "help-circle.svg",
-	},
-	{
-		navname: "About Us",
-		navto: "/about-us",
-		src: "information-circle.svg",
-	},
-];
+
