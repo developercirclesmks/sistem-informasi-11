@@ -1,18 +1,10 @@
 import {
-	IonButton,
 	IonCard,
 	IonCardContent,
-	IonContent,
-	IonHeader,
-	IonIcon,
-	IonInfiniteScroll,
 	IonItem,
 	IonItemGroup,
 	IonLabel,
-	IonPage,
 	IonText,
-	IonTitle,
-	IonToolbar,
 } from "@ionic/react";
 import React from "react";
 import style from "./ExamListsCard.module.css";
@@ -36,7 +28,6 @@ const ExamListsCard: React.FC<ExamListCardInterface> = (props) => {
 	).sort((a, b) => a.schedule.getTime() - b.schedule.getTime());
 
 	const ExamList = passed ? PassedList : UpcomingList;
-	const examLength = ExamList.length
 
 
 	return (

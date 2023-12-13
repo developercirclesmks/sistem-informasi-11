@@ -1,70 +1,72 @@
-import React, { useState } from "react";
+import React from "react";
 import style from "./QuestionCard.module.css";
-import { IonCard, IonCardHeader, IonCardContent, IonCol, IonRow, IonText, IonItem, IonButton } from "@ionic/react";
-import { randomOption } from "../../_question-data";
+import {
+	IonCard,
+	IonCardHeader,
+	IonCardContent,
+	IonCol,
+	IonRow,
+	IonText,
+	IonItem,
+	IonButton,
+} from "@ionic/react";
+import { IExam } from "../../../interfaces/exam";
 
 interface QuestionCardProps {
-  questionId: string;
-  questionName: string;
-  optionIdarray: string[];
+	exam: IExam;
+	QIndex: number;
+	onSelectedOptionsChange: (QIndex: number, optionIndex: number) => void;
+	selectedIndex: number | null;
 }
 
-const QuestionCard: React.FC<QuestionCardProps> = (props) => {
-	const { questionId, questionName, optionIdarray } = props;
+const QuestionCard: React.FC<QuestionCardProps> = ({
+	exam,
+	QIndex,
+	onSelectedOptionsChange,
+	selectedIndex,
+}) => {
+	const handleOptionClick = (optionIndex: number) => {
+		onSelectedOptionsChange(QIndex, optionIndex); // Call the function prop to pass updatedOptions to the parent component
+	};
 
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+	return (
+		<IonCard className={`${style.cardmain}`}>
+			<IonCardContent className="">
+				<IonText>No.{QIndex + 1}</IonText>
+				<IonCol>
+					<IonRow>
+						<IonText>Question :</IonText>
+					</IonRow>
+					<IonRow className="ion-padding">
+						<IonText color={"dark"}>{exam.questionList[QIndex].name}</IonText>
+					</IonRow>
 
-  const getOptionLabel = (optionId: string) => {
-    const foundOption = randomOption.find((opt) => opt.optionId === optionId);
-    return foundOption ? foundOption.optionLabel : "";
-  };
-
-  const handleOptionClick = (optionId: string) => {
-    if (selectedOption === optionId) {
-      setSelectedOption(null); // Toggle back to null if the same option is clicked again
-    } else {
-      setSelectedOption(optionId); // Set the clicked option as selected
-    }
-  };
-
-  return (
-    <IonCard id={questionId} className={`${style.cardmain}`}>
-      <IonCardHeader>Question : {questionId}</IonCardHeader>
-      <IonCardContent className="">
-        <IonCol>
-          <IonRow className="">
-            <IonText>{questionName}</IonText>
-          </IonRow>
-
-          <section className="ion-padding">
-            {optionIdarray.map((optionId, index) => (
-              <IonItem
-							lines="none"
-                button
-                className={style.option}
-                key={index}
-                onClick={() => handleOptionClick(optionId)}
-              >
-                <IonButton
-                  fill={selectedOption === optionId ? "solid" : "outline"}
-                  color={"primary"}
-                  className={style.optionlabel}
-                >
-                  {String.fromCharCode(65 + index)}
-                </IonButton>
-                <IonText className={`ion-padding ${style.optionText}`}>
-                  {getOptionLabel(optionId)}
-                </IonText>
-              </IonItem>
-            ))}
-          </section>
-        </IonCol>
-      </IonCardContent>
-			<div hidden>
-			Selected option: {selectedOption ? getOptionLabel(selectedOption) : "None"}
-			</div>
-    </IonCard>
-  );
+					<section className="ion-padding">
+						{exam.questionList[QIndex].optionList.map((optionId, index) => (
+							<IonItem
+								lines="none"
+								button
+								className={style.option}
+								key={index}
+								onClick={() => handleOptionClick(index)}
+							>
+								<IonButton
+									color={"primary"}
+									className={style.optionlabel}
+									fill={index === selectedIndex ? "solid" : "outline"}
+								>
+									{String.fromCharCode(65 + index)}
+								</IonButton>
+								<IonText className={`ion-padding ${style.optionText}`}>
+									{exam.questionList[QIndex].optionList[index].name}
+								</IonText>
+							</IonItem>
+						))}
+					</section>
+				</IonCol>
+			</IonCardContent>
+		</IonCard>
+	);
 };
 
 export default QuestionCard;

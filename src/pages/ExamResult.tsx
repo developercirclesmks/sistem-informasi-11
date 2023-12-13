@@ -30,11 +30,6 @@ import {
           </div>
           <section className={style.buttons}>
             <div>
-              <IonButton className={style.button}>
-                View Answers
-              </IonButton>
-            </div>
-            <div>
               <IonButton className={style.button} fill="outline" color={"primary"} onClick={redirectToHome}>
                 Back to Home
               </IonButton>

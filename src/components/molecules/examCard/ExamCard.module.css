@@ -1,0 +1,55 @@
+.imgCtn {
+	width: 36px;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.cardContent {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.title {
+	display: flex;
+	width: 100%;
+	gap: 16px;
+	align-items: center;
+}
+
+.titleText {
+	font-size: 18px;
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.info {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.itemInfo {
+	display: flex;
+	align-items: center;
+}
+
+.label {
+	font-size: 14px;
+	margin-left: 12px;
+	font-weight: 300;
+}
+
+.descText {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 18px;
+  height: 72px; /* Adjust the height according to your needs */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* This will truncate the text after 3 lines */
+  -webkit-box-orient: vertical;
+  text-align: justify;
+}

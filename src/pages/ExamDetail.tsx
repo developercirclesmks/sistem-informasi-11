@@ -1,55 +1,73 @@
 import {
 	IonButton,
-	IonButtons,
 	IonCard,
 	IonCardContent,
-	IonCardHeader,
 	IonCardSubtitle,
 	IonCardTitle,
 	IonContent,
 	IonHeader,
 	IonIcon,
-	IonImg,
-	IonItem,
-	IonLabel,
 	IonPage,
 	IonText,
-	IonTitle,
-	IonToolbar,
 } from "@ionic/react";
-import React, { useState } from "react";
-import { Exams } from "../components/_dummydata";
+import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import Sidebar from "../components/organisms/Sidebar/Sidebar";
 import Navbar from "../components/organisms/Navbar/Navbar";
 import style from "./styles/ExamDetail.module.css";
-
-interface Exam {
-	id: string;
-	label: string;
-	schedule: Date;
-	creator: string;
-}
+import { showToast } from "../components/atoms/Toasts/Toasts";
+import { IExam } from "../interfaces/exam";
+import { getOneExam } from "../services/examService";
+import { timerOutline } from "ionicons/icons";
+import LoadingBox from "../components/organisms/LoadingBox/LoadingBox";
 
 interface RouteParamsInterface {
 	examId: string;
 }
 
 const ExamDetail: React.FC = () => {
-	const handleStartExam = () => {
-    // Navigate to the /join/:examId/start route
-    history.push(`/join/${examId}/start`);
-  };
-
 	const history = useHistory();
-  const { examId } = useParams<RouteParamsInterface>();
-  const exam = Exams.find((exam: Exam) => exam.id === examId);
-  const [added, setAdded] = useState(false);
+	const { examId } = useParams<RouteParamsInterface>();
+	const [exam, setExam] = useState<IExam | undefined>(undefined);
+	const [isLoading, setIsLoading] = useState(false);
 
-	const color = added ? "danger" : "primary";
-	const btnText = added ? "Remove From List" : "Add To List +";
+	const fetchData = async () => {
+		try {
+			setIsLoading(true);
+			const fetchedExam = await getOneExam(examId);
+			if (fetchedExam) {
+				setExam(fetchedExam);
+				setIsLoading(false);
+			} else {
+				setIsLoading(false);
+				showToast("error", "No such exam exists!");
+				history.push("/dashboard");
+			}
+		} catch (error) {
+			setIsLoading(false);
+			console.error("Error fetching exam:", error);
+			showToast("error", "Failed to fetch exam.");
+			history.push("/dashboard");
+		}
+	};
 
-	if (!exam) {
+	useEffect(() => {
+		fetchData();
+	}, []);
+
+	const handleStartExam = () => {
+		if (exam && exam?.questionList.length <= 0) {
+			showToast("error","Current Exam Has No Question In It")
+
+		} else {
+			showToast("plain",`Exam :${exam?.name}, started!`)
+			history.push(`/exam/${examId}/start`);
+		}
+	};
+
+	if (isLoading) {
+		return <LoadingBox />;
+	} else {
 		return (
 			<>
 				<Sidebar />
@@ -59,25 +77,56 @@ const ExamDetail: React.FC = () => {
 					</IonHeader>
 					<IonContent className="ion-padding">
 						<main className={style.main}>
-							<IonCard color="light" className={`ion-padding ${style.cantfindcard}`}>
-								<section>
-									<IonIcon
-										className="custom"
-										src="./icon/warning.svg"
-										color="warning	"
-									></IonIcon>
-								</section>
-								<IonText color={"dark"} className={style.errorMsg}>
-									No Matches Found. Please Try Again
-								</IonText>
-								<IonButtons className={style.backButton}>
-									<IonButton href="/home" color={"primary"} fill="outline">
-										Back to Home
-									</IonButton>
-									<IonButton href="/dashboard" color={"primary"} fill="solid">
-										Dashboard
-									</IonButton>
-								</IonButtons>
+							<IonCard color="" className={`ion-padding ${style.cardsmain}`}>
+								<main>
+									<IonCardTitle className="ion-padding">
+										<h1 className={style.examTitle}>{exam?.name}</h1>
+									</IonCardTitle>
+									<IonCardSubtitle className="ion-padding">
+										<div className={style.date}>
+											<IonIcon src="/icon/date.svg"></IonIcon>
+											<IonText>
+												{exam?.startedAt
+													? `${exam.startedAt
+															.toDate()
+															.toLocaleDateString()} at ${exam.startedAt
+															.toDate()
+															.toLocaleTimeString()}`
+													: "Started Manually"}
+											</IonText>
+										</div>
+										<div className={style.date}>
+											<IonIcon icon={timerOutline} />
+											<IonText>{exam?.totalDuration} minute</IonText>
+										</div>
+									</IonCardSubtitle>
+									<IonCardContent className="ion-padding ">
+										<article className={style.descriptionCtn}>
+											{exam?.desc}
+										</article>
+									</IonCardContent>
+								</main>
+								<aside className={` ${style.aside}`}>
+									<main className={style.asidectn}>
+										<div className={`ion-padding ${style.btngroup}`}>
+											<IonButton
+												onClick={handleStartExam}
+												className="full light"
+												fill="solid"
+											>
+												Start Now
+											</IonButton>
+											<IonButton
+												onClick={() => history.push(`/dashboard`)}
+												className="full light"
+												fill="outline"
+											>
+												Go Back
+											</IonButton>
+										</div>
+										<div className="ion-padding"></div>
+									</main>
+								</aside>
 							</IonCard>
 						</main>
 					</IonContent>
@@ -85,96 +134,6 @@ const ExamDetail: React.FC = () => {
 			</>
 		);
 	}
-
-	const { id, label, schedule, creator } = exam;
-
-	const currentDate = new Date();
-	const isExamPassed = currentDate > schedule ? true : false;
-	const scheduleDetail = schedule;
-	const day = scheduleDetail.getDate();
-	const month = scheduleDetail.getMonth() + 1;
-	const year = scheduleDetail.getFullYear();
-	const hour = scheduleDetail.getHours();
-	const minute = scheduleDetail.getMinutes();
-
-
-
-	return (
-		<>
-			<Sidebar />
-			<IonPage id="main-content">
-				<IonHeader>
-					<Navbar />
-				</IonHeader>
-				<IonContent className="ion-padding">
-					<main className={style.main}>
-						<IonCard color="" className={`ion-padding ${style.cardsmain}`}>
-							<main>
-								<IonCardTitle className="ion-padding">
-									<h1>{label}</h1>
-								</IonCardTitle>
-								<IonCardSubtitle className="ion-padding">
-									<div className={style.date}>
-										<IonIcon color="primary" src="/icon/person.svg"></IonIcon>
-										<IonText color={"primary"}>{creator}</IonText>
-									</div>
-									<div className={style.date}>
-										<IonIcon
-											color={isExamPassed ? "danger" : "primary"}
-											src="/icon/date.svg"
-										></IonIcon>
-										<IonText color={isExamPassed ? "danger" : "primary"}>
-											{day}/{month}/{year}, {hour <10 ? "0"+hour:hour}:{minute <10 ? "0"+minute:minute}
-										</IonText>
-									</div>
-									{isExamPassed ? (
-										<div className={style.date}>
-											<IonIcon color="danger" src="/icon/alert.svg"></IonIcon>
-											<IonText color="danger">
-												This Exam Is Not Available Anymore
-											</IonText>
-										</div>
-									) : (
-										""
-									)}
-								</IonCardSubtitle>
-								<IonCardContent className="ion-padding">
-									<article>
-										Lorem ipsum dolor sit amet consectetur adipisicing elit.
-										Dolores quas ad, nulla error praesentium mollitia rem
-										quidem, soluta laudantium quod libero! Unde quod sed
-										nesciunt a error vel laudantium dolorem.
-									</article>
-								</IonCardContent>
-							</main>
-							<aside className={` ${style.aside}`}>
-								<main className={style.asidectn}>
-									<IonCardContent color="light" >
-										<div className="ion-padding">
-											<IonButton onClick={handleStartExam} disabled={isExamPassed} fill="solid">
-												Start Now
-											</IonButton>
-										</div>
-										<div className="ion-padding">
-											<IonButton
-												fill="outline"
-												disabled={isExamPassed}
-												onClick={() => setAdded(!added)}
-												color={color}
-												className="custom2"
-											>
-												{btnText}
-											</IonButton>
-										</div>
-									</IonCardContent>
-								</main>
-							</aside>
-						</IonCard>
-					</main>
-				</IonContent>
-			</IonPage>
-		</>
-	);
 };
 
 export default ExamDetail;
