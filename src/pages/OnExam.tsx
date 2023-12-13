@@ -135,6 +135,7 @@ const OnExam: React.FC = () => {
 					await setDoc(resultRef, examResultData);
 
 					showToast("success", `Exam Submitted`);
+					history.push("/dashboard")
 				}
 			}
 		} catch (error) {
