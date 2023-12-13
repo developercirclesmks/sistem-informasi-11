@@ -2,6 +2,7 @@ import { User, onAuthStateChanged } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
 import { auth as firebaseAuth } from "../../../config/firebase-config";
+import { showToast } from "../../components/atoms/Toasts/Toasts";
 
 interface ProtectedRouteProps extends RouteProps {
 	isAuth?: boolean;
@@ -37,7 +38,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 			<Route
 				{...rest}
 				render={(props) =>
-					authUser ? <Redirect to="/" /> : <Component {...props} />
+					authUser ? <Redirect to="/home" /> : <Component {...props} />
 				}
 			/>
 		);
