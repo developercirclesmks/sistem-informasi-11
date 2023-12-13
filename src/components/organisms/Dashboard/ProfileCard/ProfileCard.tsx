@@ -11,28 +11,15 @@ import {
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import style from "./ProfileCard.module.css";
-import { auth, db } from "../../../../config/firebase-config"; // Check this import path
-import { collection, getDocs } from "firebase/firestore";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../../../../config/firebase-config"; // Check this import path
+import { onAuthStateChanged } from "firebase/auth";
+import { getUserData } from "../../../../services/userService";
+import { IUser } from "../../../../interfaces/user";
+import { showToast } from "../../../atoms/Toasts/Toasts";
 
 const ProfileCard: React.FC = () => {
 	const [uid, setUid] = useState<string | null>(null);
-	const [userDoc, setUserDoc] = useState<any | null>(null);
-
-	const getUserData = async (userId: string) => {
-		const colref = collection(db, "users");
-		const snapshot = await getDocs(colref);
-
-		const docs = snapshot.docs.map((doc) => {
-			const data = doc.data();
-			data.id = doc.id;
-			return data;
-		});
-
-		const foundUserDoc = docs.find((doc) => doc.id === userId);
-		setUserDoc(foundUserDoc);
-	};
+	const [userDoc, setUserDoc] = useState<IUser | null>(null);
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -41,37 +28,63 @@ const ProfileCard: React.FC = () => {
 			}
 		});
 
-		return () => unsubscribe(); // Cleanup the subscription when the component unmounts
+		return () => unsubscribe();
 	}, []);
 
 	useEffect(() => {
-		if (uid) {
-			getUserData(uid);
-		}
+		const fetchUserData = async () => {
+			if (uid) {
+				try {
+					const userData = await getUserData(uid);
+					setUserDoc(userData);
+				} catch (error) {}
+			}
+		};
+
+		fetchUserData();
 	}, [uid]);
+
+	const copyToClipboard = (text: string) => {
+		navigator.clipboard
+			.writeText(text)
+			.then(() => {
+				showToast("plain", "Text copied to clipboard");
+			})
+			.catch((error) => {
+				showToast("error", "Some Error Occured");
+			});
+	};
 
 	return (
 		<>
 			<IonCard color="light" className="ion-padding">
-				<div className={style.heads}>
-					<IonButton
-						href="/profile"
-						shape="round"
-						fill="outline"
-						className={style.smButton}
-					>
-						<IonIcon src="/icon/redirect.svg"></IonIcon>
-					</IonButton>
-				</div>
 				<IonCardContent className={`${style.cardContent} `}>
 					<main className={style.LeftSide}>
 						<section className={style.handleGridDown}>
 							<div className={style.avatar}>
-								<IonImg src="/images/Test.jpeg" alt="asdas" />
+								<IonImg src="/images/Test.jpeg" alt="no picture" />
 							</div>
+							<IonButton
+								size="small"
+								className={`${style.button}`}
+								href="/profile/edit"
+								expand="full"
+								fill="clear"
+							>
+								<p>Edit</p>
+							</IonButton>
 						</section>
 						<article>
-							<IonItem lines="full" color="light">
+							<IonItem
+								button
+								lines="full"
+								color="light"
+								onClick={() =>
+									copyToClipboard(
+										userDoc ? userDoc.firstName + " " + userDoc.lastName : ""
+									)
+								}
+							>
 								<IonLabel>
 									<h2>Name</h2>
 									<p>
@@ -79,52 +92,103 @@ const ProfileCard: React.FC = () => {
 									</p>
 								</IonLabel>
 							</IonItem>{" "}
-							<IonItem lines="full" color="light">
+							<IonItem
+								button
+								lines="full"
+								color="light"
+								onClick={() =>
+									copyToClipboard(userDoc?.email ? userDoc.email : "")
+								}
+							>
 								<IonLabel>
 									<h2>Email</h2>
 									<p>{userDoc ? userDoc.email : ""}</p>
 								</IonLabel>
 							</IonItem>
-							<IonItem lines="full" color="light">
+							<IonItem
+								button
+								lines="full"
+								color="light"
+								onClick={() =>
+									copyToClipboard(userDoc?.gender ? userDoc.gender : "")
+								}
+							>
 								<IonLabel>
-									<h2>Username</h2>
-									<p>@{userDoc ? userDoc.username : ""}</p>
+									<h2>Sex</h2>
+									<p>{userDoc ? userDoc.gender || "not Set Yet" : ""}</p>
 								</IonLabel>
 							</IonItem>
 						</article>
 					</main>
 					<aside className={style.aside}>
 						<section>
-							<IonItem lines="full" color="light">
-								<IonLabel>
-									<h2>Sex</h2>
-									<p>{userDoc ? (userDoc.Gender || "not Set Yet") : ""}</p>
-								</IonLabel>
-							</IonItem>
-							<IonItem lines="full" color="light">
+							<IonItem
+								button
+								lines="full"
+								color="light"
+								onClick={() =>
+									copyToClipboard(
+										userDoc?.dateOfBirth
+											? userDoc.dateOfBirth.toDate().toISOString().split("T")[0]
+											: ""
+									)
+								}
+							>
 								<IonLabel>
 									<h2>Date Of Birth</h2>
-									<p>{userDoc ? (userDoc.dateOfBirth || "undefined") : ""}</p>
+									<p>
+										{userDoc && userDoc.dateOfBirth
+											? userDoc.dateOfBirth
+													.toDate()
+													.toISOString()
+													.split("T")[0] || "-"
+											: "-"}
+									</p>
 								</IonLabel>
 							</IonItem>
-							<IonItem lines="full" color="light">
+							<IonItem
+								button
+								lines="full"
+								color="light"
+								onClick={() =>
+									copyToClipboard(
+										userDoc?.phoneNumber ? userDoc.phoneNumber : ""
+									)
+								}
+							>
 								<IonLabel>
 									<h2>Phone Number</h2>
-									<p>{userDoc ? (userDoc.phoneNumber || "undefined") : ""}</p>
+									<p>{userDoc ? userDoc.phoneNumber || "-" : ""}</p>
 								</IonLabel>
 							</IonItem>
 						</section>
 						<section>
-							<IonItem lines="full" color="light">
+							<IonItem
+								button
+								lines="full"
+								color="light"
+								onClick={() =>
+									copyToClipboard(userDoc?.occupation ? userDoc.occupation : "")
+								}
+							>
 								<IonLabel>
 									<h2>Occupation</h2>
-									<p>{userDoc ? (userDoc.Occupation || "no gender") : ""}</p>
+									<p>{userDoc ? userDoc.occupation || "-" : ""}</p>
 								</IonLabel>
 							</IonItem>
-							<IonItem lines="full" color="light">
+							<IonItem
+								button
+								lines="full"
+								color="light"
+								onClick={() =>
+									copyToClipboard(
+										userDoc?.institution ? userDoc.institution : ""
+									)
+								}
+							>
 								<IonLabel>
 									<h2>Institution</h2>
-									<p>{userDoc ? (userDoc.Institution || "no gender") : ""}</p>
+									<p>{userDoc ? userDoc.institution || "-" : ""}</p>
 								</IonLabel>
 							</IonItem>
 						</section>
@@ -133,8 +197,9 @@ const ProfileCard: React.FC = () => {
 				<IonItem color={"light"}>
 					<IonButton
 						size="small"
-						className={`${style.button} full`}
-						href="/setting"
+						className={`full ${style.smButton}`}
+						href="/profile/edit"
+						fill="clear"
 					>
 						<p>Edit Profile</p>
 					</IonButton>
