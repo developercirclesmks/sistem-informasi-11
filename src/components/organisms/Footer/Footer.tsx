@@ -25,6 +25,7 @@ const Footer: React.FC = () => {
             <section className={style.location}>
               <IonIcon
                 className={style.loclogo}
+                color="primary"
                 src="./icon/location-outline.svg"
               ></IonIcon>
               <IonText className={style.loctext}>
@@ -36,6 +37,7 @@ const Footer: React.FC = () => {
             <section className={style.email}>
               <IonIcon
                 className={style.emaillogo}
+                color="primary"
                 src="./icon/mail-outline.svg"
               ></IonIcon>
               <IonText className={style.emailtext}>OnExam@gmail.com</IonText>
