@@ -58,6 +58,15 @@
 		align-items: center;
 	}
 
+	.form {
+		width: 100%;
+		gap: 12px;
+	}
+
+	.title {
+		font-size: 47px;
+	}
+
 	.contact {
 		flex-direction: column;
 		width: 100%;
