@@ -87,6 +87,8 @@ export const ExamTable: React.FC<ExamTableProps> = ({
 			const isBetweenStartAndEnd =
 				startedAt && endedAt && now >= startedAt && now <= endedAt;
 
+			const hasExamStarted = startedAt && now >= startedAt;
+
 			return (
 				<Box
 					display="flex"
@@ -137,7 +139,7 @@ export const ExamTable: React.FC<ExamTableProps> = ({
 							<IonIcon icon={trashOutline} />
 						</IonText>
 					</IonButton>
-					{(!startedAt || !isBetweenStartAndEnd) && !startedAt ? (
+					{!hasExamStarted ? (
 						<IonButton
 							fill="clear"
 							size="small"

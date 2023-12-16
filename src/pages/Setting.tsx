@@ -142,19 +142,6 @@ const Setting: React.FC = () => {
 		return (
 			<PageContainer nopadding>
 				<main className={style.settingGrid}>
-					<IonCard>
-						<IonCardContent className={`ion-padding ${style.avatarContent}`}>
-							<section>
-								<div className={style.avatar}>
-									<IonImg src="/images/Test.jpeg" alt="asdas" />
-								</div>
-							</section>
-							<IonText>{userProfile.email}</IonText>
-							<IonButton className="light" fill="outline">
-								Change Picture
-							</IonButton>
-						</IonCardContent>
-					</IonCard>
 					<IonCard className="grow ion-padding">
 						<IonItem>
 							<IonInput
