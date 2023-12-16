@@ -71,8 +71,7 @@ const AdminLogin: React.FC = () => {
 							showToast("success", "Logged In As Admin");
 							history.push("/");
 						} else {
-							showToast("error", "Error during login");
-							alert("Error Occurred during login.");
+							showToast("error", "Error Occurred during login.");
 						}
 					} else {
 						showToast("error", "User is not found or not an admin");
@@ -81,9 +80,10 @@ const AdminLogin: React.FC = () => {
 					showToast("error", "User is not found or not an admin");
 				}
 			} catch (error: any) {
-				alert("Authentication error:" + error.message);
+				showToast("error", "User is not found or not an admin");
 			} finally {
 				setIsLoading(false);
+				history.push('/dashboard')
 			}
 		}
 	};

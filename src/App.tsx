@@ -112,31 +112,28 @@ const App: React.FC = () => {
 						<ProtectedRoute exact path="/profile" component={Profile} />
 						<ProtectedRoute exact path="/profile/edit" component={Setting} />
 
-						{/* admin edit */}
-						{userDoc?.role === "admin" ? (
-							<>
-								<ProtectedRoute
-									exact
-									path="/exam/:examId/edit/"
-									component={EditExamPage}
-								/>
-								<ProtectedRoute
-									exact
-									path="/exam/:examId/edit/:index(\d+)"
-									component={EditQuestionPage}
-								/>
-								<ProtectedRoute
-									exact
-									path="/exam/:examId/edit/new"
-									component={CreateQuestionPage}
-								/>
-							</>
-						) : null}
-						<ProtectedRoute
-							exact
-							path="/exam/:examId/overview"
-							component={ExamOverview}
-						/>
+						{/* AdminPage */}
+							<ProtectedRoute
+								exact
+								path="/exam/:examId/edit"
+								component={EditExamPage}
+							/>
+							<ProtectedRoute
+								exact
+								path="/exam/:examId/edit/:index(\d+)"
+								component={EditQuestionPage}
+							/>
+							<ProtectedRoute
+								exact
+								path="/exam/:examId/edit/new"
+								component={CreateQuestionPage}
+							/>
+							<ProtectedRoute
+								exact
+								path="/exam/:examId/overview"
+								component={ExamOverview}
+							/>
+							
 						<Route exact path="/">
 							<Redirect to="/home" />
 						</Route>

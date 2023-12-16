@@ -414,14 +414,27 @@ ion-textarea.custom {
 	--background: var(--ion-color-lighter);
 	transition: 200ms;
 }
+
+ion-textarea.optionInput{
+	height: 24px;
+}
+
 ion-textarea.custom:hover {
 	--background: var(--ion-color-lighter-shade);
 	transition: 200ms;
 }
 
+.statusTable {
+	padding:4px 12px;
+	margin: 0;
+	max-width: max-content;
+	box-shadow: none;
+	-webkit-user-select: none;
+	user-select: none;
+	font-size: 12px;
+}
+
 /* searh */
-
-
 
 .testctn {
 	background-color: red;

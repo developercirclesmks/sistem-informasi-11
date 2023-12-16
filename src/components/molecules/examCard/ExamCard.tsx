@@ -4,44 +4,99 @@ import {
 	IonCardContent,
 	IonIcon,
 	IonImg,
+	IonItem,
 	IonLabel,
+	IonNavLink,
+	IonRouterLink,
+	IonText,
 } from "@ionic/react";
 import style from "./ExamCard.module.css";
 import { calendarOutline, timerOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
+import { Timestamp } from "firebase/firestore";
 
 interface ExamCardProps {
-  examId: string;
+	examId: string;
 	examName: string;
 	examDate?: string;
+	examDeadline: Timestamp | null;
 	examDuration: number;
 	examDescription: string;
 }
 
 export const ExamCard: React.FC<ExamCardProps> = ({
-  examId,
+	examId,
 	examName,
 	examDate,
 	examDuration,
+	examDeadline,
 	examDescription,
 }) => {
-  const history = useHistory()
+	const rightNow = Timestamp.now();
 	return (
-		<main className={style.card}>
-			<IonCard color={"light"}>
-				<IonCardContent>
-					<main className={style.cardContent}>
+		<main>
+			<IonRouterLink href={`/exam/${examId}`}>
+				<IonItem button color={"light"}>
+					<main className={`ion-padding ${style.cardContent}`}>
 						<section className={style.title}>
 							<div className={style.imgCtn}>
 								<IonImg draggable={false} src="/icon/Logo.svg" />
 							</div>
-							<div className={style.titleText}>{examName}</div>
+							<IonText className={style.titleText}>{examName}</IonText>
 						</section>
 						<section className={style.info}>
 							<section className={style.itemInfo}>
-								<IonIcon icon={calendarOutline} />
-								<IonLabel className={style.label}>{examDate}</IonLabel>
+								<IonIcon
+									color={
+										examDeadline &&
+										examDeadline.toMillis() < rightNow.toMillis()
+											? "danger"
+											: ""
+									}
+									icon={calendarOutline}
+								/>
+								<IonLabel
+									color={
+										examDeadline &&
+										examDeadline.toMillis() < rightNow.toMillis()
+											? "danger"
+											: ""
+									}
+									className={style.label}
+								>
+									{examDate}
+								</IonLabel>
 							</section>
+							{examDeadline ? (
+								<section className={style.itemInfo}>
+									<IonIcon
+										color={
+											examDeadline &&
+											examDeadline.toMillis() < rightNow.toMillis()
+												? "danger"
+												: ""
+										}
+										src="/icon/deadline.svg"
+									/>
+									<IonLabel
+										color={
+											examDeadline &&
+											examDeadline.toMillis() < rightNow.toMillis()
+												? "danger"
+												: ""
+										}
+										className={style.label}
+									>
+										{examDeadline
+											? `${examDeadline
+													.toDate()
+													.toLocaleDateString()} at ${examDeadline
+													.toDate()
+													.toLocaleTimeString()}`
+											: null}
+									</IonLabel>
+								</section>
+							) : null}
 							<section className={style.itemInfo}>
 								<IonIcon icon={timerOutline} />
 								<IonLabel className={style.label}>
@@ -54,11 +109,8 @@ export const ExamCard: React.FC<ExamCardProps> = ({
 							<section className={style.descText}>{examDescription}</section>
 						</section>
 					</main>
-				</IonCardContent>
-				<IonButton fill="clear" className="full" onClick={()=>history.push(`/exam/${examId}`)}>
-					View Detail
-				</IonButton>
-			</IonCard>
+				</IonItem>
+			</IonRouterLink>
 		</main>
 	);
 };

@@ -6,6 +6,7 @@ import {
 } from "material-react-table";
 
 import { IExamResult } from "../../interfaces/result";
+import { formatDate, formatToHour } from "../../formatter/formatter";
 
 interface ResultTableProps {
 	data: IExamResult[];
@@ -15,7 +16,7 @@ export const ResultTable: React.FC<ResultTableProps> = ({ data }) => {
 	const table = useMaterialReactTable({
 		columns,
 		data,
-		enableEditing: true,
+		enableEditing: false,
 		enableRowActions: false,
 		rowNumberDisplayMode: "original",
 		enableRowNumbers: true,
@@ -44,5 +45,17 @@ const columns: MRT_ColumnDef<IExamResult>[] = [
 		accessorKey: "score",
 		header: "Score",
 		accessorFn: (row) => parseFloat(row.score.toString()).toFixed(2),
+	},
+	{
+		accessorKey: "exam.createdAt",
+		header: "Created At",
+		accessorFn: (row) => {
+			const createdAt = row.createdAt.toDate();
+			return !!createdAt
+				? `${formatDate(createdAt.toString(), "full")} at ${formatToHour(
+						createdAt.toString()
+				  )} UTC+8`
+				: "-";
+		},
 	},
 ];

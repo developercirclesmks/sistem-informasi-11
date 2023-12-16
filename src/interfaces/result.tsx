@@ -8,4 +8,5 @@ export interface IExamResult {
 	user: IUser;
 	score: number;
 	createdAt: Timestamp;
+	selectedOptions: (number | null)[];
 }

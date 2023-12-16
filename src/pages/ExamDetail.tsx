@@ -20,6 +20,8 @@ import { IExam } from "../interfaces/exam";
 import { getOneExam } from "../services/examService";
 import { timerOutline } from "ionicons/icons";
 import LoadingBox from "../components/organisms/LoadingBox/LoadingBox";
+import PageContainer from "../components/PageContainer";
+import { Timestamp } from "firebase/firestore";
 
 interface RouteParamsInterface {
 	examId: string;
@@ -56,12 +58,18 @@ const ExamDetail: React.FC = () => {
 	}, []);
 
 	const handleStartExam = () => {
-		if (exam && exam?.questionList.length <= 0) {
-			showToast("error","Current Exam Has No Question In It")
-
-		} else {
-			showToast("plain",`Exam :${exam?.name}, started!`)
-			history.push(`/exam/${examId}/start`);
+		if (exam) {
+			if (exam?.questionList.length <= 0) {
+				showToast("error", "Current Exam Has No Questions In It");
+			} else if (
+				exam?.endedAt &&
+				Timestamp.now().toMillis() > exam.endedAt.toMillis()
+			) {
+				showToast("error", "This exam has ended");
+			} else {
+				showToast("plain", `Exam: ${exam?.name}, started!`);
+				history.push(`/exam/${examId}/start`);
+			}
 		}
 	};
 
@@ -69,69 +77,70 @@ const ExamDetail: React.FC = () => {
 		return <LoadingBox />;
 	} else {
 		return (
-			<>
-				<Sidebar />
-				<IonPage id="main-content">
-					<IonHeader>
-						<Navbar />
-					</IonHeader>
-					<IonContent className="ion-padding">
-						<main className={style.main}>
-							<IonCard color="" className={`ion-padding ${style.cardsmain}`}>
-								<main>
-									<IonCardTitle className="ion-padding">
-										<h1 className={style.examTitle}>{exam?.name}</h1>
-									</IonCardTitle>
-									<IonCardSubtitle className="ion-padding">
-										<div className={style.date}>
-											<IonIcon src="/icon/date.svg"></IonIcon>
-											<IonText>
-												{exam?.startedAt
-													? `${exam.startedAt
-															.toDate()
-															.toLocaleDateString()} at ${exam.startedAt
-															.toDate()
-															.toLocaleTimeString()}`
-													: "Started Manually"}
-											</IonText>
-										</div>
-										<div className={style.date}>
-											<IonIcon icon={timerOutline} />
-											<IonText>{exam?.totalDuration} minute</IonText>
-										</div>
-									</IonCardSubtitle>
-									<IonCardContent className="ion-padding ">
-										<article className={style.descriptionCtn}>
-											{exam?.desc}
-										</article>
-									</IonCardContent>
-								</main>
-								<aside className={` ${style.aside}`}>
-									<main className={style.asidectn}>
-										<div className={`ion-padding ${style.btngroup}`}>
-											<IonButton
-												onClick={handleStartExam}
-												className="full light"
-												fill="solid"
-											>
-												Start Now
-											</IonButton>
-											<IonButton
-												onClick={() => history.push(`/dashboard`)}
-												className="full light"
-												fill="outline"
-											>
-												Go Back
-											</IonButton>
-										</div>
-										<div className="ion-padding"></div>
-									</main>
-								</aside>
-							</IonCard>
+			<PageContainer>
+				<main className={style.main}>
+					<IonCard color="" className={`ion-padding ${style.cardsmain}`}>
+						<main>
+							<IonCardTitle className="ion-padding">
+								<h1 className={style.examTitle}>{exam?.name}</h1>
+							</IonCardTitle>
+							<IonCardSubtitle className="ion-padding">
+								<div className={style.date}>
+									<IonIcon src="/icon/date.svg"></IonIcon>
+									<IonText>
+										{exam?.startedAt
+											? `${exam.startedAt
+													.toDate()
+													.toLocaleDateString()} at ${exam.startedAt
+													.toDate()
+													.toLocaleTimeString()}`
+											: "Started Manually"}
+									</IonText>
+								</div>
+
+								{exam?.endedAt && exam ? (
+									<div className={style.date}>
+										<IonIcon src="/icon/deadline.svg"></IonIcon>
+										<IonText>
+											{exam.endedAt.toDate().toLocaleDateString()} at{" "}
+											{exam.endedAt.toDate().toLocaleTimeString()}
+										</IonText>
+									</div>
+								) : null}
+								<div className={style.date}>
+									<IonIcon icon={timerOutline} />
+									<IonText>{exam?.totalDuration} minute</IonText>
+								</div>
+							</IonCardSubtitle>
+							<IonCardContent className="ion-padding ">
+								<article className={style.descriptionCtn}>{exam?.desc}</article>
+							</IonCardContent>
 						</main>
-					</IonContent>
-				</IonPage>
-			</>
+						<aside className={` ${style.aside}`}>
+							<main className={style.asidectn}>
+								<div className={`ion-padding ${style.btngroup}`}>
+									<IonButton
+										onClick={handleStartExam}
+										disabled={exam?.startedAt === null}
+										className="full light"
+										fill="solid"
+									>
+										Start Now
+									</IonButton>
+									<IonButton
+										onClick={() => history.push(`/dashboard`)}
+										className="full light"
+										fill="outline"
+									>
+										Go Back
+									</IonButton>
+								</div>
+								<div className="ion-padding"></div>
+							</main>
+						</aside>
+					</IonCard>
+				</main>
+			</PageContainer>
 		);
 	}
 };

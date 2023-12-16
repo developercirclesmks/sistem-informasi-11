@@ -11,7 +11,7 @@ import {
 } from "@ionic/react";
 import style from "./styles/Dashboard.module.css";
 import PageContainer from "../components/PageContainer";
-import { getAllExam } from "../services/examService";
+import { getAllExam, startExam } from "../services/examService";
 import { showToast } from "../components/atoms/Toasts/Toasts";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../config/firebase-config";
@@ -36,7 +36,6 @@ const Dashboard: React.FC = () => {
 			try {
 				const exams = await getAllExam();
 				setExamData(exams);
-				setIsLoading(false);
 			} catch (error) {
 				showToast("error", "Error fetching exams");
 				setIsLoading(false);
@@ -44,6 +43,7 @@ const Dashboard: React.FC = () => {
 		};
 
 		fetchExams();
+		setIsLoading(false);
 	}, []);
 
 	useEffect(() => {
@@ -85,104 +85,125 @@ const Dashboard: React.FC = () => {
 		}
 	};
 
+	const handleStartExam = async (id: string) => {
+		try {
+			const selectedExam = examData.find((exam) => exam.id === id);
+
+			if (selectedExam) {
+				await startExam(id, selectedExam.totalDuration);
+				showToast("success", "Exam Started");
+
+				const updatedExams = await getAllExam();
+				setExamData(updatedExams);
+			} else {
+				showToast("error", "Exam not found");
+			}
+		} catch (error) {
+			showToast("error", "Failed to start exam");
+		}
+	};
+
 	if (isLoading) {
 		return <LoadingBox />;
-	}
-	else{
+	} else {
+		return (
+			<PageContainer>
+				<IonCol>
+					<main className={style.col}>
+						{userDoc?.role === "admin" && (
+							<>
+								<DashboardHero />
 
-	return (
-		<PageContainer>
-			<IonCard>
-				<main className={style.col}>
-					{userDoc?.role === "admin" && (
-						<>
-							<DashboardHero />
-
-							<div>
-								<IonCard className="" color={"light"}>
-									<IonCardHeader>
-										<IonText color={"primary"}>
-											<h4>Exam List:</h4>
-										</IonText>
-									</IonCardHeader>
-									<IonCardContent className="">
-										<ExamTable data={examData} />
-									</IonCardContent>
-								</IonCard>
-							</div>
-							<div></div>
-						</>
-					)}
-				</main>
-			</IonCard>
-			{userDoc?.role === "user" && (
-				<>
-					<IonRow>
-						<IonCol>
-							<IonCard className={`grow ${style.primCard}`}>
-								<IonCardContent className={`full ${style.ExamList}`}>
-									<div className={`full ${style.examListHead}`}>
-										<h2>Discover Our Exam:</h2>
-										<div className={style.search}>
-											<IonSearchbar
-												showCancelButton="focus"
-												onIonInput={handleInput}
-												debounce={200}
-											></IonSearchbar>
+								<div>
+									<IonCard className="" color={"light"}>
+										<IonCardHeader>
+											<IonText color={"primary"}>
+												<h4>Exam List:</h4>
+											</IonText>
+										</IonCardHeader>
+										<IonCardContent className="">
+											<ExamTable
+												data={examData}
+												handleStartExam={handleStartExam}
+											/>
+										</IonCardContent>
+									</IonCard>
+								</div>
+								<div></div>
+							</>
+						)}
+					</main>
+				</IonCol>
+				{userDoc?.role === "user" && (
+					<>
+						<IonRow>
+							<IonCol>
+								<IonCol className={`grow ${style.primCard}`}>
+									<IonCardContent className={`full ${style.ExamList}`}>
+										<div className={`full ${style.examListHead}`}>
+											<h2>Discover Our Exam:</h2>
+											<div className={style.search}>
+												<IonSearchbar
+													showCancelButton="focus"
+													onIonInput={handleInput}
+													debounce={200}
+												></IonSearchbar>
+											</div>
 										</div>
-									</div>
-									<main className={style.examListGrid}>
-										{query === "" ? ( // Check if the search query is empty
-											examData.map((exam) => (
-												<ExamCard
-													key={exam.id}
-													examName={exam.name}
-													examDescription={exam.desc}
-													examDuration={exam.totalDuration}
-													examDate={
-														exam.startedAt
-															? `${exam.startedAt
-																	.toDate()
-																	.toLocaleDateString()} at ${exam.startedAt
-																	.toDate()
-																	.toLocaleTimeString()}`
-															: "Started Manually"
-													}
-													examId={exam.id}
-												/>
-											))
-										) : // Display this when the search bar has a value
-										filteredExams.length > 0 ? (
-											filteredExams.map((exam) => (
-												<ExamCard
-													key={exam.id}
-													examName={exam.name}
-													examDescription={exam.desc}
-													examDuration={exam.totalDuration}
-													examDate={
-														exam.startedAt
-															? `${exam.startedAt
-																	.toDate()
-																	.toLocaleDateString()} at ${exam.startedAt
-																	.toDate()
-																	.toLocaleTimeString()}`
-															: "Started Manually"
-													}
-													examId={exam.id}
-												/>
-											))
-										) : (
-											<IonText>No matching exams found.</IonText>
-										)}
-									</main>
-								</IonCardContent>
-							</IonCard>
-						</IonCol>
-					</IonRow>
-				</>
-			)}
-		</PageContainer>
-	);
+										<main className={style.examListGrid}>
+											{query === "" ? ( // Check if the search query is empty
+												examData.map((exam) => (
+													<ExamCard
+														key={exam.id}
+														examName={exam.name}
+														examDescription={exam.desc}
+														examDuration={exam.totalDuration}
+														examDate={
+															exam.startedAt
+																? `${exam.startedAt
+																		.toDate()
+																		.toLocaleDateString()} at ${exam.startedAt
+																		.toDate()
+																		.toLocaleTimeString()}`
+																: "Started Manually"
+														}
+														examDeadline={exam.endedAt? exam?.endedAt:null}
+														examId={exam?.id}
+													/>
+												))
+											) : // Display this when the search bar has a value
+											filteredExams.length > 0 ? (
+												filteredExams.map((exam) => (
+													<ExamCard
+														key={exam.id}
+														examName={exam.name}
+														examDescription={exam.desc}
+														examDuration={exam.totalDuration}
+														examDate={
+															exam.startedAt
+																? `${exam.startedAt
+																		.toDate()
+																		.toLocaleDateString()} at ${exam.startedAt
+																		.toDate()
+																		.toLocaleTimeString()}`
+																: "Started Manually"
+														}
+														examDeadline={exam.endedAt? exam?.endedAt:null}
+														examId={exam.id}
+													/>
+												))
+											) : (
+												<IonText>No matching exams found.</IonText>
+											)}
+										</main>
+									</IonCardContent>
+								</IonCol>
+							</IonCol>
+						</IonRow>
+					</>
+				)}
+			</PageContainer>
+		);
 	}
 };
 

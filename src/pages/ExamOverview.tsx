@@ -7,24 +7,60 @@ import { ResultTable } from "../components/tables/resultTable";
 import { getAllResults } from "../services/resultService";
 import { IExamResult } from "../interfaces/result";
 import { useAutocomplete } from "@mui/material";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { useEffect } from "react";
 import { getOneExam } from "../services/examService";
 import { IExam } from "../interfaces/exam";
 import { useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../config/firebase-config";
+import { IUser } from "../interfaces/user";
+import { getUserData } from "../services/userService";
+import { showToast } from "../components/atoms/Toasts/Toasts";
+import LoadingBox from "../components/organisms/LoadingBox/LoadingBox";
+import { formatDate, formatToHour } from "../formatter/formatter";
 
 interface RouteParams {
 	examId: string;
 }
 
 const ExamOverview: React.FC = () => {
+	const history = useHistory();
 	const { examId } = useParams<RouteParams>();
+	const [isLoading, setIsLoading] = useState<boolean>();
 
 	const [results, setResults] = useState<IExamResult[]>([]);
-	const [exam, setExam] = useState<IExam | undefined>(undefined); // State for the selected exam
+	const [exam, setExam] = useState<IExam | undefined>(undefined);
+
+	const [uid, setUid] = useState<string | null>(null);
+	const [userDoc, setUserDoc] = useState<IUser | null>(null);
+
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			if (user) {
+				setUid(user.uid);
+			}
+		});
+
+		return () => unsubscribe();
+	}, []);
+
+	useEffect(() => {
+		const fetchUserData = async () => {
+			if (uid) {
+				try {
+					const userData = await getUserData(uid);
+					setUserDoc(userData);
+				} catch (error) {}
+			}
+		};
+
+		fetchUserData();
+	}, [uid]);
 
 	useEffect(() => {
 		const fetchData = async () => {
+			setIsLoading(true);
 			try {
 				const [fetchedResults, fetchedExam] = await Promise.all([
 					getAllResults(),
@@ -37,38 +73,67 @@ const ExamOverview: React.FC = () => {
 
 				setResults(filteredResults);
 				setExam(fetchedExam);
+				setIsLoading(false);
 			} catch (error) {
 				console.error("Error fetching data:", error);
+				setIsLoading(false);
 			}
 		};
 
 		fetchData();
 	}, [examId]);
 
-	return (
-		<PageContainer>
-			{results.length > 0 && (
-				<IonCard>
-					<IonCardContent>
-						<IonRow>
-							<IonText>Exam Name: {exam?.name}</IonText>
-						</IonRow>
-						<IonRow></IonRow>
-						<IonRow>
-							<IonText>Duration: {exam?.totalDuration}</IonText>
-						</IonRow>
-					</IonCardContent>
-				</IonCard>
-			)}
-
-			<IonCard>
-				<div>EXAM RESULTS:</div>
-				<TableContainer color="" component={Paper}>
-					<ResultTable data={results} />
-				</TableContainer>
-			</IonCard>
-		</PageContainer>
-	);
+	if (userDoc?.role === "user") {
+		showToast("error", "You Are Not Authorized");
+		history.push("/dashboard");
+	} else {
+		if (isLoading) {
+			return <LoadingBox />;
+		} else {
+			return (
+				<PageContainer>
+					<IonRow>
+						<IonCardContent>
+							<IonRow>
+								<IonText>Exam Name: {exam?.name}</IonText>
+							</IonRow>
+							<IonRow></IonRow>
+							<IonRow>
+								<IonText>Duration: {exam?.totalDuration} minute</IonText>
+							</IonRow>{" "}
+							<IonRow>
+								<IonText>Description: {exam?.desc}</IonText>
+							</IonRow>
+							<IonRow></IonRow>
+							<IonRow>
+								<IonText>
+									Started At
+									<IonRow>
+										<IonText>
+											Started At:{" "}
+											{exam?.startedAt
+												? `${exam?.startedAt
+														.toDate()
+														.toLocaleDateString()} at ${exam?.startedAt
+														.toDate()
+														.toLocaleTimeString()}`
+												: "Started Manually"}
+										</IonText>
+									</IonRow>
+								</IonText>
+							</IonRow>
+						</IonCardContent>
+					</IonRow>
+					<IonRow className="ion-padding">
+						<div>EXAM RESULTS:</div>
+						<TableContainer color="" component={Paper}>
+							<ResultTable data={results} />
+						</TableContainer>
+					</IonRow>
+				</PageContainer>
+			);
+		}
+	}
 };
 
 export default ExamOverview;
