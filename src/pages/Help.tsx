@@ -6,27 +6,28 @@ import {
   IonText,
   IonTitle,
   IonToolbar,
-} from '@ionic/react'
-import React from 'react'
-import Navbar from '../components/organisms/Navbar/Navbar'
-import style from './Help.module.css'
-import HelpCard from '../components/molecules/HelpCard/HelpCard'
-import HelpAsk from '../components/molecules/HelpAsk/HelpAsk'
-import Sidebar from '../components/organisms/Sidebar/Sidebar'
+  IonCard,
+} from "@ionic/react";
+import React from "react";
+import Navbar from "../components/organisms/Navbar/Navbar";
+import style from "./styles/Help.module.css";
+import HelpCard from "../components/molecules/HelpCard/HelpCard";
+import HelpAsk from "../components/molecules/HelpAsk/HelpAsk";
+import Sidebar from "../components/organisms/Sidebar/Sidebar";
 
 import {
   peopleOutline,
   createOutline,
   search,
   gridOutline,
-} from 'ionicons/icons'
-import ContactUs from '../components/organisms/ContactUs/ContactUs'
+} from "ionicons/icons";
+import ContactUs from "../components/organisms/ContactUs/ContactUs";
 
 const Help: React.FC = () => {
   return (
     <>
       <Sidebar />
-      <IonPage id='main-content'>
+      <IonPage id="main-content">
         <IonHeader>
           <Navbar />
         </IonHeader>
@@ -50,7 +51,7 @@ const Help: React.FC = () => {
             </section>
 
             <section className={style.ask}>
-              <img className={style.img} src='./images/help1.png' alt='' />
+              <img className={style.img} src="./images/help1.png" alt="" />
 
               {/* <div className={style.askCtn}>
               <IonText className={style.askText}>
@@ -62,7 +63,7 @@ const Help: React.FC = () => {
 
             <section className={style.HelpCard_answer}>
               <div className={style.ans}>
-                <IonText className={style.title} id='scroll-to-this1'>
+                <IonText className={style.title} id="scroll-to-this1">
                   Account
                 </IonText>
                 <IonText className={style.title_2}>
@@ -89,50 +90,113 @@ const Help: React.FC = () => {
               </div>
 
               <div className={style.ans}>
-                <IonText className={style.title} id='scroll-to-this2'>
-                  Creating an Exam
-                </IonText>
-                <IonText className={style.title_2}>Cara Membuat Exam</IonText>
-                <IonText className={style.answer}>
-                  Berikut adalah langkahnya.
-                </IonText>
+                <div className={style.ans_ctn}>
+                  <IonText className={style.title} id="scroll-to-this2">
+                    Take the Exam
+                  </IonText>
+                  <IonText className={style.title_2}>
+                    Cara Mengerjakan Exam
+                  </IonText>
+                  <IonText className={style.answer}>
+                    Berikut adalah langkahnya.
+                  </IonText>
+                  <img className={style.ans_img}
+                    src="./images/Help/TaketheExam/1.png"
+                    alt="TaketheExam"
+                  />
+                  <IonText className={style.answer}>
+                    Pilih Exam yang ingin dikerjakan. Kemudian klik View Detail.
+                  </IonText>
+                  <img className={style.ans_img}
+                    src="./images/Help/TaketheExam/2.png"
+                    alt="TaketheExam"
+                  />
+                  <IonText className={style.answer}>
+                    Klik tombol Start Now.
+                  </IonText>
+                  <img className={style.ans_img}
+                    src="./images/Help/TaketheExam/3.png"
+                    alt="TaketheExam"
+                  />
+                  <IonText className={style.answer}>
+                    Jawab Exam sesuai dengan soal yang ada. Jika telah selesai klik tombol Submit.
+                  </IonText>
+                  <img className={style.ans_img}
+                    src="./images/Help/TaketheExam/4.png"
+                    alt="TaketheExam"
+                  />
+                  <IonText className={style.answer}>
+                    Klik OK untuk menyelesaikan Exam.
+                  </IonText>
+                </div>
               </div>
 
               <div className={style.ans}>
-                <IonText className={style.title} id='scroll-to-this3'>
-                  Searching for an Exam
-                </IonText>
-                <IonText className={style.title_2}>
-                  Cara mencari Exam di OnExam
-                </IonText>
-                <IonText className={style.answer}>
-                  Berikut adalah langkahnya.
-                </IonText>
+                <div className={style.ans_ctn}>
+                  <IonText className={style.title} id="scroll-to-this3">
+                    Searching for an Exam
+                  </IonText>
+                  <IonText className={style.title_2}>
+                    Cara mencari Exam di OnExam
+                  </IonText>
+                  <IonText className={style.answer}>
+                    Berikut adalah langkahnya.
+                  </IonText>
+                  <img className={style.ans_img}
+                    src="./images/Help/SearchforExam/1.png"
+                    alt="SearchingforanExam"
+                  />
+                  <IonText className={style.answer}>
+                    Klik bagian Seach Exam pada halaman Dashboard OnExam, kemudian masukkan nama Exam yang ingin dicari.
+                  </IonText>
 
-                <IonText className={style.title_2}>
-                  Mengapa Exam Tidak Ada?
-                </IonText>
-                <IonText className={style.answer}>
-                  Tidak menemukan Exam yang dicari dapat disebabkan beberapa
-                  alasan, yaitu Exam belum dibuat atau kendala lainnya.
-                </IonText>
+                  <IonText className={style.title_2}>
+                    Mengapa Exam Tidak Ada?
+                  </IonText>
+                  <IonText className={style.answer}>
+                    Tidak menemukan Exam yang dicari dapat disebabkan beberapa
+                    alasan, yaitu Exam belum dibuat atau kendala lainnya.
+                  </IonText>
+                </div>
               </div>
 
               <div className={style.ans}>
-                <IonText className={style.title} id='scroll-to-this4'>
-                  Others
-                </IonText>
-                <IonText className={style.title_2}>Lorem, ipsum.</IonText>
-                <IonText className={style.answer}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Itaque, nisi.
-                </IonText>
+                <div className={style.ans_ctn}>
+                  <IonText className={style.title} id="scroll-to-this4">
+                    Others
+                  </IonText>
+                  <IonText className={style.title_2}>Edit Profile.</IonText>
+                  <img className={style.ans_img}
+                    src="./images/Help/Otherss/1.png"
+                    alt="Others"
+                  />
+                  <IonText className={style.answer}>
+                    Klik tombol Profile pada pojok kanan atas.
+                  </IonText>
+                  <img className={style.ans_img}
+                    src="./images/Help/Otherss/2.png"
+                    alt="Others"
+                  />
+                  <IonText className={style.answer}>
+                    Klik tombol Edit.
+                  </IonText>
+                  <img className={style.ans_img}
+                    src="./images/Help/Otherss/3.png"
+                    alt="Others"
+                  />
+                  <IonText className={style.answer}>
+                    Isi data yang ingin diubah. Kemudian klik tombol Save.
+                  </IonText>
 
-                <IonText className={style.title_2}>Lorem, ipsum.</IonText>
-                <IonText className={style.answer}>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Laborum, esse?
-                </IonText>
+                  <IonText className={style.title_2}>Sign Out.</IonText>
+                  <img className={style.ans_img}
+                    src="./images/Help/Otherss/1.png"
+                    alt="Others"
+                  />
+                  <IonText className={style.answer}>
+                    Klik tombol Sign Out pada pojok kanan atas.
+                  </IonText>
+                </div>
               </div>
             </section>
 
@@ -141,30 +205,30 @@ const Help: React.FC = () => {
         </IonContent>
       </IonPage>
     </>
-  )
-}
+  );
+};
 
-export default Help
+export default Help;
 
 const HelpList = [
   {
-    scrollId: 'scroll-to-this1',
+    scrollId: "scroll-to-this1",
     Icons: peopleOutline,
-    content: 'Account',
+    content: "Account",
   },
   {
-    scrollId: 'scroll-to-this2',
+    scrollId: "scroll-to-this2",
     Icons: createOutline,
-    content: 'Creating an Exam',
+    content: "Take the Exam",
   },
   {
-    scrollId: 'scroll-to-this3',
+    scrollId: "scroll-to-this3",
     Icons: search,
-    content: 'Searching for an Exam',
+    content: "Searching for an Exam",
   },
   {
-    scrollId: 'scroll-to-this4',
+    scrollId: "scroll-to-this4",
     Icons: gridOutline,
-    content: 'Others',
+    content: "Others",
   },
-]
+];

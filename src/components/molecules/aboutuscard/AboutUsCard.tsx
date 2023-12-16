@@ -6,35 +6,42 @@ import {
   IonCardTitle,
 } from "@ionic/react";
 import React from "react";
-import style from "./AboutUsCard.module.css"
+import style from "./AboutUsCard.module.css";
 
-interface AboutUsCardInterface{
-  name:string;
-  occupations:string;
-  desc:string;
+interface AboutUsCardInterface {
+  name: string;
+  occupations: string;
+  desc: string;
+  img: any;
 }
 
 const AboutUsCard: React.FC<AboutUsCardInterface> = (props) => {
-  const {name, occupations, desc} = props
-return (
-    <main>
+  const { name, occupations, desc, img } = props;
+  return (
+    <main className={style.main}>
       <IonCard className={style.ionCard}>
-        <section>
-          <img className={style.img}
-            alt="Silhouette of mountains"
-            src="https://ionicframework.com/docs/img/demos/card-media.png"
-            />
+        <section className={style.image}>
+          <img
+            className={style.img}
+            alt="img"
+            src={img}
+          />
         </section>
-        
+
         <section className={style.contentCtn}>
           <IonCardHeader className={style.sectionHeader}>
-            <IonCardTitle className={style.name}>{name}</IonCardTitle>
-            <IonCardSubtitle className={style.subtitle}>{occupations}</IonCardSubtitle>
+            <IonCardTitle color={"primary"} className={style.name}>
+              {name}
+            </IonCardTitle>
+            <IonCardSubtitle color={"primary"} className={style.subtitle}>
+              {occupations}
+            </IonCardSubtitle>
           </IonCardHeader>
 
-          <IonCardContent className={style.sectionContent}>{desc}</IonCardContent>
+          <IonCardContent color={"primary"} className={style.sectionContent}>
+            {desc}
+          </IonCardContent>
         </section>
-
       </IonCard>
     </main>
   );
