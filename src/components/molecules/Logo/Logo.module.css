@@ -1,7 +1,7 @@
 .maincontainer{
   display: flex;
-  /* -webkit-user-select:none;
-  user-select: none; */
+  -webkit-user-select:none;
+  user-select: none;
   gap:8px;
   align-items: flex-end;
   /* background-color: bisque; */

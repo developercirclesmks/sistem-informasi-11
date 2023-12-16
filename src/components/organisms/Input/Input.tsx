@@ -26,7 +26,7 @@ const Input: React.FC<InputProps> = ({ children }) => {
 	const handleClick: any = () => {
 		history.push("/");
 	};
-
+	
 	return (
 		<main className={`${style.main}`}>
 			<IonCard className={`noPadding noMargin ${style.Authwrapper}`}>
@@ -36,7 +36,7 @@ const Input: React.FC<InputProps> = ({ children }) => {
 							draggable={false}
 							className={`noPadding noMargin ${style.authImage}`}
 						>
-							<IonImg draggable={false} src="./images/Hero Image.png"></IonImg>
+							<IonImg draggable={false} src="./icon/Auth Icon.svg"></IonImg>
 						</IonCol>
 						<IonCol className={style.form}>
 							<IonIcon className={style.logo} src="./icon/Logo.svg"></IonIcon>

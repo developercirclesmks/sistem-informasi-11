@@ -1,0 +1,117 @@
+.col {
+	display: flex;
+	flex-direction: column;
+}
+
+.greetingText {
+	display: flex;
+	flex-direction: column;
+}
+.cardsRow3 {
+	display: grid;
+	grid-auto-columns: max-content;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.cardsRow2 {
+	padding: 0;
+	display: grid;
+	grid-auto-columns: max-content;
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.MainCard {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 24px;
+	width: 100%;
+}
+
+.cardFooter {
+	padding: 16px;
+	display: flex;
+	justify-content: center;
+	cursor: pointer;
+	background-color: rgba(255, 255, 255, 0.01);
+	transition: 200ms;
+	font-size: 16px;
+	font-weight: 300;
+	-webkit-user-select: none;
+	user-select: none;
+	text-decoration: none;
+}
+.cardFooter:hover {
+	background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* for user v */
+.mainwrap {
+	display: flex;
+	width: 100%;
+}
+
+.ExamList {
+	display: flex;
+	flex-direction: column;
+}
+
+.examListGrid {
+	display: grid;
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+	gap: 24px;
+}
+
+.search {
+	width: 100%;
+}
+
+.primCard {
+	display: flex;
+}
+.examListHead {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: column;
+}
+.secCard {
+	display: none;
+	max-width: 320px;
+	max-height: max-content;
+}
+
+/* md */
+@media (min-width: 640px) {
+	.cardsRow3 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.cardsRow2 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.secCard {
+		display: inline;
+	}
+	.examListGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.examListHead {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.search {
+		width: max-content;
+	}
+}
+
+/* lg */
+@media (min-width: 1024px) {
+	.cardsRow3 {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.examListGrid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}

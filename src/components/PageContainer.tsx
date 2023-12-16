@@ -19,7 +19,7 @@ interface PageContainerProps {
 }
 
 const PageContainer: React.FC<PageContainerProps> = (props) => {
-	const { children = "", nopadding = false } = props;
+	const { children, nopadding = false, color = "" } = props;
 	return (
 		<>
 			<>
@@ -28,7 +28,10 @@ const PageContainer: React.FC<PageContainerProps> = (props) => {
 					<IonHeader>
 						<Navbar />
 					</IonHeader>
-					<IonContent className={`${nopadding ? "" : "ion-padding"}`} color="">
+					<IonContent
+						className={`${nopadding ? "" : "ion-padding"}`}
+						color={color}
+					>
 						{children}
 					</IonContent>
 				</IonPage>

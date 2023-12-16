@@ -23,7 +23,8 @@ import {
 	signOut,
 	User as FirebaseAuthUser,
 } from "firebase/auth";
-import { auth } from "../../../config/firebase-config";
+import { auth } from "../../../../config/firebase-config";
+import { showToast } from "../../atoms/Toasts/Toasts";
 
 const ProfileNav: React.FC = () => {
 	const history = useHistory();
@@ -40,11 +41,11 @@ const ProfileNav: React.FC = () => {
 	const handleSignOut = () => {
 		signOut(auth)
 			.then(() => {
-				console.log("Sign out successful");
+				showToast("success", "Sign out successful");
 				history.push("/login");
 			})
 			.catch((error) => {
-				console.log("Sign out failed:", error);
+				showToast("error", "Sign out error");
 			});
 	};
 
@@ -68,16 +69,23 @@ const ProfileNav: React.FC = () => {
 						lines="none"
 					>
 						<IonIcon color="primary" icon={person}></IonIcon>
-						<IonLabel color={"primary"} className={style.label}>Profile</IonLabel>
+						<IonLabel color={"primary"} className={style.label}>
+							Profile
+						</IonLabel>
 					</IonItem>
 
-					<IonPopover
+					<IonPopover	
 						ref={popover}
 						isOpen={popoverOpen}
 						onDidDismiss={() => setPopoverOpen(false)}
 					>
-						<IonItem href="/profile" button>Go To Profile</IonItem>
-						<IonItem onClick={handleSignOut} button> Sign Out</IonItem>
+						<IonItem href="/profile" button>
+							Go To Profile
+						</IonItem>
+						<IonItem onClick={handleSignOut} button>
+							{" "}
+							Sign Out
+						</IonItem>
 					</IonPopover>
 				</>
 			) : (

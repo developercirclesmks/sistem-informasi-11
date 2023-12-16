@@ -11,8 +11,8 @@
 .numberGrid{
   display: grid;
   width: 240px;
-  gap: 6px;
   grid-template-columns: repeat(5,minmax(0,1fr));
+  gap: 6px;
 }
 
 .numberButton{

@@ -1,6 +1,7 @@
 import {
 	IonButton,
 	IonCheckbox,
+	IonCol,
 	IonContent,
 	IonHeader,
 	IonInput,
@@ -17,8 +18,11 @@ import Input from "../../components/organisms/Input/Input";
 import style from "./Login.module.css";
 import { Link, Redirect } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase-config";
+import { auth } from "../../../config/firebase-config";
 import { useHistory } from "react-router-dom";
+import { db } from "../../../config/firebase-config";
+import { collection, getDocs } from "firebase/firestore";
+import { showToast } from "../../components/atoms/Toasts/Toasts";
 
 const Login: React.FC = () => {
 	const history = useHistory();
@@ -41,6 +45,7 @@ const Login: React.FC = () => {
 		setPassClass("");
 		setPassword(e);
 	};
+
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 
@@ -56,21 +61,29 @@ const Login: React.FC = () => {
 		} else {
 			try {
 				setIsLoading(true);
-				const userCredential = await signInWithEmailAndPassword(
-					auth,
-					email,
-					password
-				);
-				console.log(userCredential);
 
-				if (userCredential) {
-					history.push("./");
+				const userRef = collection(db, "users");
+				const querySnapshot = await getDocs(userRef);
+				const existingUser = querySnapshot.docs.find(
+					(doc) => doc.data().email === email
+				);
+
+				if (existingUser) {
+					if (existingUser.data().role === "user") {
+						setIsLoading(true);
+						await signInWithEmailAndPassword(auth, email, password);
+					} else {
+						showToast("error", "Invalid Credentials");
+					}
+				} else {
+					showToast("error", "Invalid Credentials");
 				}
 			} catch (error: any) {
-				alert("Authentication error:" + error.message);
+				showToast("error", "Authentication error:" + error.message);
+			} finally {
+				setIsLoading(false);
 			}
 		}
-		setIsLoading(false);
 	};
 
 	return (
@@ -82,7 +95,7 @@ const Login: React.FC = () => {
 							<h1>Sign In To Your Account</h1>
 						</IonText>
 						<IonText color="dark">
-							Welcome Back! Fill The Form To Sign In
+							Welcome to OnExam! Fill The Form To Sign In
 						</IonText>
 					</section>
 					<form onSubmit={(e) => handleSubmit(e)}>
@@ -130,11 +143,18 @@ const Login: React.FC = () => {
 							</IonButton>
 						</section>
 					</form>
-					<section className={style.options}>
-						<IonText>Dont Have An Account?</IonText>
-						<Link className="clearText" to={"./signup"}>
-							<IonText>Sign Up</IonText>
-						</Link>
+					<section className={style.signinFooter}>
+						<section className={style.options}>
+							<IonText>Dont Have An Account?</IonText>
+							<Link className="clearText" to={"./signup"}>
+								<IonText>Sign Up</IonText>
+							</Link>
+						</section>
+						<section className={style.options}>
+							<Link className="clearText" to={"./admin/login"}>
+								<IonText>Admin?</IonText>
+							</Link>
+						</section>
 					</section>
 					{/* <section>
 						email:{email} || password:{password}
