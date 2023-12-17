@@ -7,6 +7,7 @@ import {
 	getDoc,
 	Timestamp,
 	setDoc,
+	updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "../../config/firebase-config";
 import { IUser } from "../interfaces/user";
@@ -72,4 +73,34 @@ export const createUser = async (
 	}
 
 	return null;
+};
+
+
+export const updateUser = async (
+  uid: string,
+  updatedUser: Partial<
+    Omit<
+      IUser,
+      "uid" | "createdAt"
+    >
+  >,
+): Promise<void> => {
+  try {
+    const userDocRef = doc(db, "users", uid);
+    const currentUserSnapshot = await getDoc(userDocRef);
+
+    if (currentUserSnapshot.exists()) {
+      const currentUserData = currentUserSnapshot.data() as IUser;
+      const updatedUserData = {
+        ...currentUserData,
+        ...updatedUser,
+      };
+
+      await updateDoc(userDocRef, updatedUserData);
+    } else {
+      throw new Error("User does not exist");
+    }
+  } catch (error) {
+    throw new Error("Failed to update user: " + error);
+  }
 };

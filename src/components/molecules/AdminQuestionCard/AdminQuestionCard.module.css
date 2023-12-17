@@ -1,17 +1,24 @@
 .option {
 	display: flex;
-	gap: 16px;
-	align-items: start;
+	align-items: center;
+	height: max-content;
 }
 
 .option::hover {
 	background-color: antiquewhite;
 }
 
+.optionRow {
+	display: flex;
+	flex: 1;
+	align-items: center;
+}
+
 .optionlabel {
 	margin-right: 12px;
 	border: 1px solid var(--ion-color-dark);
 	width: 32px;
+	min-width: 32px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -21,9 +28,18 @@
 	border-radius: 4px;
 }
 
+.deleteBtn {
+	height: 100%;
+	display: flex;
+}
+
 .numberButton {
 	width: 36px;
 	height: 36px;
+}
+
+.textInput {
+	margin: 0;
 }
 
 .bold {
@@ -34,7 +50,6 @@
 
 .buttons {
 	display: flex;
-	width: 100%;
 	justify-content: center;
 	gap: 12px;
 }
@@ -44,15 +59,17 @@
 	.bold {
 		font-weight: 400;
 		font-size: 14px;
-		width: 300px;
+		width: 200px;
 	}
 }
 /* lg */
 @media (min-width: 1024px) {
-  
-.bold {
-	font-weight: 400;
-	font-size: 14px;
-  width: 300px;
-}
+	.bold {
+		font-weight: 400;
+		font-size: 14px;
+		width: 200px;
+	}
+	.buttons{
+		justify-content: flex-end;
+	}
 }

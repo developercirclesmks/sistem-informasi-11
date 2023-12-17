@@ -69,7 +69,7 @@ const CreateQuestionCard: React.FC<CreateQuestionCardProps> = ({ ExamId }) => {
 					name: opt,
 					iscorrect: correctAnswer === index,
 				})),
-				correctAnswer:correctAnswer
+				correctAnswer: correctAnswer,
 			};
 
 			try {
@@ -86,7 +86,6 @@ const CreateQuestionCard: React.FC<CreateQuestionCardProps> = ({ ExamId }) => {
 
 	return (
 		<IonCard className={`${style.cardmain} noMargin`}>
-			<IonCardHeader>Exam : {ExamId}</IonCardHeader>
 			<IonCardContent>
 				<IonTextarea
 					autoGrow
@@ -99,30 +98,35 @@ const CreateQuestionCard: React.FC<CreateQuestionCardProps> = ({ ExamId }) => {
 					placeholder="Enter Question"
 				></IonTextarea>
 				{options.map((option, index) => (
-					<IonItem key={index} lines="none" className={style.option}>
-						<div className={style.optionlabel}>
-							{String.fromCharCode(65 + index)}
+					<IonCardContent key={index} className={` ${style.option}`}>
+						<div className={style.optionRow}>
+							<div className={style.optionlabel}>
+								{String.fromCharCode(65 + index)}
+							</div>
+							<IonTextarea
+								className={`optionInput ${style.textInput}`}
+								placeholder={`Option ${index + 1}`}
+								required
+								value={option}
+								onIonChange={(e) => handleOptionChange(index, e.detail.value!)}
+							></IonTextarea>
 						</div>
-						<IonTextarea
-							autoGrow
-							required
-							placeholder={`Option ${index + 1}`}
-							value={option}
-							onIonChange={(e) => handleOptionChange(index, e.detail.value!)}
-						></IonTextarea>
+
 						{index > 1 && (
-							<div>
+							<div className={style.deleteBtn}>
 								<IonButton
 									fill="clear"
 									color={"dark"}
+									size="small"
 									onClick={() => deleteOption(index)}
 								>
 									<IonIcon icon={close} color="dark" />
 								</IonButton>
 							</div>
 						)}
-					</IonItem>
+					</IonCardContent>
 				))}
+
 				<IonButton
 					fill="clear"
 					onClick={addOption}

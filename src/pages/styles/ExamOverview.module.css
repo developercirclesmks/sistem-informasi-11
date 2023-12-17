@@ -1,0 +1,39 @@
+.option{
+  display: flex;
+  gap:16px;
+  align-items: center;
+  flex-grow: 1;
+
+}
+
+.optionlabel{
+  width: 32px;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 32px;
+  border-radius: 4px;
+}
+.optionText{
+  width: 100%;
+}
+
+
+.numberButton{
+  width: 36px;
+  height: 36px;
+}
+
+.bold{
+  font-weight: 400;
+  font-size: 14px;
+  width: max-content;
+}
+
+.buttons{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

@@ -42,7 +42,9 @@ export const updateExam = async ({
 	exam,
 }: {
 	id: string;
-	exam: Partial<Omit<IExam, "id" | "createdAt" | "updatedAt" | "questionList" | "result">>;
+	exam: Partial<
+		Omit<IExam, "id" | "createdAt" | "updatedAt" | "questionList" | "result">
+	>;
 }) => {
 	try {
 		const examDocRef = doc(db, "exams", id);
@@ -111,6 +113,67 @@ export const getAllExam = async () => {
 };
 
 export const deleteExam = async (id: string) => {
-	const docRef = doc(db, "exams", id);
-	await deleteDoc(docRef);
+	try {
+		const docRef = doc(db, "exams", id);
+
+		const examSnapshot = await getDoc(docRef);
+		if (examSnapshot.exists()) {
+
+			const resultsRef = collection(db, "results");
+			const querySnapshot = await getDocs(resultsRef);
+
+			const deletePromises = querySnapshot.docs
+				.filter((doc) => doc.data().examid === id)
+				.map(async (doc) => {
+					await deleteDoc(doc.ref);
+				});
+
+			await Promise.all(deletePromises);
+
+			await deleteDoc(docRef);
+		} else {
+			showToast("error", "Exam not found!");
+		}
+	} catch (error) {
+		console.error("Error deleting exam:", error);
+		showToast("error", "Error Deleting Exam");
+		throw new Error("Failed to delete exam.");
+	}
+};
+
+export const startExam = async (
+	examId: string,
+	totalDurationMinutes: number
+): Promise<void> => {
+	try {
+		const examDocRef = doc(db, "exams", examId);
+		const examSnapshot = await getDoc(examDocRef);
+
+		if (examSnapshot.exists()) {
+			const { startedAt } = examSnapshot.data();
+
+			const startedAtTimestamp = Timestamp.now();
+			const endedAtTimestamp =
+				startedAtTimestamp.toMillis() + totalDurationMinutes * 60 * 1000;
+
+			if (!startedAt || startedAt.toMillis() > Timestamp.now().toMillis()) {
+				// Update startedAt and endedAt
+				await updateDoc(examDocRef, {
+					startedAt: startedAtTimestamp,
+					endedAt: new Timestamp(endedAtTimestamp / 1000, 0),
+				});
+
+				showToast("success", "Exam started successfully.");
+			} else {
+				showToast("error", "Exam Already Started");
+				throw new Error("Exam has already started.");
+			}
+		} else {
+			throw new Error("Exam not found.");
+		}
+	} catch (error) {
+		console.error("Error starting exam:", error);
+		showToast("error", "Error Starting Exam"); // Display the error message from the catch block
+		throw new Error("Failed to .");
+	}
 };

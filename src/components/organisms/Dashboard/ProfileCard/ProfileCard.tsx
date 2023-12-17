@@ -16,6 +16,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { getUserData } from "../../../../services/userService";
 import { IUser } from "../../../../interfaces/user";
 import { showToast } from "../../../atoms/Toasts/Toasts";
+import { formatDate } from "../../../../formatter/formatter";
 
 const ProfileCard: React.FC = () => {
 	const [uid, setUid] = useState<string | null>(null);
@@ -123,25 +124,28 @@ const ProfileCard: React.FC = () => {
 					<aside className={style.aside}>
 						<section>
 							<IonItem
+								onClick={() =>
+									copyToClipboard(
+										userDoc && userDoc.dateOfBirth
+											? formatDate(
+													userDoc.dateOfBirth.toDate().toString(),
+													"full"
+											  )
+											: "-"
+									)
+								}
 								button
 								lines="full"
 								color="light"
-								onClick={() =>
-									copyToClipboard(
-										userDoc?.dateOfBirth
-											? userDoc.dateOfBirth.toDate().toISOString().split("T")[0]
-											: ""
-									)
-								}
 							>
 								<IonLabel>
 									<h2>Date Of Birth</h2>
 									<p>
 										{userDoc && userDoc.dateOfBirth
-											? userDoc.dateOfBirth
-													.toDate()
-													.toISOString()
-													.split("T")[0] || "-"
+											? formatDate(
+													userDoc.dateOfBirth.toDate().toString(),
+													"full"
+											  )
 											: "-"}
 									</p>
 								</IonLabel>

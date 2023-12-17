@@ -90,7 +90,24 @@ const Create: React.FC = () => {
 				await createExam({
 					name: examName,
 					desc: examDesc,
-					questionList: [],
+					questionList: [
+						{
+							correctAnswer: 0,
+							name: "Demo Question",
+							optionList: [
+								{
+									iscorrect: true,
+									name: "Correct One",
+									optionLabel :"A"
+								},
+								{
+									iscorrect: false,
+									name: "False One",
+									optionLabel :"B"
+								},
+							],
+						},
+					],
 					createdAt: Timestamp.now(),
 					startedAt: radioValue === "Scheduled" ? examDateTimestamp : null,
 					endedAt: radioValue === "Scheduled" ? endedAtTimestamp : null,

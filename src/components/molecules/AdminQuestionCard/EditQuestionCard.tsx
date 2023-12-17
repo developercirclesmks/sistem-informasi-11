@@ -15,26 +15,26 @@ import {
 import style from "./AdminQuestionCard.module.css";
 import {
 	deleteQuestionInExam,
-	getOneQuestionService,
 	updateQuestionInExam,
 } from "../../../services/questionService";
-import { IQuestion } from "../../../interfaces/question";
 import { showToast } from "../../atoms/Toasts/Toasts";
 import { close } from "ionicons/icons";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { IExam } from "../../../interfaces/exam";
 import { getOneExam } from "../../../services/examService";
 
 interface EditQuestionCardProps {
 	examId: string;
-	questionNum: number;
 }
 
-const EditQuestionCard: React.FC<EditQuestionCardProps> = ({
-	examId,
-	questionNum,
-}) => {
-	const history = useHistory()
+interface RouteParams {
+	index: string;
+}
+
+const EditQuestionCard: React.FC<EditQuestionCardProps> = ({ examId }) => {
+  const history = useHistory();
+  const { index } = useParams<RouteParams>();
+  const questionNum = index ? parseInt(index) : 1;
 
 	const [question, setQuestion] = useState<string | undefined>("");
 	const [options, setOptions] = useState(["", ""]);
@@ -121,31 +121,34 @@ const EditQuestionCard: React.FC<EditQuestionCardProps> = ({
 
 			if (isUpdated) {
 				showToast("success", "Question Updated");
+				history.push(`/exam/${examId}/edit`)
 			} else {
-				// Handle failure, maybe show an error message
+				showToast("error", "Failed to update question");
 			}
 		} catch (error) {
-			// Handle error
 			showToast("error", "Failed to update question");
 		}
 	};
 
 	const handleDeleteQuestion = async () => {
+		if (exam?.questionList.length === 1) {
+			showToast("error", "Exam Must Have At Least 1 Question");
+			return;
+		}
+
 		try {
 			const isDeleted = await deleteQuestionInExam(examId, questionNum - 1);
-	
+
 			if (isDeleted) {
 				showToast("plain", "Question Deleted");
 				history.push(`/exam/${examId}/edit`);
 			} else {
-				// Handle failure, maybe show an error message
+				showToast("error", "Failed to update question");
 			}
 		} catch (error) {
-			// Handle error
 			showToast("error", "Failed to delete question");
 		}
 	};
-
 
 	return (
 		<IonCard className={`${style.cardmain} noMargin`}>
@@ -158,33 +161,37 @@ const EditQuestionCard: React.FC<EditQuestionCardProps> = ({
 					labelPlacement="floating"
 					counter
 					value={question}
-					onIonChange={(e) => setQuestion(e.detail.value!)}
+					onIonInput={(e) => setQuestion(e.detail.value!)}
 					placeholder="Enter Question"
 				></IonTextarea>
 				{options.map((option, index) => (
-					<IonItem key={index} lines="none" className={style.option}>
-						<div className={style.optionlabel}>
-							{String.fromCharCode(65 + index)}
+					<IonCardContent key={index} className={` ${style.option}`}>
+						<div className={style.optionRow}>
+							<div className={style.optionlabel}>
+								{String.fromCharCode(65 + index)}
+							</div>
+							<IonTextarea
+								className={`optionInput ${style.textInput}`}
+								placeholder={`Option ${index + 1}`}
+								required
+								value={option}
+								onIonChange={(e) => handleOptionChange(index, e.detail.value!)}
+							></IonTextarea>
 						</div>
-						<IonTextarea
-							autoGrow
-							required
-							placeholder={`Option ${index + 1}`}
-							value={option}
-							onIonChange={(e) => handleOptionChange(index, e.detail.value!)}
-						></IonTextarea>
+
 						{index > 1 && (
-							<div>
+							<div className={style.deleteBtn}>
 								<IonButton
 									fill="clear"
 									color={"dark"}
+									size="small"
 									onClick={() => deleteOption(index)}
 								>
 									<IonIcon icon={close} color="dark" />
 								</IonButton>
 							</div>
 						)}
-					</IonItem>
+					</IonCardContent>
 				))}
 				<IonButton
 					fill="clear"
@@ -217,7 +224,11 @@ const EditQuestionCard: React.FC<EditQuestionCardProps> = ({
 					>
 						Save Changes
 					</IonButton>
-					<IonButton className={`extra-light ${style.bold}`} fill="outline" onClick={handleDeleteQuestion}>
+					<IonButton
+						className={`extra-light ${style.bold}`}
+						fill="outline"
+						onClick={handleDeleteQuestion}
+					>
 						Delete
 					</IonButton>
 				</section>

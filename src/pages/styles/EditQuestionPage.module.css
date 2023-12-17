@@ -1,34 +1,64 @@
-.main{
-  display: flex;
-  height: 100%;
+.main {
+	display: flex;
+	flex-direction: column;
 }
 
-.aside{
-  max-width: 320px;
-  min-width:max-content;
-  box-shadow: rgba(0, 0, 0, 0.2) 1px 0px 0px 0px;
-}
-.numberGrid{
-  display: grid;
-  width: 240px;
-  grid-template-columns: repeat(5,minmax(0,1fr));
-  gap: 6px;
+.aside {
+	width: 100%;
 }
 
-.numberButton{
-  width: 36px;
-  height: 36px;
+.numberGrid {
+	display: flex;
+	width: 100%;
+	align-self: center;
+	gap: 6px;
+	overflow-x: auto;
 }
 
-.scrollContent{
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
+.ellipsis {
+	width: 200px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: right;
+	margin-left: 8px;
 }
 
-.content{
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.numberButton {
+	width: 36px;
+	height: 36px;
 }
 
+.scrollContent {
+	width: 100%;
+	height: 100%;
+	overflow-y: scroll;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+@media (min-width: 768px) {
+	.main {
+		flex-direction: row;
+	}
+	.aside {
+		max-width: 320px;
+		width: 320px;
+		box-shadow: rgba(0, 0, 0, 0.2) 1px 0px 0px 0px;
+		height: calc(100vh - 60px);
+	}
+	.numberGrid {
+		display: grid;
+		width: max-content;
+		align-self: center;
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+		gap: 6px;
+	}
+}
+/* lg */
+@media (min-width: 1024px) {
+}
