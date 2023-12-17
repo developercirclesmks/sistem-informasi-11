@@ -48,11 +48,14 @@ const OnExam: React.FC = () => {
 	const [num, setNum] = useState<number>(0);
 	const [showSubmitAlert, setShowSubmitAlert] = useState(false);
 
+
+	const storedOptions = JSON.parse(localStorage.getItem("selectedOptions") || "null");
+	const [initialOptions, setInitialOptions] = useState(storedOptions || Array(exam?.questionList.length || 0).fill(null))  
+	const [selectedOptions, setSelectedOptions] = useState<(number | null)[]>(initialOptions);
+
 	const now = Timestamp.now();
 
-	const [initialOptions, setInitialOptions] = useState<(number | null)[]>(
-		exam?.questionList ? Array(exam.questionList.length).fill(null) : []
-	);
+
 	useEffect(() => {
 		setLoading(true);
 		const docRef = doc(db, "exams", examId);
@@ -99,26 +102,23 @@ const OnExam: React.FC = () => {
 		fetchUserData();
 	}, [uid]);
 
-	const [selectedOptions, setSelectedOptions] = useState<(number | null)[]>(
-		Array(exam?.questionList.length || 0).fill(null)
-	);
-
 	useEffect(() => {
-		const storedOptions = JSON.parse(
-			localStorage.getItem("selectedOptions") || "null"
-		);
+		const storedOptions = JSON.parse(localStorage.getItem("selectedOptions") || "null");
 		if (!storedOptions) {
-			localStorage.setItem("selectedOptions", JSON.stringify(initialOptions));
+				localStorage.setItem("selectedOptions", JSON.stringify(initialOptions));
+		} else {
+				setSelectedOptions(storedOptions);
 		}
-	}, [initialOptions]);
+}, [initialOptions]);
+
+
 
 	const handleSelectedOptionsChange = (QIndex: number, optionIndex: number) => {
 		const updatedOptions = [...selectedOptions];
-		updatedOptions[QIndex] =
-			optionIndex === updatedOptions[QIndex] ? null : optionIndex;
+		updatedOptions[QIndex] = optionIndex === updatedOptions[QIndex] ? null : optionIndex;
 		setSelectedOptions(updatedOptions);
 		localStorage.setItem("selectedOptions", JSON.stringify(updatedOptions));
-	};
+};
 
 	const handleSubmitExam = async () => {
 		try {
@@ -139,13 +139,12 @@ const OnExam: React.FC = () => {
 					const resultId = `${examId}_${uid}`;
 					const examResultData: IExamResult = {
 						id: resultId,
-						examid:examId,
+						examid: examId,
 						exam: exam,
 						user: userDoc,
 						score: score,
 						createdAt: Timestamp.now(),
-						selectedOptions: selectedOptions,
-						
+						selectedOptions: initialOptions,
 					};
 
 					const resultRef = doc(collection(db, "results"), resultId);
@@ -181,7 +180,7 @@ const OnExam: React.FC = () => {
 					const resultId = `${examId}_${uid}`;
 					const examResultData: IExamResult = {
 						id: resultId,
-						examid:examId,
+						examid: examId,
 						exam: exam,
 						user: userDoc,
 						score: score,
