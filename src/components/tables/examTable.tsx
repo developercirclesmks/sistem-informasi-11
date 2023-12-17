@@ -38,13 +38,16 @@ export const ExamTable: React.FC<ExamTableProps> = ({
 			const examToDelete = data.find((exam) => exam.id === id);
 			if (
 				examToDelete?.endedAt &&
-				examToDelete.endedAt.toMillis() > Timestamp.now().toMillis()
+				examToDelete?.startedAt &&
+				Timestamp.now().toMillis() < examToDelete.endedAt.toMillis() &&
+				Timestamp.now().toMillis() > examToDelete.startedAt.toMillis()
 			) {
 				showToast("error", "Cannot delete an ongoing exam", 1000);
 				return false;
 			}
 			await deleteExam(id);
 			showToast("success", "Exam Deleted");
+			window.location.reload();
 			return true;
 		} catch (error) {
 			showToast("error", "Failed to delete exam", 1000);
@@ -96,7 +99,8 @@ export const ExamTable: React.FC<ExamTableProps> = ({
 					alignItems="center"
 					flexShrink={0}
 				>
-					{!startedAt ? (
+					{!startedAt ||
+					(startedAt && Timestamp.now().toMillis() < startedAt) ? (
 						<IonButton
 							title="Edit"
 							shape="round"
