@@ -134,6 +134,13 @@ const ExamDetail: React.FC = () => {
 									>
 										Go Back
 									</IonButton>
+									<IonButton
+										onClick={() => history.push(`/exam/${examId}/overview`)}
+										className="full light"
+										fill="outline"
+									>
+										Results
+									</IonButton>
 								</div>
 								<div className="ion-padding"></div>
 							</main>

@@ -93,53 +93,50 @@ const ExamOverview: React.FC = () => {
 		fetchData();
 	}, [examId]);
 
-	if (userDoc?.role === "user") {
-		showToast("error", "You Are Not Authorized");
-		history.push("/dashboard");
+	if (isLoading) {
+		return <LoadingBox />;
 	} else {
-		if (isLoading) {
-			return <LoadingBox />;
-		} else {
-			return (
-				<PageContainer>
-					<IonRow>
-						<IonCardContent>
-							<IonRow>
-								<IonText>Exam Name: {exam?.name}</IonText>
-							</IonRow>
-							<IonRow></IonRow>
-							<IonRow>
-								<IonText>Duration: {exam?.totalDuration} minute</IonText>
-							</IonRow>{" "}
-							<IonRow>
-								<IonText>Description: {exam?.desc}</IonText>
-							</IonRow>
-							<IonRow></IonRow>
-							<IonRow>
-								<IonText>
-									Started At
-									<IonRow>
-										<IonText>
-											Started At:{" "}
-											{exam?.startedAt
-												? `${exam?.startedAt
-														.toDate()
-														.toLocaleDateString()} at ${exam?.startedAt
-														.toDate()
-														.toLocaleTimeString()}`
-												: "Started Manually"}
-										</IonText>
-									</IonRow>
-								</IonText>
-							</IonRow>
-						</IonCardContent>
-					</IonRow>
-					<IonRow className="ion-padding">
-						<div>EXAM RESULTS:</div>
-						<TableContainer color="" component={Paper}>
-							<ResultTable data={results} />
-						</TableContainer>
-					</IonRow>
+		return (
+			<PageContainer>
+				<IonRow>
+					<IonCardContent>
+						<IonRow>
+							<IonText>Exam Name: {exam?.name}</IonText>
+						</IonRow>
+						<IonRow></IonRow>
+						<IonRow>
+							<IonText>Duration: {exam?.totalDuration} minute</IonText>
+						</IonRow>{" "}
+						<IonRow>
+							<IonText>Description: {exam?.desc}</IonText>
+						</IonRow>
+						<IonRow></IonRow>
+						<IonRow>
+							<IonText>
+								Started At
+								<IonRow>
+									<IonText>
+										Started At:{" "}
+										{exam?.startedAt
+											? `${exam?.startedAt
+													.toDate()
+													.toLocaleDateString()} at ${exam?.startedAt
+													.toDate()
+													.toLocaleTimeString()}`
+											: "Started Manually"}
+									</IonText>
+								</IonRow>
+							</IonText>
+						</IonRow>
+					</IonCardContent>
+				</IonRow>
+				<IonRow className="ion-padding">
+					<div>EXAM RESULTS:</div>
+					<TableContainer color="" component={Paper}>
+						<ResultTable data={results} />
+					</TableContainer>
+				</IonRow>
+				{userDoc?.role === "admin" ? (
 					<IonRow>
 						<IonCol>
 							{exam?.questionList.map((questions, index) => (
@@ -179,16 +176,23 @@ const ExamOverview: React.FC = () => {
 													)
 												)}
 											</section>
-											<p>Correct Answer : {questions.optionList[questions.correctAnswer].optionLabel}. {questions.optionList[questions.correctAnswer].name} </p>
+											<p>
+												Correct Answer :{" "}
+												{
+													questions.optionList[questions.correctAnswer]
+														.optionLabel
+												}
+												. {questions.optionList[questions.correctAnswer].name}{" "}
+											</p>
 										</IonCol>
 									</IonCardContent>
 								</IonCard>
 							))}
 						</IonCol>
 					</IonRow>
-				</PageContainer>
-			);
-		}
+				) : null}
+			</PageContainer>
+		);
 	}
 };
 
