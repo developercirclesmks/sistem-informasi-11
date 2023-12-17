@@ -153,10 +153,10 @@ const EditExamPage: React.FC = () => {
 		return <LoadingBox />;
 	} else {
 		if (
-			exam?.endedAt &&
-			Timestamp.now().toMillis() > exam?.endedAt.toMillis()
+			exam?.startedAt &&
+			Timestamp.now().toMillis() > exam?.startedAt.toMillis()
 		) {
-			showToast("error", "Exam Has Ended");
+			showToast("error", "Cant Edit Exam Anymore");
 			history.push("/dashboard");
 		} else {
 			if (userDoc?.role === "user") {

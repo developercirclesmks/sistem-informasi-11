@@ -12,7 +12,7 @@ import style from "./styles/EditQuestionPage.module.css";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { IExam } from "../interfaces/exam";
 import { showToast } from "../components/atoms/Toasts/Toasts";
-import { doc, onSnapshot } from "firebase/firestore";
+import { Timestamp, doc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../../config/firebase-config";
 import EditQuestionCard from "../components/molecules/AdminQuestionCard/EditQuestionCard";
 import { arrowBackOutline } from "ionicons/icons";
@@ -95,7 +95,15 @@ const EditQuestionPage: React.FC = () => {
 
 	if (loading) {
 		return <LoadingBox />;
-	} else {
+	} 
+	else {
+		if(exam?.startedAt && Timestamp.now().toMillis() > exam?.startedAt.toMillis() ){
+			showToast("error", "Cant Edit Exam");
+			history.push(`/dashboard`);
+		}
+		else{
+
+		}
 		if (userDoc?.role === "user") {
 			showToast("error", "You are not Authorized");
 			history.push("/dashboard");

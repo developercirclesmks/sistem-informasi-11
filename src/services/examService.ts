@@ -113,9 +113,32 @@ export const getAllExam = async () => {
 };
 
 export const deleteExam = async (id: string) => {
-	const docRef = doc(db, "exams", id);
-	await deleteDoc(docRef);
-	window.location.reload()
+	try {
+		const docRef = doc(db, "exams", id);
+
+		const examSnapshot = await getDoc(docRef);
+		if (examSnapshot.exists()) {
+
+			const resultsRef = collection(db, "results");
+			const querySnapshot = await getDocs(resultsRef);
+
+			const deletePromises = querySnapshot.docs
+				.filter((doc) => doc.data().examid === id)
+				.map(async (doc) => {
+					await deleteDoc(doc.ref);
+				});
+
+			await Promise.all(deletePromises);
+
+			await deleteDoc(docRef);
+		} else {
+			showToast("error", "Exam not found!");
+		}
+	} catch (error) {
+		console.error("Error deleting exam:", error);
+		showToast("error", "Error Deleting Exam");
+		throw new Error("Failed to delete exam.");
+	}
 };
 
 export const startExam = async (
@@ -148,9 +171,9 @@ export const startExam = async (
 		} else {
 			throw new Error("Exam not found.");
 		}
-  } catch (error) {
-    console.error("Error starting exam:", error);
-    showToast("error", "Error Starting Exam"); // Display the error message from the catch block
-    throw new Error("Failed to .");
-  }
+	} catch (error) {
+		console.error("Error starting exam:", error);
+		showToast("error", "Error Starting Exam"); // Display the error message from the catch block
+		throw new Error("Failed to .");
+	}
 };

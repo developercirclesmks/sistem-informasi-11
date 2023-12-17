@@ -35,8 +35,6 @@ import { IUser } from "../interfaces/user";
 import { getUserData } from "../services/userService";
 import { onAuthStateChanged } from "firebase/auth";
 import { IExamResult } from "../interfaces/result";
-import { setResult } from "../services/resultService";
-import NotFound from "./NotFound";
 interface RouteParams {
 	examId: string;
 }
@@ -141,11 +139,13 @@ const OnExam: React.FC = () => {
 					const resultId = `${examId}_${uid}`;
 					const examResultData: IExamResult = {
 						id: resultId,
+						examid:examId,
 						exam: exam,
 						user: userDoc,
 						score: score,
 						createdAt: Timestamp.now(),
 						selectedOptions: selectedOptions,
+						
 					};
 
 					const resultRef = doc(collection(db, "results"), resultId);
@@ -181,6 +181,7 @@ const OnExam: React.FC = () => {
 					const resultId = `${examId}_${uid}`;
 					const examResultData: IExamResult = {
 						id: resultId,
+						examid:examId,
 						exam: exam,
 						user: userDoc,
 						score: score,
