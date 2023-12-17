@@ -46,15 +46,19 @@ const OnExam: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [exam, setExam] = useState<IExam>();
 	const [num, setNum] = useState<number>(0);
+	const [showForceSubmit, setShowForceSubmit] = useState(false);
 	const [showSubmitAlert, setShowSubmitAlert] = useState(false);
 
-
-	const storedOptions = JSON.parse(localStorage.getItem("selectedOptions") || "null");
-	const [initialOptions, setInitialOptions] = useState(storedOptions || Array(exam?.questionList.length || 0).fill(null))  
-	const [selectedOptions, setSelectedOptions] = useState<(number | null)[]>(initialOptions);
+	const storedOptions = JSON.parse(
+		localStorage.getItem("selectedOptions") || "null"
+	);
+	const [initialOptions, setInitialOptions] = useState(
+		storedOptions || Array(exam?.questionList.length || 0).fill(null)
+	);
+	const [selectedOptions, setSelectedOptions] =
+		useState<(number | null)[]>(initialOptions);
 
 	const now = Timestamp.now();
-
 
 	useEffect(() => {
 		setLoading(true);
@@ -76,6 +80,12 @@ const OnExam: React.FC = () => {
 			unsubscribe();
 		};
 	}, [examId, history]);
+
+	const ExamNotValid = (exam?.endedAt && Timestamp.now().toMillis() > exam?.endedAt?.toMillis())
+	if (ExamNotValid) {
+		showToast("error","Exam Invalid");
+		history.push(`/exam/${examId}`)
+	}
 
 	const [userDoc, setUserDoc] = useState<IUser | null>(null);
 
@@ -103,22 +113,83 @@ const OnExam: React.FC = () => {
 	}, [uid]);
 
 	useEffect(() => {
-		const storedOptions = JSON.parse(localStorage.getItem("selectedOptions") || "null");
+		const storedOptions = JSON.parse(
+			localStorage.getItem(`selectedOptions_${examId}`) || "null"
+		);
+
 		if (!storedOptions) {
-				localStorage.setItem("selectedOptions", JSON.stringify(initialOptions));
+			localStorage.setItem(
+				`selectedOptions_${examId}`,
+				JSON.stringify(initialOptions)
+			);
 		} else {
-				setSelectedOptions(storedOptions);
+			setSelectedOptions(storedOptions);
 		}
-}, [initialOptions]);
+	}, [initialOptions]);
 
+	const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
 
+	useEffect(() => {
+		if (exam) {
+			const nowMillis = Timestamp.now().toMillis();
+			if (
+				exam.startedAt &&
+				exam.endedAt &&
+				nowMillis > exam.startedAt.toMillis() &&
+				nowMillis < exam.endedAt.toMillis()
+			) {
+				const remaining = exam.endedAt.toMillis() - nowMillis;
+				setTimeRemaining(remaining);
+
+				const timer = setInterval(() => {
+					setTimeRemaining((prevTime) => {
+						if (prevTime && prevTime > 0) {
+							return prevTime - 1000;
+						} else {
+							if (!showForceSubmit) {
+								setShowForceSubmit(true);
+							}
+							clearInterval(timer);
+							return 0;
+						}
+					});
+				}, 1000);
+			} else if (exam?.endedAt && (nowMillis > exam.endedAt.toMillis())) {
+				setShowForceSubmit(true);
+			}
+		}
+	}, [exam]);
+
+	const [formattedTime, setFormattedTime] = useState<string>("");
+
+	useEffect(() => {
+		if (timeRemaining !== null) {
+			const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+			const minutes = Math.floor(
+				(timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
+			);
+			const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+			const formattedHours = hours.toString().padStart(2, "0");
+			const formattedMinutes = minutes.toString().padStart(2, "0");
+			const formattedSeconds = seconds.toString().padStart(2, "0");
+
+			setFormattedTime(
+				`${formattedHours}:${formattedMinutes}:${formattedSeconds}`
+			);
+		}
+	}, [timeRemaining]);
 
 	const handleSelectedOptionsChange = (QIndex: number, optionIndex: number) => {
 		const updatedOptions = [...selectedOptions];
-		updatedOptions[QIndex] = optionIndex === updatedOptions[QIndex] ? null : optionIndex;
+		updatedOptions[QIndex] =
+			optionIndex === updatedOptions[QIndex] ? null : optionIndex;
 		setSelectedOptions(updatedOptions);
-		localStorage.setItem("selectedOptions", JSON.stringify(updatedOptions));
-};
+		localStorage.setItem(
+			`selectedOptions_${examId}`,
+			JSON.stringify(updatedOptions)
+		);
+	};
 
 	const handleSubmitExam = async () => {
 		try {
@@ -151,6 +222,7 @@ const OnExam: React.FC = () => {
 					await setDoc(resultRef, examResultData);
 
 					showToast("success", `Exam Submitted`);
+					localStorage.removeItem(`selectedOptions_${examId}`);
 					history.push("/dashboard");
 				}
 			}
@@ -160,193 +232,151 @@ const OnExam: React.FC = () => {
 		}
 	};
 
-	useEffect(() => {
-		const handleExamCompletion = async () => {
-			if (
-				exam &&
-				exam?.endedAt &&
-				Timestamp.now().toMillis() >= exam?.endedAt.toMillis()
-			) {
-				const nullOptions = Array(exam.questionList.length).fill(6);
-				setSelectedOptions(nullOptions);
-
-				const totalQuestions = exam.questionList.length;
-				const totalCorrect = selectedOptions.filter(
-					(option, index) => option === exam.questionList[index].correctAnswer
-				).length;
-				const score = (totalCorrect / totalQuestions) * 100;
-
-				if (uid && examId && userDoc) {
-					const resultId = `${examId}_${uid}`;
-					const examResultData: IExamResult = {
-						id: resultId,
-						examid: examId,
-						exam: exam,
-						user: userDoc,
-						score: score,
-						createdAt: Timestamp.now(),
-						selectedOptions: selectedOptions,
-					};
-
-					const resultRef = doc(collection(db, "results"), resultId);
-					await setDoc(resultRef, examResultData);
-
-					showToast("success", `Exam Time Is Over, Submitting Your Exam`);
-					history.push("/dashboard");
-				}
-			}
-		};
-
-		handleExamCompletion();
-	}, [num]);
-
 	if (loading) {
 		return <LoadingBox />;
 	} else {
 		if (
-			exam?.endedAt &&
-			exam?.endedAt?.toMillis() < Timestamp.now().toMillis()
+			exam?.startedAt === null ||
+			(exam?.startedAt && now.toMillis() < exam?.startedAt.toMillis())
 		) {
-			showToast("error", "This Exam Has Ended");
-			history.push(`/exam/${examId}`);
+			history.replace(`/exam/${examId}`);
+			showToast("error", "Exam has not started yet");
 		} else {
-			if (
-				exam?.startedAt === null ||
-				(exam?.startedAt && now.toMillis() < exam?.startedAt.toMillis())
-			) {
-				history.replace(`/exam/${examId}`);
-				showToast("error", "Exam has not started yet");
-			} else {
-				return (
-					<>
-						<PageContainer nopadding>
-							<main className={` ${style.main}`}>
-								<aside className={style.aside}>
-									<IonItem className="">
-										<IonButton
-											onClick={() => history.push(`/exam/${examId}`)}
-											size="default"
-											fill="clear"
-											className=""
-										>
-											<IonIcon icon={arrowBackOutline}></IonIcon>
-											<IonText className="">&nbsp;Back</IonText>
-										</IonButton>
-									</IonItem>
-									<section>
-										<IonItem
-											title={exam?.name}
-											lines="none"
-											button
-											className="noPadding noMargin"
-										>
-											<IonLabel>Name :</IonLabel>
-											<p className={style.ellipsis}>{exam?.name}</p>
-										</IonItem>
-										<IonItem lines="none" button className="noPadding noMargin">
-											<IonLabel>Ended At:</IonLabel>
-											{exam?.endedAt
-												? exam?.endedAt &&
-												  `${
-														exam?.endedAt &&
-														formatToHour(exam.endedAt.toDate().toISOString())
-												  }`
-												: "Manual"}
-										</IonItem>
-									</section>
-									<section className={`ion-padding ${style.numberGrid}`}>
-										{exam?.questionList.map((question, Index) => (
-											<div key={Index} className={style.numberButton}>
-												<IonButton
-													id={question.name}
-													className="fixwidth"
-													fill={
-														selectedOptions[Index] !== null &&
-														selectedOptions[Index] !== undefined
-															? "solid"
-															: "outline"
-													}
-													onClick={() => setNum(Index)}
-													color={
-														Index === num ||
-														(selectedOptions[Index] !== null &&
-															selectedOptions[Index] !== undefined)
-															? "primary"
-															: "dark"
-													}
-												>
-													{Index + 1}
-												</IonButton>
-											</div>
-										))}
-									</section>
+			return (
+				<>
+					<PageContainer nopadding>
+						<main className={` ${style.main}`}>
+							<aside className={style.aside}>
+								<IonItem className="">
 									<IonButton
-										onClick={() => setShowSubmitAlert(true)}
-										size="small"
+										onClick={() => history.push(`/exam/${examId}`)}
+										size="default"
 										fill="clear"
-										className="full ion-padding"
-										disabled={
-											selectedOptions.some(
-												(option) => option === null || option === undefined
-											) ||
-											selectedOptions.filter(
-												(option) => option !== null && option !== undefined
-											).length !== (exam?.questionList?.length || 0)
-										}
+										className=""
 									>
-										Submit
+										<IonIcon icon={arrowBackOutline}></IonIcon>
+										<IonText className="">&nbsp;Back</IonText>
 									</IonButton>
-
-									<IonAlert
-										isOpen={showSubmitAlert}
-										header="Submit Your Exam ?"
-										message={"Are you sure you want to submit your exam?"}
-										trigger="submit"
-										onDidDismiss={() => setShowSubmitAlert(false)}
-										buttons={[
-											{
-												text: "Cancel",
-												role: "cancel",
-												handler: () => {
-													console.log("Alert canceled");
-												},
-											},
-											{
-												text: "OK",
-												role: "Ok",
-												handler: () => {
-													handleSubmitExam();
-												},
-											},
-										]}
-									></IonAlert>
-									{/* null alert */}
-									<div>
-										{/* Selected option array data type:{" "}
-								{selectedOptions.map((element) => typeof element).join(", ")} */}
-										{/* {selectedOptions.join(", ")} */}
-									</div>
-								</aside>
-								<section className={`ion-padding ${style.scrollContent}`}>
-									<main className={style.content}>
-										<IonCol>
-											{exam && (
-												<QuestionCard
-													exam={exam}
-													QIndex={num}
-													onSelectedOptionsChange={handleSelectedOptionsChange}
-													selectedIndex={selectedOptions[num]}
-												/>
-											)}
-										</IonCol>
-									</main>
+								</IonItem>
+								<section>
+									<IonItem
+										title={exam?.name}
+										lines="none"
+										button
+										className="noPadding noMargin"
+									>
+										<IonLabel>Name :</IonLabel>
+										<p className={style.ellipsis}>{exam?.name}</p>
+									</IonItem>
+									<IonItem lines="none" button className="noPadding noMargin">
+										<IonLabel>Ended In:</IonLabel>
+										{<p>{formattedTime !== "" ? formattedTime : "00:00:00"}</p>}
+									</IonItem>
 								</section>
-							</main>
-						</PageContainer>
-					</>
-				);
-			}
+								<section className={`ion-padding ${style.numberGrid}`}>
+									{exam?.questionList.map((question, Index) => (
+										<div key={Index} className={style.numberButton}>
+											<IonButton
+												id={question.name}
+												className="fixwidth"
+												fill={
+													selectedOptions[Index] !== null &&
+													selectedOptions[Index] !== undefined
+														? "solid"
+														: "outline"
+												}
+												onClick={() => setNum(Index)}
+												color={
+													Index === num ||
+													(selectedOptions[Index] !== null &&
+														selectedOptions[Index] !== undefined)
+														? "primary"
+														: "dark"
+												}
+											>
+												{Index + 1}
+											</IonButton>
+										</div>
+									))}
+								</section>
+								<IonButton
+									onClick={() => setShowSubmitAlert(true)}
+									size="small"
+									fill="clear"
+									className="full ion-padding"
+									disabled={
+										selectedOptions.some(
+											(option) => option === null || option === undefined
+										) ||
+										selectedOptions.filter(
+											(option) => option !== null && option !== undefined
+										).length !== (exam?.questionList?.length || 0)
+									}
+								>
+									Submit
+								</IonButton>
+
+								<IonAlert
+									isOpen={showSubmitAlert}
+									header="Submit Your Exam ?"
+									message={"Are you sure you want to submit your exam?"}
+									trigger="submit"
+									onDidDismiss={() => setShowSubmitAlert(false)}
+									buttons={[
+										{
+											text: "Cancel",
+											role: "cancel",
+											handler: () => {
+												console.log("Alert canceled");
+											},
+										},
+										{
+											text: "OK",
+											role: "Ok",
+											handler: () => {
+												handleSubmitExam();
+											},
+										},
+									]}
+								></IonAlert>
+								{/* null alert */}
+
+								<IonAlert
+									isOpen={showForceSubmit}
+									header="Time Out"
+									message={"Submit Your Exam Now!!!"}
+									buttons={[
+										{
+											text: "OK",
+											role: "Ok",
+											handler: () => {
+												handleSubmitExam();
+											},
+										},
+									]}
+									onDidDismiss={() => handleSubmitExam()}
+								></IonAlert>
+							</aside>
+							<section className={`ion-padding ${style.scrollContent}`}>
+								<main className={style.content}>
+									<IonCol>
+										{exam && (
+											<QuestionCard
+												exam={exam}
+												QIndex={num}
+												onSelectedOptionsChange={handleSelectedOptionsChange}
+												selectedIndex={selectedOptions[num]}
+											/>
+										)}
+									</IonCol>
+								</main>
+							</section>
+						</main>
+					</PageContainer>
+				</>
+			);
 		}
 	}
 };
+
 export default OnExam;
