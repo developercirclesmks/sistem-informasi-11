@@ -10,7 +10,7 @@ import {
   } from "@ionic/react";
   import React from "react";
   import ResultCard from "../components/organisms/Result/ResultCard";
-  import style from "./ExamResult.module.css";
+  import style from "./styles/ExamResult.module.css";
   import { useHistory } from "react-router-dom";
   
   const ExamResult: React.FC = () => {

@@ -1,69 +1,52 @@
 .ionCard {
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-    height: 530px;
+	display: flex;
+	flex-direction: column;
+    max-width: 340px;
 }
 
 .img {
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
+	width: 100%;
+	height: 320px;
+	object-fit: cover;
+    object-position: top;
 }
 
 .contentCtn {
-    padding: 5px;
+	padding: 12px;
 }
 
 .name {
-    font-size: 19px;
+	font-size: 18px;
+    line-height: 20px;
+    height: 40px;
 }
 
 .subtitle {
-    font-size: 12px;
+	font-size: 12px;
 }
 
 .sectionContent {
-    font-size: 12px;
+	font-size: 12px;
+    line-height: 16px;
+    height: calc(16px * 4);
 }
 
-@media (max-width: 768px) {
-    .main {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-    }
-
-    .ionCard {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-    }
-
+/* md */
+@media (min-width: 768px) {
     .img {
-        width: 100%; 
-        /* height: 300px;  */
-        object-fit: cover; 
-        /* object-position: top; */
-    }
+	width: 100%;
+	height: 400px;
+	object-fit: cover;
+    object-position: top;
+}
 
-
-    .contentCtn {
-        padding: 0px;
-    }
-
-    .name {
-        font-size: small;
-    }
-
-    .subtitle {
-        font-size: smaller;
-    }
-
-    .sectionContent {
-        font-size: xx-small;
-    }
+}
+/* lg */
+@media (min-width: 1024px) {
+    .img {
+	width: 100%;
+	height: 480px;
+	object-fit: cover;
+    object-position: top;
+}
 }
