@@ -81,10 +81,12 @@ const OnExam: React.FC = () => {
 		};
 	}, [examId, history]);
 
-	const ExamNotValid = (exam?.endedAt && Timestamp.now().toMillis() > exam?.endedAt?.toMillis())
+	const [snapshotNow] = useState<number>(Timestamp.now().toMillis());
+
+	const ExamNotValid = exam?.endedAt && snapshotNow > exam?.endedAt?.toMillis();
 	if (ExamNotValid) {
-		showToast("error","Exam Invalid");
-		history.push(`/exam/${examId}`)
+		showToast("error", "Exam Invalid");
+		history.push(`/exam/${examId}`);
 	}
 
 	const [userDoc, setUserDoc] = useState<IUser | null>(null);
@@ -127,36 +129,35 @@ const OnExam: React.FC = () => {
 		}
 	}, [initialOptions]);
 
-	const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
-
+	const [timeRemaining, setTimeRemaining] = useState<number>(0)
 	useEffect(() => {
-		if (exam) {
-			const nowMillis = Timestamp.now().toMillis();
-			if (
-				exam.startedAt &&
-				exam.endedAt &&
-				nowMillis > exam.startedAt.toMillis() &&
-				nowMillis < exam.endedAt.toMillis()
-			) {
-				const remaining = exam.endedAt.toMillis() - nowMillis;
-				setTimeRemaining(remaining);
+		if (!exam) return;
 
-				const timer = setInterval(() => {
-					setTimeRemaining((prevTime) => {
-						if (prevTime && prevTime > 0) {
-							return prevTime - 1000;
-						} else {
-							if (!showForceSubmit) {
-								setShowForceSubmit(true);
-							}
-							clearInterval(timer);
-							return 0;
-						}
-					});
-				}, 1000);
-			} else if (exam?.endedAt && (nowMillis > exam.endedAt.toMillis())) {
-				setShowForceSubmit(true);
-			}
+		const nowMillis = Timestamp.now().toMillis();
+
+		if (
+			exam.startedAt &&
+			exam.endedAt &&
+			nowMillis > exam.startedAt.toMillis() &&
+			nowMillis < exam.endedAt.toMillis()
+		) {
+			const remaining = exam.endedAt.toMillis() - nowMillis;
+			setTimeRemaining(remaining);
+
+			const timer = setInterval(() => {
+				setTimeRemaining((prevTime) => {
+					if (prevTime && prevTime >= 1000) {
+						return prevTime - 1000;
+					} else if (!showForceSubmit) {
+						setShowForceSubmit(true);
+					}
+					return 0;
+				});
+			}, 1000);
+
+			return () => clearInterval(timer);
+		} else if (exam?.endedAt && nowMillis > exam.endedAt.toMillis()) {
+			setShowForceSubmit(true);
 		}
 	}, [exam]);
 
@@ -266,7 +267,7 @@ const OnExam: React.FC = () => {
 										className="noPadding noMargin"
 									>
 										<IonLabel>Name :</IonLabel>
-										<p className={style.ellipsis}>{exam?.name}</p>
+										<p className={style.ellipsis}>{exam?.name} </p>
 									</IonItem>
 									<IonItem lines="none" button className="noPadding noMargin">
 										<IonLabel>Ended In:</IonLabel>
@@ -315,6 +316,7 @@ const OnExam: React.FC = () => {
 								>
 									Submit
 								</IonButton>
+								{/* {snapshotNow} */}
 
 								<IonAlert
 									isOpen={showSubmitAlert}
