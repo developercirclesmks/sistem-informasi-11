@@ -115,7 +115,7 @@ const SignUp: React.FC = () => {
 									<IonInput
 										className={lastNameClass}
 										placeholder="Enter Your First Name"
-										label="Username"
+										label="First Name"
 										labelPlacement="stacked"
 										errorText={lastNameError}
 										fill="outline"
@@ -127,7 +127,7 @@ const SignUp: React.FC = () => {
 									<IonInput
 										className={firstNameClass}
 										placeholder="Enter Your Last Name"
-										label="Username"
+										label="Last Name"
 										labelPlacement="stacked"
 										errorText={firstNameError}
 										fill="outline"
